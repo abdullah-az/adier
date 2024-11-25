@@ -1,0 +1,102 @@
+{
+  "app": {
+    "name": "منصة التحضير للامتحانات",
+    "tagline": "تحضر بذكاء لامتحان الهندسة الموحد مع منصتنا المدعومة بالذكاء الاصطناعي"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "practice": "التدريب",
+    "aiAssistant": "المساعد الذكي",
+    "dashboard": "لوحة التحكم"
+  },
+  "home": {
+    "hero": {
+      "title": "أتقن امتحاناتك الهندسية",
+      "subtitle": "مع الذكاء الاصطناعي",
+      "description": "تحضر بذكاء لامتحان هندسة الحاسوب الموحد مع منصتنا المدعومة بالذكاء الاصطناعي. تدرب على أسئلة حقيقية واحصل على مساعدة شخصية",
+      "startPracticing": "ابدأ التدريب",
+      "tryAI": "جرب المساعد الذكي"
+    },
+    "features": {
+      "title": "لماذا تختار منصتنا؟",
+      "aiQuestions": {
+        "title": "أسئلة مولدة بالذكاء الاصطناعي",
+        "description": "تدرب مع أسئلة مولدة بالذكاء الاصطناعي تحاكي أنماط الامتحان الحقيقي ومستويات الصعوبة"
+      },
+      "content": {
+        "title": "محتوى شامل",
+        "description": "الوصول إلى قاعدة بيانات واسعة من أسئلة الامتحانات السابقة مع شروحات مفصلة"
+      },
+      "progress": {
+        "title": "تتبع التقدم",
+        "description": "راقب أداءك وحدد مجالات التحسين مع تحليلات مفصلة"
+      }
+    },
+    "stats": {
+      "questions": "سؤال تدريبي",
+      "satisfaction": "رضا الطلاب",
+      "assistance": "مساعدة ذكية"
+    }
+  },
+  "practice": {
+    "subjects": {
+      "title": "المواد",
+      "dataStructures": "هياكل البيانات",
+      "algorithms": "الخوارزميات",
+      "computerArchitecture": "معمارية الحاسوب",
+      "operatingSystems": "نظم التشغيل",
+      "databaseSystems": "نظم قواعد البيانات",
+      "computerNetworks": "شبكات الحاسوب"
+    },
+    "selectSubject": "اختر مادة للبدء",
+    "timeRemaining": "الوقت المتبقي",
+    "question": "سؤال",
+    "of": "من",
+    "submit": "إرسال الإجابة",
+    "next": "السؤال التالي",
+    "explanation": "الشرح"
+  },
+  "aiAssistant": {
+    "title": "المساعد الذكي",
+    "features": {
+      "questionGeneration": {
+        "title": "توليد الأسئلة",
+        "description": "توليد أسئلة تدريبية بناءً على مواضيع محددة"
+      },
+      "conceptExplanation": {
+        "title": "شرح المفاهيم",
+        "description": "احصل على شروحات مفصلة للمواضيع المعقدة"
+      },
+      "problemSolving": {
+        "title": "حل المشكلات",
+        "description": "إرشاد خطوة بخطوة خلال حل المشكلات"
+      }
+    },
+    "placeholder": "اسأل أي شيء عن هندسة الحاسوب...",
+    "thinking": "جاري التفكير..."
+  },
+  "dashboard": {
+    "stats": {
+      "questionsAttempted": "الأسئلة المحاولة",
+      "averageScore": "متوسط الدرجات",
+      "studyTime": "وقت الدراسة",
+      "aiInteractions": "التفاعلات مع الذكاء الاصطناعي"
+    },
+    "performance": "نظرة عامة على الأداء",
+    "recentActivity": "النشاط الأخير",
+    "recommendedTopics": "المواضيع المقترحة",
+    "difficulty": {
+      "easy": "سهل",
+      "medium": "متوسط",
+      "hard": "صعب"
+    }
+  },
+  "footer": {
+    "quickLinks": "روابط سريعة",
+    "about": "عن المنصة",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الاستخدام",
+    "contact": "اتصل بنا",
+    "rights": "جميع الحقوق محفوظة"
+  }
+}

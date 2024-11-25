@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* RTL Support */
+[dir="rtl"] {
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+[dir="rtl"] .ltr {
+  direction: ltr;
+}
+
+/* Flip icons in RTL */
+[dir="rtl"] .flip-in-rtl {
+  transform: scaleX(-1);
+}

@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model المواد {
+  id            Int       @id @default(autoincrement())
+  اسم           String    @unique
+  الاسئلة       الاسئلة[]
+  تاريخ_الانشاء DateTime  @default(now())
+  تاريخ_التحديث DateTime  @updatedAt
+
+  @@map("subjects")
+}
+
+model الاسئلة {
+  id            Int        @id @default(autoincrement())
+  نص_السؤال     String     @db.Text
+  الشرح         String?    @db.Text
+  المادة_id     Int
+  المادة        المواد     @relation(fields: [المادة_id], references: [id], onDelete: Cascade)
+  الخيارات      الخيارات[]
+  تاريخ_الانشاء DateTime   @default(now())
+  تاريخ_التحديث DateTime   @updatedAt
+
+  @@map("questions")
+}
+
+model الخيارات {
+  id            Int      @id @default(autoincrement())
+  النص          String
+  صحيح          Boolean  @default(false)
+  السؤال_id     Int
+  السؤال        الاسئلة  @relation(fields: [السؤال_id], references: [id], onDelete: Cascade)
+  تاريخ_الانشاء DateTime @default(now())
+  تاريخ_التحديث DateTime @updatedAt
+
+  @@map("options")
+}
