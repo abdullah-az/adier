@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("http://localhost/phpmyadmin/")
+  url      = env("DATABASE_URL")
 }
 
 model Subject {
