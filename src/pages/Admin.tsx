@@ -1,135 +1,135 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, X } from 'lucide-react';
-import { المواد, الاسئلة } from '../lib/db';
-import type { مادة, سؤال } from '../types/database';
+import { subjects, questions } from '../lib/db';
+import type { Subject, Question } from '../types/database';
 import QuestionList from '../components/QuestionList';
 
 const Admin = () => {
-  const [المواد_المتاحة, setالمواد_المتاحة] = useState<مادة[]>([]);
-  const [المادة_المحددة, setالمادة_المحددة] = useState<number | null>(null);
-  const [اسئلة_المادة, setاسئلة_المادة] = useState<سؤال[]>([]);
-  const [اضافة_سؤال, setاضافة_سؤال] = useState(false);
-  const [السؤال_الجديد, setالسؤال_الجديد] = useState({
-    نص_السؤال: '',
-    الشرح: '',
-    الخيارات: ['', '', '', ''],
-    الاجابة_الصحيحة: 0
+  const [subjectsAvailable, setSubjectsAvailable] = useState<Subject[]>([]);
+  const [selectedSubject, setSelectedSubject] = useState<number | null>(null);
+  const [subjectQuestions, setSubjectQuestions] = useState<Question[]>([]);
+  const [addQuestion, setAddQuestion] = useState(false);
+  const [newQuestion, setNewQuestion] = useState({
+    text: '',
+    explanation: '',
+    options: ['', '', '', ''],
+    correctAnswer: 0
   });
 
   useEffect(() => {
-    تحميل_المواد();
+    loadSubjects();
   }, []);
 
   useEffect(() => {
-    if (المادة_المحددة) {
-      تحميل_اسئلة_المادة(المادة_المحددة);
+    if (selectedSubject) {
+      loadSubjectQuestions(selectedSubject);
     }
-  }, [المادة_المحددة]);
+  }, [selectedSubject]);
 
-  const تحميل_المواد = async () => {
-    const نتيجة = await المواد.الكل();
-    setالمواد_المتاحة(نتيجة);
+  const loadSubjects = async () => {
+    const result = await subjects.findAll();
+    setSubjectsAvailable(result);
   };
 
-  const تحميل_اسئلة_المادة = async (مادة_id: number) => {
-    const نتيجة = await الاسئلة.حسب_المادة(مادة_id);
-    setاسئلة_المادة(نتيجة);
+  const loadSubjectQuestions = async (subjectId: number) => {
+    const result = await questions.findBySubjectId(subjectId);
+    setSubjectQuestions(result);
   };
 
-  const حفظ_سؤال = async () => {
-    if (!المادة_المحددة) return;
+  const saveQuestion = async () => {
+    if (!selectedSubject) return;
 
-    await الاسئلة.اضافة({
-      نص_السؤال: السؤال_الجديد.نص_السؤال,
-      الشرح: السؤال_الجديد.الشرح,
-      المادة_id: المادة_المحددة,
-      الخيارات: السؤال_الجديد.الخيارات.map((نص, index) => ({
-        النص,
-        صحيح: index === السؤال_الجديد.الاجابة_الصحيحة
+    await questions.create({
+      text: newQuestion.text,
+      explanation: newQuestion.explanation,
+      subjectId: selectedSubject,
+      options: newQuestion.options.map((text, index) => ({
+        text,
+        isCorrect: index === newQuestion.correctAnswer
       }))
     });
 
-    setاضافة_سؤال(false);
-    setالسؤال_الجديد({
-      نص_السؤال: '',
-      الشرح: '',
-      الخيارات: ['', '', '', ''],
-      الاجابة_الصحيحة: 0
+    setAddQuestion(false);
+    setNewQuestion({
+      text: '',
+      explanation: '',
+      options: ['', '', '', ''],
+      correctAnswer: 0
     });
-    
-    if (المادة_المحددة) {
-      تحميل_اسئلة_المادة(المادة_المحددة);
+
+    if (selectedSubject) {
+      loadSubjectQuestions(selectedSubject);
     }
   };
 
-  const حذف_سؤال = async (id: number) => {
-    await الاسئلة.حذف(id);
-    if (المادة_المحددة) {
-      تحميل_اسئلة_المادة(المادة_المحددة);
+  const deleteQuestion = async (id: number) => {
+    await questions.delete(id);
+    if (selectedSubject) {
+      loadSubjectQuestions(selectedSubject);
     }
   };
 
-  const تعديل_سؤال = async (سؤال: سؤال) => {
-    // سيتم تنفيذ التعديل في المرحلة القادمة
-    console.log('تعديل السؤال:', سؤال);
+  const editQuestion = async (question: Question) => {
+    // Edit functionality will be implemented in a future step
+    console.log('Edit question:', question);
   };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="bg-white rounded-xl shadow-sm">
-        {/* رأس الصفحة */}
+        {/* Page header */}
         <div className="p-6 border-b">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">إدارة الأسئلة</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Manage Questions</h1>
             <button
-              onClick={() => setاضافة_سؤال(true)}
+              onClick={() => setAddQuestion(true)}
               className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
             >
               <Plus className="h-5 w-5 ml-2" />
-              إضافة سؤال جديد
+              Add New Question
             </button>
           </div>
         </div>
 
-        {/* اختيار المادة */}
+        {/* Subject selection */}
         <div className="p-6 border-b">
           <select
-            value={المادة_المحددة || ''}
-            onChange={(e) => setالمادة_المحددة(Number(e.target.value))}
+            value={selectedSubject || ''}
+            onChange={(e) => setSelectedSubject(Number(e.target.value))}
             className="w-full p-2 border rounded-lg"
           >
-            <option value="">اختر المادة</option>
-            {المواد_المتاحة.map((مادة) => (
-              <option key={مادة.id} value={مادة.id}>
-                {مادة.اسم}
+            <option value="">Select Subject</option>
+            {subjectsAvailable.map((subject) => (
+              <option key={subject.id} value={subject.id}>
+                {subject.name}
               </option>
             ))}
           </select>
         </div>
 
-        {/* قائمة الأسئلة */}
+        {/* Question list */}
         <div className="p-6">
-          {المادة_المحددة ? (
+          {selectedSubject ? (
             <QuestionList
-              الاسئلة={اسئلة_المادة}
-              عند_التعديل={تعديل_سؤال}
-              عند_الحذف={حذف_سؤال}
+              questions={subjectQuestions}
+              onEdit={editQuestion}
+              onDelete={deleteQuestion}
             />
           ) : (
             <div className="text-center text-gray-500">
-              الرجاء اختيار مادة لعرض الأسئلة
+              Please select a subject to view questions
             </div>
           )}
         </div>
 
-        {/* نموذج إضافة سؤال */}
-        {اضافة_سؤال && (
+        {/* Add question form */}
+        {addQuestion && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white rounded-xl w-full max-w-2xl p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold">إضافة سؤال جديد</h2>
+                <h2 className="text-xl font-bold">Add New Question</h2>
                 <button
-                  onClick={() => setاضافة_سؤال(false)}
+                  onClick={() => setAddQuestion(false)}
                   className="text-gray-500 hover:text-gray-700"
                 >
                   <X className="h-6 w-6" />
@@ -138,66 +138,66 @@ const Admin = () => {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">نص السؤال</label>
+                  <label className="block text-sm font-medium mb-1">Question Text</label>
                   <textarea
-                    value={السؤال_الجديد.نص_السؤال}
-                    onChange={(e) => setالسؤال_الجديد(prev => ({ ...prev, نص_السؤال: e.target.value }))}
+                    value={newQuestion.text}
+                    onChange={(e) => setNewQuestion(prev => ({ ...prev, text: e.target.value }))}
                     className="w-full border rounded-lg p-2 h-24"
-                    placeholder="اكتب نص السؤال هنا..."
+                    placeholder="Enter question text here..."
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">الخيارات</label>
-                  {السؤال_الجديد.الخيارات.map((خيار, index) => (
+                  <label className="block text-sm font-medium mb-1">Options</label>
+                  {newQuestion.options.map((option, index) => (
                     <div key={index} className="flex gap-2 mb-2">
                       <input
                         type="text"
-                        value={خيار}
+                        value={option}
                         onChange={(e) => {
-                          const خيارات_جديدة = [...السؤال_الجديد.الخيارات];
-                          خيارات_جديدة[index] = e.target.value;
-                          setالسؤال_الجديد(prev => ({ ...prev, الخيارات: خيارات_جديدة }));
+                          const newOptions = [...newQuestion.options];
+                          newOptions[index] = e.target.value;
+                          setNewQuestion(prev => ({ ...prev, options: newOptions }));
                         }}
                         className="flex-1 border rounded-lg p-2"
-                        placeholder={`الخيار ${index + 1}`}
+                        placeholder={`Option ${index + 1}`}
                       />
                       <button
-                        onClick={() => setالسؤال_الجديد(prev => ({ ...prev, الاجابة_الصحيحة: index }))}
+                        onClick={() => setNewQuestion(prev => ({ ...prev, correctAnswer: index }))}
                         className={`px-4 py-2 rounded-lg ${
-                          السؤال_الجديد.الاجابة_الصحيحة === index
+                          newQuestion.correctAnswer === index
                             ? 'bg-green-600 text-white'
                             : 'bg-gray-100'
                         }`}
                       >
-                        صحيح
+                        Correct
                       </button>
                     </div>
                   ))}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">الشرح</label>
+                  <label className="block text-sm font-medium mb-1">Explanation</label>
                   <textarea
-                    value={السؤال_الجديد.الشرح}
-                    onChange={(e) => setالسؤال_الجديد(prev => ({ ...prev, الشرح: e.target.value }))}
+                    value={newQuestion.explanation}
+                    onChange={(e) => setNewQuestion(prev => ({ ...prev, explanation: e.target.value }))}
                     className="w-full border rounded-lg p-2 h-24"
-                    placeholder="اكتب شرح الإجابة هنا..."
+                    placeholder="Enter explanation here..."
                   />
                 </div>
 
                 <div className="flex justify-end gap-4 mt-6">
                   <button
-                    onClick={() => setاضافة_سؤال(false)}
+                    onClick={() => setAddQuestion(false)}
                     className="px-4 py-2 border rounded-lg hover:bg-gray-50"
                   >
-                    إلغاء
+                    Cancel
                   </button>
                   <button
-                    onClick={حفظ_سؤال}
+                    onClick={saveQuestion}
                     className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
                   >
-                    حفظ السؤال
+                    Save Question
                   </button>
                 </div>
               </div>

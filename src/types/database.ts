@@ -1,28 +1,28 @@
-export interface مادة {
+export interface Subject {
   id: number;
-  اسم: string;
-  الاسئلة?: سؤال[];
-  تاريخ_الانشاء: Date;
-  تاريخ_التحديث: Date;
+  name: string;
+  questions?: Question[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface سؤال {
+export interface Question {
   id: number;
-  نص_السؤال: string;
-  الشرح?: string | null;
-  المادة_id: number;
-  المادة?: مادة;
-  الخيارات?: خيار[];
-  تاريخ_الانشاء: Date;
-  تاريخ_التحديث: Date;
+  text: string;
+  explanation?: string | null;
+  subjectId: number;
+  subject?: Subject;
+  options?: Option[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface خيار {
+export interface Option {
   id: number;
-  النص: string;
-  صحيح: boolean;
-  السؤال_id: number;
-  السؤال?: سؤال;
-  تاريخ_الانشاء: Date;
-  تاريخ_التحديث: Date;
+  text: string;
+  isCorrect: boolean;
+  questionId: number;
+  question?: Question;
+  createdAt: Date;
+  updatedAt: Date;
 }
