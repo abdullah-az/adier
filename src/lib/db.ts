@@ -4,9 +4,7 @@ const prisma = new PrismaClient();
 
 export const subjects = {
   create: async (name: string, specialization: string) => {
-    return await prisma.subject.create({
-       { name, specialization } // Added ''
-    });
+    return await prisma.subject.create({ name, specialization });
   },
 
   findAll: async () => {
@@ -24,13 +22,13 @@ export const subjects = {
   update: async (id: number, name: string, specialization: string) => {
     return await prisma.subject.update({
       where: { id },
-       { name, specialization } // Added ''
+      data: { name, specialization }
     });
   }
 };
 
 export const questions = {
-  create: async ( {
+  create: async (data: {
     text: string;
     explanation: string | null;
     subjectId: number;
@@ -38,20 +36,18 @@ export const questions = {
   }) => {
     return prisma.$transaction(async (tx) => {
       const question = await tx.question.create({
-         {
-          text: data.text,
-          explanation: data.explanation,
-          subject: { connect: { id: data.subjectId } },
-        },
+        text: data.text,
+        explanation: data.explanation,
+        subject: { connect: { id: data.subjectId } },
       });
 
-      await tx.option.createMany({
-         data.options.map((option) => ({
+      await tx.option.createMany(
+        data.options.map((option) => ({
           text: option.text,
           isCorrect: option.isCorrect,
           questionId: question.id,
-        })),
-      });
+        }))
+      );
 
       return await tx.question.findUnique({
         where: { id: question.id },
@@ -73,7 +69,7 @@ export const questions = {
     });
   },
 
-  update: async (id: number,  {
+  update: async (id: number, data: {
     text?: string;
     explanation?: string | null;
     options?: { id: number; text: string; isCorrect: boolean }[];
@@ -82,16 +78,16 @@ export const questions = {
 
     const question = await prisma.question.update({
       where: { id },
-       { ...rest }, // Added ''
+      data: { ...rest }
     });
 
     if (options) {
       await prisma.$transaction(async (tx) => {
         await tx.option.updateMany({
           where: { questionId: id },
-           {
-            text: (params: { id: number }) => options?.find((o) => o.id === params.id)?.text,
-            isCorrect: (params: { id: number }) => options?.find((o) => o.id === params.id)?.isCorrect,
+          data: {
+            text: (params: { id: number }) => options.find((o) => o.id === params.id)?.text,
+            isCorrect: (params: { id: number }) => options.find((o) => o.id === params.id)?.isCorrect,
           },
         });
       });
