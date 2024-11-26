@@ -22,7 +22,7 @@ export const subjects = {
   update: async (id: number, name: string, specialization: string) => {
     return await prisma.subject.update({
       where: { id },
-       { name, specialization } // Added 'data' property here
+       { name, specialization }
     });
   }
 };
@@ -80,7 +80,7 @@ export const questions = {
 
     const question = await prisma.question.update({
       where: { id },
-       { ...rest } // Added 'data' property here
+       { ...rest }
     });
 
     if (options) {
