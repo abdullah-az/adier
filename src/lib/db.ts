@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export const subjects = {
   create: async (name: string, specialization: string) => {
-    return await prisma.subject.create({  { name, specialization } });
+    return await prisma.subject.create({ name, specialization });
   },
 
   findAll: async () => {
