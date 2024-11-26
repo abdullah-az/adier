@@ -2,101 +2,104 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const المواد = {
-  اضافة: async (اسم: string) => {
-    return await prisma.المواد.create({
-      data: { اسم }
+export const subjects = {
+  create: async (name: string, specialization: string) => {
+    return await prisma.subject.create({
+       { name, specialization }
     });
   },
 
-  الكل: async () => {
-    return await prisma.المواد.findMany({
-      include: {
-        الاسئلة: true
-      }
+  findAll: async () => {
+    return await prisma.subject.findMany({
+      include: { questions: true }
     });
   },
 
-  حذف: async (id: number) => {
-    return await prisma.المواد.delete({
+  delete: async (id: number) => {
+    return await prisma.subject.delete({
       where: { id }
     });
   },
 
-  تعديل: async (id: number, اسم: string) => {
-    return await prisma.المواد.update({
+  update: async (id: number, name: string, specialization: string) => {
+    return await prisma.subject.update({
       where: { id },
-      data: { اسم }
+       { name, specialization }
     });
   }
 };
 
-export const الاسئلة = {
-  اضافة: async (بيانات: {
-    نص_السؤال: string,
-    الشرح?: string,
-    المادة_id: number,
-    الخيارات: { النص: string, صحيح: boolean }[]
+export const questions = {
+  create: async ( {
+    text: string;
+    explanation: string | null;
+    subjectId: number;
+    options: { text: string; isCorrect: boolean }[];
   }) => {
-    return await prisma.الاسئلة.create({
-      data: {
-        نص_السؤال: بيانات.نص_السؤال,
-        الشرح: بيانات.الشرح,
-        المادة_id: بيانات.المادة_id,
-        الخيارات: {
-          create: بيانات.الخيارات
-        }
-      },
-      include: {
-        الخيارات: true
-      }
+    return prisma.$transaction(async (tx) => {
+      const question = await tx.question.create({
+         {
+          text: data.text,
+          explanation: data.explanation,
+          subject: { connect: { id: data.subjectId } },
+        },
+      });
+
+      await tx.option.createMany({
+         data.options.map((option) => ({
+          text: option.text,
+          isCorrect: option.isCorrect,
+          questionId: question.id,
+        })),
+      });
+
+      return await tx.question.findUnique({
+        where: { id: question.id },
+        include: { options: true },
+      });
     });
   },
 
-  حسب_المادة: async (مادة_id: number) => {
-    return await prisma.الاسئلة.findMany({
-      where: { المادة_id },
-      include: {
-        الخيارات: true
-      }
+  findBySubjectId: async (subjectId: number) => {
+    return await prisma.question.findMany({
+      where: { subjectId },
+      include: { options: true }
     });
   },
 
-  حذف: async (id: number) => {
-    return await prisma.الاسئلة.delete({
+  delete: async (id: number) => {
+    return await prisma.question.delete({
       where: { id }
     });
   },
 
-  تعديل: async (id: number, بيانات: {
-    نص_السؤال?: string,
-    الشرح?: string,
-    الخيارات?: { id: number, النص: string, صحيح: boolean }[]
+  update: async (id: number,  {
+    text?: string;
+    explanation?: string | null;
+    options?: { id: number; text: string; isCorrect: boolean }[];
   }) => {
-    const { الخيارات, ...باقي_البيانات } = بيانات;
+    const { options, ...rest } = data;
 
-    const سؤال = await prisma.الاسئلة.update({
+    const question = await prisma.question.update({
       where: { id },
-      data: باقي_البيانات
+       rest,
     });
 
-    if (الخيارات) {
-      for (const خيار of الخيارات) {
-        await prisma.الخيارات.update({
-          where: { id: خيار.id },
-          data: {
-            النص: خيار.النص,
-            صحيح: خيار.صحيح
-          }
+    if (options) {
+      await prisma.$transaction(async (tx) => {
+        await tx.option.updateMany({
+          where: { questionId: id },
+           {
+            text: (params: { id: number }) => options?.find((o) => o.id === params.id)?.text,
+            isCorrect: (params: { id: number }) => options?.find((o) => o.id === params.id)?.isCorrect,
+          },
         });
-      }
+      });
     }
 
-    return await prisma.الاسئلة.findUnique({
+    return await prisma.question.findUnique({
       where: { id },
-      include: {
-        الخيارات: true
-      }
+      include: { options: true },
     });
-  }
+  },
 };
