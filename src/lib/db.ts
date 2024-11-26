@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 export const subjects = {
   create: async (name: string, specialization: string) => {
     return await prisma.subject.create({
-       { name, specialization } // Corrected line
+       { name, specialization } 
     });
   },
 
@@ -24,7 +24,7 @@ export const subjects = {
   update: async (id: number, name: string, specialization: string) => {
     return await prisma.subject.update({
       where: { id },
-       { name, specialization } // Added data
+       { name, specialization } 
     });
   }
 };
@@ -82,7 +82,7 @@ export const questions = {
 
     const question = await prisma.question.update({
       where: { id },
-       rest, // Added data
+       { ...rest }, 
     });
 
     if (options) {
