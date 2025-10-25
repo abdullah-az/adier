@@ -1,0 +1,27 @@
+[project]
+name = "quiz-system-backend"
+version = "0.1.0"
+description = "FastAPI backend for Quiz System"
+authors = [
+    {name = "engine-labs-app[bot]",email = "140088366+engine-labs-app[bot]@users.noreply.github.com"}
+]
+readme = "README.md"
+requires-python = "^3.12"
+dependencies = [
+    "fastapi (>=0.120.0,<0.121.0)",
+    "uvicorn[standard] (>=0.38.0,<0.39.0)",
+    "sqlalchemy (>=2.0.44,<3.0.0)",
+    "pydantic-settings (>=2.11.0,<3.0.0)",
+    "python-multipart (>=0.0.20,<0.0.21)",
+    "aiofiles (>=25.1.0,<26.0.0)",
+    "loguru (>=0.7.3,<0.8.0)",
+    "ffmpeg-python (>=0.2.0,<0.3.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "openai (>=2.6.1,<3.0.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
