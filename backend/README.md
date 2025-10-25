@@ -86,6 +86,9 @@ All configuration is managed through environment variables. See `.env.example` f
 - `CORS_ORIGINS`: Comma-separated list of allowed origins
 - `DATABASE_URL`: Database connection string
 - `STORAGE_PATH`: Path for file storage (default: ./storage)
+- `UPLOAD_MAX_SIZE`: Maximum upload size in bytes (default: 104857600 = 100MB)
+- `FFMPEG_THREADS`: Number of FFmpeg threads (default: 2)
+- `VIDEO_OUTPUT_FORMAT`: Video output format (default: mp4)
 - `LOG_LEVEL`: Logging level (default: INFO)
 - `LOG_FILE`: Log file path (default: ./logs/app.log)
 
@@ -148,6 +151,68 @@ Returns project metadata including name, version, and debug status.
   "debug": false
 }
 ```
+
+## Storage & Video Uploads
+
+Large video files are stored on disk under the directory configured by `STORAGE_PATH` (defaults to `./storage`). The following structure is created automatically:
+
+```
+storage/
+├── uploads/       # Raw uploads streamed from clients
+├── processed/     # Future transcoded/optimized outputs
+├── thumbnails/    # Generated thumbnail images or placeholders
+├── exports/       # Final exports and downloads
+├── music/         # Project specific music/voiceover assets
+└── metadata/      # JSON metadata registry (video_assets.json)
+```
+
+Each project receives its own folder inside the `uploads/`, `processed/`, `thumbnails/`, `exports/`, and `music/` directories. File names are sanitized and suffixed with a hash to avoid collisions while remaining deterministic.
+
+### Upload Endpoint
+
+```
+POST /projects/{project_id}/videos
+Content-Type: multipart/form-data
+Form field name: file
+```
+
+- Streams the uploaded file using 4MB chunks via `aiofiles`
+- Validates video format (`.mp4`, `.mov`, `.avi`)
+- Registers metadata in `storage/metadata/video_assets.json`
+- Kicks off thumbnail generation and metadata extraction stubs.
+
+**Successful Response:**
+```json
+{
+  "asset_id": "uuid",
+  "filename": "20250101T123000-abc123.mp4",
+  "original_filename": "lesson.mp4",
+  "size_bytes": 1048576,
+  "project_id": "demo",
+  "status": "ready"
+}
+```
+
+### Listing & Deleting Assets
+
+- `GET /projects/{project_id}/videos` — list stored assets for a project.
+- `DELETE /projects/{project_id}/videos/{asset_id}` — remove a single asset and its files.
+- `DELETE /projects/{project_id}/storage` — wipe all stored files and metadata for a project (used during project deletion workflows).
+
+### Storage Statistics
+
+```
+GET /storage/stats
+GET /projects/{project_id}/storage/stats
+```
+
+The global endpoint reports totals across all projects, while the project-specific variant drills down into a single project's storage usage to monitor capacity and plan cleanups.
+
+### Disk Usage Notes
+
+- The storage directory is ignored by git (`backend/.gitignore`).
+- Ensure sufficient disk space before processing large batches of videos.
+- Periodically review `storage/metadata/video_assets.json` and the `storage/.../project_*` directories for unused assets.
 
 ## Development Commands
 
