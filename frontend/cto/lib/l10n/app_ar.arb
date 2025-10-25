@@ -1,0 +1,13 @@
+{
+  "@@locale": "ar",
+  "appTitle": "تطبيق CTO",
+  "welcome": "مرحبا",
+  "home": "الرئيسية",
+  "profile": "الملف الشخصي",
+  "settings": "الإعدادات",
+  "language": "اللغة",
+  "darkMode": "الوضع الداكن",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+  "hello": "مرحبا، {name}!"
+}
