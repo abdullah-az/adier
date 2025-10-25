@@ -157,6 +157,59 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hello, {name}!'**
   String hello(String name);
+
+  String get timelineEditorTitle;
+  String get timelineRefresh;
+  String get timelineErrorMaxDuration;
+  String get timelineErrorOverlap;
+  String get timelineErrorClipTooShort;
+  String get timelineErrorMergeNotAllowed;
+  String get timelineErrorSplitInvalid;
+  String get timelineErrorSaveFailed;
+  String get timelineErrorLoadFailed;
+  String get timelineErrorTranscriptSearch;
+  String get timelineSuggestionsTitle;
+  String get timelineSegmentSourceAi;
+  String get timelineSegmentSourceTranscript;
+  String get timelineNoSuggestions;
+  String get timelineAiSuggestionAdd;
+  String get timelineAiSuggestionRemove;
+  String get timelineQualityLabel;
+  String get timelineConfidenceLabel;
+  String timelineDurationLabel(String duration);
+  String timelineTrimLabel(String start, String end);
+  String get timelineTrimUnavailable;
+  String get timelineSplitClip;
+  String timelineSplitInstruction(String start, String end);
+  String timelineSplitSelected(String position);
+  String get timelineSplitCancel;
+  String get timelineSplitConfirm;
+  String get timelineMergeClip;
+  String get timelineRemoveClip;
+  String get timelineSaving;
+  String get timelineSourceAi;
+  String get timelineSourceTranscript;
+  String get timelineSourceManual;
+  String get timelineBuilderTitle;
+  String get timelineDropHere;
+  String get timelineEmptyState;
+  String get timelineReorderTooltip;
+  String get timelineMetadataTitle;
+  String timelineMetadataProgress(String current, String max);
+  String get timelineMetadataProjectId;
+  String get timelineMetadataClips;
+  String get timelineMetadataTotalDuration;
+  String get timelineMetadataMaxDuration;
+  String get timelineMetadataRemaining;
+  String get timelineMetadataSaving;
+  String get timelineMetadataUnsavedChanges;
+  String get timelineMetadataSynced;
+  String timelineMetadataLastSaved(String time);
+  String get timelineTranscriptSearchPlaceholder;
+  String get timelineTranscriptSearchButton;
+  String get timelineTranscriptSearchEmpty;
+  String timelineTranscriptNoResults(String query);
+  String get timelineTranscriptAdd;
 }
 
 class _AppLocalizationsDelegate

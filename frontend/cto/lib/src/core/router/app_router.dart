@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/home/home_page.dart';
 import '../../features/auth/auth_page.dart';
 import '../../features/profile/profile_page.dart';
+import '../../features/project_detail/project_detail_page.dart';
 import '../constants/app_constants.dart';
 
 final appRouter = GoRouter(
@@ -22,6 +23,14 @@ final appRouter = GoRouter(
       path: AppConstants.profileRoute,
       name: 'profile',
       builder: (context, state) => const ProfilePage(),
+    ),
+    GoRoute(
+      path: '${AppConstants.projectsRoute}/:projectId',
+      name: 'project-detail',
+      builder: (context, state) {
+        final projectId = state.pathParameters['projectId'] ?? 'demo';
+        return ProjectDetailPage(projectId: projectId);
+      },
     ),
   ],
   errorBuilder: (context, state) => Scaffold(
