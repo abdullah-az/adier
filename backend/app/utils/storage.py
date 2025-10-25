@@ -13,7 +13,7 @@ from fastapi import UploadFile
 from loguru import logger
 
 
-DEFAULT_CATEGORIES = ["uploads", "processed", "thumbnails", "exports", "music"]
+DEFAULT_CATEGORIES = ["uploads", "processed", "thumbnails", "exports", "music", "audio", "analysis"]
 ALLOWED_VIDEO_EXTENSIONS = {".mp4", ".mov", ".avi"}
 CHUNK_SIZE = 4 * 1024 * 1024  # 4MB chunks for streaming writes
 
@@ -64,6 +64,18 @@ class StorageManager:
             raise ValueError(f"Unknown storage category '{category}'")
         safe_project = self._sanitize_component(str(project_id))
         return self.storage_root / category / safe_project
+
+    def project_category_path(self, project_id: str, category: str, *, ensure_exists: bool = True) -> Path:
+        """Return the path for a project/category combination, optionally ensuring it exists."""
+        path = self._category_project_path(project_id, category)
+        if ensure_exists:
+            path.mkdir(parents=True, exist_ok=True)
+        return path
+
+    def build_category_file_path(self, project_id: str, category: str, filename: str) -> Path:
+        """Construct an absolute path for a file stored within a specific category."""
+        directory = self.project_category_path(project_id, category, ensure_exists=True)
+        return directory / filename
 
     def _sanitize_component(self, value: str) -> str:
         value = value.strip()

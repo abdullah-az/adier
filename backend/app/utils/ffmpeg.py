@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 import ffmpeg
 from loguru import logger
@@ -65,6 +65,113 @@ async def extract_thumbnail(
     except Exception as e:
         logger.error("Failed to extract thumbnail", error=str(e))
         raise FFmpegError(f"Thumbnail extraction failed: {e}") from e
+
+
+def _select_audio_codec(audio_format: str) -> str:
+    if audio_format.lower() in {"wav", "wave"}:
+        return "pcm_s16le"
+    if audio_format.lower() == "mp3":
+        return "libmp3lame"
+    if audio_format.lower() in {"m4a", "aac"}:
+        return "aac"
+    return "pcm_s16le"
+
+
+async def extract_audio_track(
+    video_path: Path,
+    output_path: Path,
+    *,
+    sample_rate: int = 16000,
+    channels: int = 1,
+    audio_format: str = "wav",
+    audio_codec: Optional[str] = None,
+) -> Path:
+    """Extract the audio track from a video file into a standalone audio file."""
+    codec = audio_codec or _select_audio_codec(audio_format)
+    logger.info(
+        "Extracting audio track",
+        video=str(video_path),
+        output=str(output_path),
+        sample_rate=sample_rate,
+        channels=channels,
+        format=audio_format,
+        codec=codec,
+    )
+
+    try:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        stream = (
+            ffmpeg.input(str(video_path))
+            .output(
+                str(output_path),
+                format=audio_format,
+                ac=channels,
+                ar=sample_rate,
+                acodec=codec,
+            )
+        )
+        await asyncio.to_thread(_run_ffmpeg, stream)
+        if not output_path.exists():
+            raise FFmpegError("Audio extraction failed: file not created")
+        return output_path
+    except Exception as exc:  # pragma: no cover - relies on ffmpeg installation
+        logger.error("Failed to extract audio", error=str(exc))
+        raise FFmpegError(f"Audio extraction failed: {exc}") from exc
+
+
+async def split_audio_into_chunks(
+    audio_path: Path,
+    output_dir: Path,
+    *,
+    chunk_duration: float,
+    prefix: str = "chunk",
+) -> List[Path]:
+    """Split an audio file into smaller chunks using ffmpeg segment muxer."""
+    if chunk_duration <= 0:
+        raise ValueError("chunk_duration must be greater than zero")
+
+    logger.info(
+        "Splitting audio into chunks",
+        audio=str(audio_path),
+        output_dir=str(output_dir),
+        segment_seconds=chunk_duration,
+    )
+
+    try:
+        output_dir.mkdir(parents=True, exist_ok=True)
+        for existing in output_dir.glob(f"{prefix}_*{audio_path.suffix}"):
+            existing.unlink(missing_ok=True)
+
+        pattern = output_dir / f"{prefix}_%03d{audio_path.suffix}"
+        stream = ffmpeg.input(str(audio_path)).output(
+            str(pattern),
+            f="segment",
+            segment_time=chunk_duration,
+            reset_timestamps=1,
+            c="copy",
+        )
+        await asyncio.to_thread(_run_ffmpeg, stream)
+
+        chunks = sorted(output_dir.glob(f"{prefix}_*{audio_path.suffix}"))
+        if not chunks:
+            logger.debug("Segmentation produced no chunks; returning original audio")
+            return [audio_path]
+        logger.info("Generated audio chunks", count=len(chunks))
+        return chunks
+    except Exception as exc:  # pragma: no cover - depends on ffmpeg binary
+        logger.error("Failed to segment audio", error=str(exc))
+        raise FFmpegError(f"Audio segmentation failed: {exc}") from exc
+
+
+async def get_media_duration(media_path: Path) -> float:
+    """Return the duration in seconds for a media file using ffprobe."""
+    try:
+        probe = await asyncio.to_thread(ffmpeg.probe, str(media_path))
+        duration = float(probe.get("format", {}).get("duration", 0.0))
+        return duration
+    except Exception as exc:  # pragma: no cover - depends on ffmpeg availability
+        logger.error("Failed to probe media duration", path=str(media_path), error=str(exc))
+        raise FFmpegError(f"Unable to determine media duration: {exc}") from exc
 
 
 def _run_ffmpeg(stream) -> None:
