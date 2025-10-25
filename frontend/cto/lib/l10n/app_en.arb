@@ -45,5 +45,257 @@
         "example": "John"
       }
     }
+  },
+  "timelineEditorTitle": "Timeline Editor",
+  "@timelineEditorTitle": {
+    "description": "Title for the project timeline editor screen"
+  },
+  "timelineRefresh": "Refresh",
+  "@timelineRefresh": {
+    "description": "Label for refreshing data"
+  },
+  "timelineErrorMaxDuration": "Adding this clip would exceed the allowed project duration.",
+  "@timelineErrorMaxDuration": {
+    "description": "Error shown when timeline exceeds allowed duration"
+  },
+  "timelineErrorOverlap": "This clip overlaps with another clip from the same source.",
+  "@timelineErrorOverlap": {
+    "description": "Error shown when clip overlaps another clip"
+  },
+  "timelineErrorClipTooShort": "Clip duration is too short. Increase the length before saving.",
+  "@timelineErrorClipTooShort": {
+    "description": "Error shown when a clip is shorter than the allowed minimum"
+  },
+  "timelineErrorMergeNotAllowed": "These clips cannot be merged.",
+  "@timelineErrorMergeNotAllowed": {
+    "description": "Error shown when two clips cannot be merged"
+  },
+  "timelineErrorSplitInvalid": "Select a valid point within the clip to split.",
+  "@timelineErrorSplitInvalid": {
+    "description": "Error shown when the requested split point is invalid"
+  },
+  "timelineErrorSaveFailed": "Couldn't save the timeline. Please retry.",
+  "@timelineErrorSaveFailed": {
+    "description": "Error message when timeline save fails"
+  },
+  "timelineErrorLoadFailed": "Unable to load the timeline. Please refresh.",
+  "@timelineErrorLoadFailed": {
+    "description": "Error message when loading timeline fails"
+  },
+  "timelineErrorTranscriptSearch": "Transcript search failed. Try again.",
+  "@timelineErrorTranscriptSearch": {
+    "description": "Error shown when transcript search fails"
+  },
+  "timelineSuggestionsTitle": "Scenes & Segments",
+  "@timelineSuggestionsTitle": {
+    "description": "Header for the suggestions panel"
+  },
+  "timelineSegmentSourceAi": "AI Suggestions",
+  "@timelineSegmentSourceAi": {
+    "description": "Toggle label for AI suggestions"
+  },
+  "timelineSegmentSourceTranscript": "Transcript Search",
+  "@timelineSegmentSourceTranscript": {
+    "description": "Toggle label for transcript search mode"
+  },
+  "timelineNoSuggestions": "No suggestions available yet.",
+  "@timelineNoSuggestions": {
+    "description": "Shown when no AI suggestions are available"
+  },
+  "timelineAiSuggestionAdd": "Add to timeline",
+  "@timelineAiSuggestionAdd": {
+    "description": "Action button label for adding suggestion"
+  },
+  "timelineAiSuggestionRemove": "Remove",
+  "@timelineAiSuggestionRemove": {
+    "description": "Action button label for removing suggestion from timeline"
+  },
+  "timelineQualityLabel": "Quality",
+  "@timelineQualityLabel": {
+    "description": "Label for quality score"
+  },
+  "timelineConfidenceLabel": "Confidence",
+  "@timelineConfidenceLabel": {
+    "description": "Label for confidence score"
+  },
+  "timelineDurationLabel": "Duration: {duration}",
+  "@timelineDurationLabel": {
+    "description": "Displays duration for a clip",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "timelineTrimLabel": "Trim range: {start} → {end}",
+  "@timelineTrimLabel": {
+    "description": "Shows the current trim range",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "timelineTrimUnavailable": "Trimming unavailable for this clip.",
+  "@timelineTrimUnavailable": {
+    "description": "Shown when clip cannot be trimmed"
+  },
+  "timelineSplitClip": "Split clip",
+  "@timelineSplitClip": {
+    "description": "Button label for splitting a clip"
+  },
+  "timelineSplitInstruction": "Select a split point between {start} and {end}.",
+  "@timelineSplitInstruction": {
+    "description": "Instructional text for splitting a clip",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "timelineSplitSelected": "Split at {position}",
+  "@timelineSplitSelected": {
+    "description": "Displays the currently selected split position",
+    "placeholders": {
+      "position": {
+        "type": "String"
+      }
+    }
+  },
+  "timelineSplitCancel": "Cancel",
+  "@timelineSplitCancel": {
+    "description": "Cancel button"
+  },
+  "timelineSplitConfirm": "Split",
+  "@timelineSplitConfirm": {
+    "description": "Confirm split action"
+  },
+  "timelineMergeClip": "Merge with next clip",
+  "@timelineMergeClip": {
+    "description": "Tooltip for merging clips"
+  },
+  "timelineRemoveClip": "Remove clip",
+  "@timelineRemoveClip": {
+    "description": "Tooltip for removing a clip"
+  },
+  "timelineSaving": "Saving…",
+  "@timelineSaving": {
+    "description": "Indicator text shown while saving"
+  },
+  "timelineSourceAi": "AI",
+  "@timelineSourceAi": {
+    "description": "Label for AI sourced clips"
+  },
+  "timelineSourceTranscript": "Transcript",
+  "@timelineSourceTranscript": {
+    "description": "Label for transcript sourced clips"
+  },
+  "timelineSourceManual": "Manual",
+  "@timelineSourceManual": {
+    "description": "Label for manually created clips"
+  },
+  "timelineBuilderTitle": "Timeline builder",
+  "@timelineBuilderTitle": {
+    "description": "Header for the timeline builder panel"
+  },
+  "timelineDropHere": "Drop to add to timeline",
+  "@timelineDropHere": {
+    "description": "Message shown when dragging over timeline"
+  },
+  "timelineEmptyState": "Drag AI suggestions or search results here to start building your story.",
+  "@timelineEmptyState": {
+    "description": "Empty state description for timeline"
+  },
+  "timelineReorderTooltip": "Reorder clip",
+  "@timelineReorderTooltip": {
+    "description": "Tooltip for reorder handle"
+  },
+  "timelineMetadataTitle": "Project overview",
+  "@timelineMetadataTitle": {
+    "description": "Header for metadata overview"
+  },
+  "timelineMetadataProgress": "Using {current} of {max}",
+  "@timelineMetadataProgress": {
+    "description": "Displays current vs max duration",
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "timelineMetadataProjectId": "Project ID",
+  "@timelineMetadataProjectId": {
+    "description": "Label for project identifier"
+  },
+  "timelineMetadataClips": "Clips",
+  "@timelineMetadataClips": {
+    "description": "Label for number of clips"
+  },
+  "timelineMetadataTotalDuration": "Total duration",
+  "@timelineMetadataTotalDuration": {
+    "description": "Label for total duration"
+  },
+  "timelineMetadataMaxDuration": "Max duration",
+  "@timelineMetadataMaxDuration": {
+    "description": "Label for maximum allowed duration"
+  },
+  "timelineMetadataRemaining": "Remaining",
+  "@timelineMetadataRemaining": {
+    "description": "Label for remaining duration"
+  },
+  "timelineMetadataSaving": "Saving timeline…",
+  "@timelineMetadataSaving": {
+    "description": "Chip shown while timeline is saving"
+  },
+  "timelineMetadataUnsavedChanges": "Unsaved changes",
+  "@timelineMetadataUnsavedChanges": {
+    "description": "Chip shown when there are unsaved changes"
+  },
+  "timelineMetadataSynced": "Synced",
+  "@timelineMetadataSynced": {
+    "description": "Chip shown when timeline is synced"
+  },
+  "timelineMetadataLastSaved": "Last saved {time}",
+  "@timelineMetadataLastSaved": {
+    "description": "Shows last saved timestamp",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "timelineTranscriptSearchPlaceholder": "Search transcript",
+  "@timelineTranscriptSearchPlaceholder": {
+    "description": "Placeholder text for transcript search"
+  },
+  "timelineTranscriptSearchButton": "Search",
+  "@timelineTranscriptSearchButton": {
+    "description": "Tooltip label for transcript search button"
+  },
+  "timelineTranscriptSearchEmpty": "Use the transcript search to find specific segments.",
+  "@timelineTranscriptSearchEmpty": {
+    "description": "Message shown when no transcript results and no query"
+  },
+  "timelineTranscriptNoResults": "No transcript results for \"{query}\".",
+  "@timelineTranscriptNoResults": {
+    "description": "Message shown when transcript search returns no results",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "timelineTranscriptAdd": "Add segment",
+  "@timelineTranscriptAdd": {
+    "description": "Button label for adding transcript segment"
   }
 }

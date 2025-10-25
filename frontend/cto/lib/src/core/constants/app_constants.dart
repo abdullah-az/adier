@@ -15,6 +15,8 @@ class AppConstants {
   static const String homeRoute = '/';
   static const String authRoute = '/auth';
   static const String profileRoute = '/profile';
+  static const String projectsRoute = '/projects';
+  static const String projectDetailRoute = '/projects/:projectId';
   
   // Supported Locales
   static const String englishCode = 'en';
