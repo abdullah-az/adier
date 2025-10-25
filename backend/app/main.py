@@ -5,25 +5,60 @@ from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 
 from app.api.health import router as health_router
+from app.api.jobs import router as jobs_router
 from app.api.storage import router as storage_router
 from app.api.videos import router as videos_router
 from app.core.config import get_settings
 from app.core.logging import setup_logging
+from app.repositories.job_repository import JobRepository
+from app.services.job_service import JobService
+from app.workers.handlers import (
+    export_handler,
+    ingest_handler,
+    scene_detection_handler,
+    transcription_handler,
+)
+from app.workers.job_queue import JobQueue
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
     setup_logging()
     settings = get_settings()
     logger.info(f"Starting {settings.app_name} v{settings.app_version}")
     logger.info(f"Debug mode: {settings.debug}")
     logger.info(f"OpenAI API configured: {bool(settings.openai_api_key)}")
-    
-    yield
-    
-    # Shutdown
-    logger.info("Shutting down application")
+
+    job_queue: JobQueue | None = None
+    try:
+        job_repository = JobRepository(settings.storage_path)
+        job_service = JobService(job_repository)
+        job_queue = JobQueue(
+            job_service=job_service,
+            concurrency=settings.worker_concurrency,
+            maxsize=settings.max_queue_size,
+        )
+
+        job_service.register_handler("ingest", ingest_handler)
+        job_service.register_handler("scene_detection", scene_detection_handler)
+        job_service.register_handler("transcription", transcription_handler)
+        job_service.register_handler("export", export_handler)
+
+        app.state.job_service = job_service
+        app.state.job_queue = job_queue
+
+        logger.info(
+            "Initialised background job queue",
+            concurrency=settings.worker_concurrency,
+            max_queue_size=settings.max_queue_size,
+        )
+
+        await job_queue.start()
+        yield
+    finally:
+        if job_queue is not None:
+            await job_queue.stop()
+        logger.info("Shutting down application")
 
 
 def create_app() -> FastAPI:
@@ -49,6 +84,7 @@ def create_app() -> FastAPI:
     app.include_router(health_router)
     app.include_router(storage_router)
     app.include_router(videos_router)
+    app.include_router(jobs_router)
     
     return app
 

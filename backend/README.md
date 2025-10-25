@@ -214,6 +214,46 @@ The global endpoint reports totals across all projects, while the project-specif
 - Ensure sufficient disk space before processing large batches of videos.
 - Periodically review `storage/metadata/video_assets.json` and the `storage/.../project_*` directories for unused assets.
 
+## Background Job Processing
+
+Long-running video and AI operations run asynchronously via a lightweight job queue built on `asyncio` workers.
+
+- Jobs are persisted to `storage/metadata/jobs.json` for durability across restarts.
+- Workers are bootstrapped during FastAPI startup using the concurrency and queue size specified by `WORKER_CONCURRENCY` and `MAX_QUEUE_SIZE`.
+- Default handlers are provided for `ingest`, `scene_detection`, `transcription`, and `export` flows inside `app/workers/handlers.py`.
+
+### Enqueueing Jobs
+
+```
+POST /projects/{project_id}/jobs
+{
+  "job_type": "ingest",
+  "payload": {
+    "asset_id": "..."
+  }
+}
+```
+
+The response contains the job identifier, status, and initial metadata. Newly created jobs enter the `queued` state and are automatically picked up by the background workers.
+
+### Monitoring Jobs
+
+- `GET /projects/{project_id}/jobs` — list jobs for a project, optionally filtered via `?status=queued&status=running`.
+- `GET /projects/{project_id}/jobs/{job_id}` — retrieve the latest status, progress percentage, logs, and results.
+
+Real-time progress updates are available via Server-Sent Events:
+
+```
+GET /projects/{project_id}/jobs/{job_id}/events
+Accept: text/event-stream
+```
+
+Each event contains the full job payload (status, progress, logs, and results). This endpoint is ideal for dashboards that need to reflect live changes without polling.
+
+### Graceful Shutdown
+
+When the application shuts down, the worker queue is drained before the process exits to ensure in-flight jobs finish cleanly. Pending jobs remain persisted and are re-queued automatically on the next startup.
+
 ## Development Commands
 
 The Makefile provides convenient commands for development:
