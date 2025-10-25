@@ -1,2 +1,12 @@
 .aider*
 .env
+
+# Backend
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.py[cod]
+backend/**/*.py[cod]
+backend/venv/
+backend/logs/
+backend/storage/
+backend/server.log
