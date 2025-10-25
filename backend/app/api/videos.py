@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import List
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi.responses import FileResponse
 from loguru import logger
 
 from app.api.dependencies import get_storage_service
@@ -58,6 +59,28 @@ async def list_videos(
     """List all video assets for a project."""
     assets = await storage_service.list_project_videos(project_id)
     return [_to_response(asset) for asset in assets]
+
+
+@router.get("/videos/{asset_id}/thumbnail")
+async def get_video_thumbnail(
+    project_id: str,
+    asset_id: str,
+    storage_service: StorageService = Depends(get_storage_service),
+) -> FileResponse:
+    """Return the thumbnail associated with a specific video asset."""
+    asset = await storage_service.get_video_asset(asset_id)
+    if not asset or asset.project_id != project_id:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Asset not found")
+
+    thumbnail_path = asset.thumbnail_path
+    if not thumbnail_path or thumbnail_path.endswith(".placeholder"):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Thumbnail not available")
+
+    file_path = storage_service.storage_manager.storage_root / thumbnail_path
+    if not file_path.exists():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Thumbnail file missing")
+
+    return FileResponse(file_path)
 
 
 @router.delete("/videos/{asset_id}", status_code=status.HTTP_204_NO_CONTENT)

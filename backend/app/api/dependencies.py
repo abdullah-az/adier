@@ -6,6 +6,7 @@ from app.core.config import Settings, get_settings
 from app.repositories.job_repository import JobRepository
 from app.repositories.video_repository import VideoAssetRepository
 from app.services.job_service import JobService
+from app.services.project_service import ProjectService
 from app.services.storage_service import StorageService
 from app.utils.storage import StorageManager
 
@@ -50,6 +51,19 @@ def get_storage_service(
 ) -> StorageService:
     """Get StorageService instance with dependencies."""
     return StorageService(storage_manager=storage_manager, video_repository=video_repository)
+
+
+def get_project_service(
+    storage_manager: StorageManager = Depends(get_storage_manager),
+    video_repository: VideoAssetRepository = Depends(get_video_repository),
+    job_repository: JobRepository = Depends(get_job_repository),
+) -> ProjectService:
+    """Aggregate project information from repositories."""
+    return ProjectService(
+        storage_manager=storage_manager,
+        video_repository=video_repository,
+        job_repository=job_repository,
+    )
 
 
 def get_job_service(request: Request) -> JobService:
