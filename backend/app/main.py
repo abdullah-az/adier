@@ -11,9 +11,12 @@ from app.api.videos import router as videos_router
 from app.core.config import get_settings
 from app.core.logging import setup_logging
 from app.repositories.job_repository import JobRepository
+from app.repositories.video_repository import VideoAssetRepository
 from app.services.job_service import JobService
+from app.services.video_pipeline_service import VideoPipelineService
+from app.utils.storage import StorageManager
 from app.workers.handlers import (
-    export_handler,
+    create_export_handler,
     ingest_handler,
     scene_detection_handler,
     transcription_handler,
@@ -39,13 +42,24 @@ async def lifespan(app: FastAPI):
             maxsize=settings.max_queue_size,
         )
 
+        storage_manager = StorageManager(settings.storage_path)
+        video_repository = VideoAssetRepository(settings.storage_path)
+        pipeline_service = VideoPipelineService(
+            storage_manager=storage_manager,
+            video_repository=video_repository,
+            settings=settings,
+        )
+
         job_service.register_handler("ingest", ingest_handler)
         job_service.register_handler("scene_detection", scene_detection_handler)
         job_service.register_handler("transcription", transcription_handler)
-        job_service.register_handler("export", export_handler)
+        job_service.register_handler("export", create_export_handler(pipeline_service))
 
         app.state.job_service = job_service
         app.state.job_queue = job_queue
+        app.state.pipeline_service = pipeline_service
+        app.state.storage_manager = storage_manager
+        app.state.video_repository = video_repository
 
         logger.info(
             "Initialised background job queue",

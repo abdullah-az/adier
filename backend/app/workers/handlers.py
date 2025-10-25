@@ -3,7 +3,12 @@ from __future__ import annotations
 import asyncio
 from typing import Any, Iterable
 
+from pydantic import ValidationError
+
+from app.models.pipeline import TimelineCompositionRequest
 from app.services.job_service import JobExecutionContext
+from app.services.video_pipeline_service import PipelineError, VideoPipelineService
+from app.utils.ffmpeg import FFmpegError
 
 _STEP_DELAY_SECONDS = 0.25
 
@@ -66,19 +71,38 @@ async def transcription_handler(context: JobExecutionContext) -> dict[str, Any]:
     return {"transcript": transcript, "language": context.payload.get("language", "en")}
 
 
-async def export_handler(context: JobExecutionContext) -> dict[str, Any]:
-    await context.log("Starting export job")
-    await _run_steps(
-        context,
-        [
-            (20.0, "Composing timeline"),
-            (45.0, "Rendering video"),
-            (65.0, "Muxing audio"),
-            (90.0, "Finalizing package"),
-        ],
-    )
-    await context.log("Export finished")
-    return {
-        "output_path": context.payload.get("output_path", "exports/output.mp4"),
-        "format": context.payload.get("format", "mp4"),
-    }
+def create_export_handler(pipeline_service: VideoPipelineService):
+    async def export_handler(context: JobExecutionContext) -> dict[str, Any]:
+        await context.log("Starting export pipeline", payload=context.payload)
+        payload = context.payload or {}
+        timeline_payload = payload.get("timeline") or payload
+        try:
+            request = TimelineCompositionRequest.model_validate(timeline_payload)
+        except ValidationError as exc:
+            raise PipelineError(f"Invalid timeline payload: {exc}") from exc
+
+        async def log_callback(message: str, details: dict[str, Any]) -> None:
+            await context.log(message, **details)
+
+        async def progress_callback(value: float, message: str) -> None:
+            await context.progress(value, message=message)
+
+        try:
+            result = await pipeline_service.compose_timeline(
+                context.project_id,
+                request,
+                log=log_callback,
+                progress=progress_callback,
+            )
+        except (PipelineError, FFmpegError) as exc:
+            await context.log("Export pipeline failed", level="ERROR", error=str(exc))
+            raise
+
+        await context.log(
+            "Export pipeline complete",
+            exports=len(result.exports),
+            proxy=bool(result.proxy),
+        )
+        return result.model_dump()
+
+    return export_handler
