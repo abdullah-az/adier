@@ -65,6 +65,10 @@ class StorageManager:
         safe_project = self._sanitize_component(str(project_id))
         return self.storage_root / category / safe_project
 
+    def project_category_path(self, project_id: str, category: str) -> Path:
+        """Public helper returning the absolute path for a project's storage category."""
+        return self._category_project_path(project_id, category)
+
     def _sanitize_component(self, value: str) -> str:
         value = value.strip()
         if not value:
