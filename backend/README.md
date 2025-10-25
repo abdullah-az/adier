@@ -91,6 +91,28 @@ All configuration is managed through environment variables. See `.env.example` f
 
 ## Running the Application
 
+### Database & Migrations
+
+The backend uses SQLite by default (configurable via `DATABASE_URL`). To create the schema and apply migrations:
+
+```bash
+# Create the migrations folder (first time only)
+poetry run alembic upgrade head
+```
+
+To generate a new migration after changing models:
+
+```bash
+DATABASE_URL=sqlite:///./quiz_system.db poetry run alembic revision --autogenerate -m "add_new_feature"
+poetry run alembic upgrade head
+```
+
+You can also run the lightweight initialization script (for local development) which builds tables using the ORM metadata:
+
+```bash
+poetry run python scripts/init_db.py
+```
+
 ### Development Server
 
 Start the development server with auto-reload:
@@ -209,14 +231,30 @@ The application follows a clean architecture pattern:
 - **Workers** (`workers/`): Background job processing
 - **Utils** (`utils/`): Shared utilities and helpers
 
+## Database Schema
+
+The application includes the following entities with relationships:
+
+- **Project**: Top-level container for video editing projects
+- **VideoAsset**: Uploaded video files with metadata (duration, resolution, codec)
+- **SceneDetection**: Detected scenes within videos
+- **SubtitleSegment**: Subtitle/caption segments for projects or clips
+- **TimelineClip**: Clips arranged on the video editing timeline
+- **AudioTrack**: Audio tracks (voice-over, music, effects)
+- **BackgroundMusic**: Background music tracks for projects
+- **ExportJob**: Video export jobs with progress tracking
+- **JobProgress**: Progress logs for export jobs
+
+All tables include appropriate indexes for efficient lookups on foreign keys and frequently queried fields.
+
 ## Next Steps
 
 - Implement video processing service
 - Add AI integration endpoints
-- Set up database models and migrations
 - Implement file storage service
 - Add authentication and authorization
 - Create worker queues for background processing
+- Build API endpoints for CRUD operations on all entities
 
 ## License
 

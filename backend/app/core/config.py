@@ -41,7 +41,7 @@ class Settings(BaseSettings):
     video_output_format: str = Field(default="mp4", alias="VIDEO_OUTPUT_FORMAT")
     
     # Database
-    database_url: Optional[str] = Field(default=None, alias="DATABASE_URL")
+    database_url: str = Field(default="sqlite:///./quiz_system.db", alias="DATABASE_URL")
     
     # Workers/Concurrency
     worker_concurrency: int = Field(default=4, alias="WORKER_CONCURRENCY")
