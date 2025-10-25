@@ -39,7 +39,9 @@ backend/
 ## Requirements
 
 - Python 3.12+
-- Poetry (for dependency management)
+- One of the following dependency managers:
+  - [Poetry](https://python-poetry.org/) 1.8+ (automatically detected by the Makefile)
+  - A virtual environment with `pip`/`uv pip` capable of installing from `requirements-dev.txt`
 
 ## Installation
 
@@ -50,7 +52,7 @@ backend/
    cd backend
    ```
 
-3. **Install Poetry** (if not already installed):
+3. **(Optional) Install Poetry** (if not already installed):
    ```bash
    curl -sSL https://install.python-poetry.org | python3 -
    ```
@@ -58,8 +60,12 @@ backend/
 4. **Install dependencies**:
    ```bash
    make install
-   # or
-   poetry install
+   ```
+   The `Makefile` will call `poetry install` when Poetry is available. In environments without Poetry, it falls back to `python -m pip install -r requirements-dev.txt` so you get the same dependency set. If you prefer to manage the environment manually, create a virtualenv and run:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
+   python -m pip install -r requirements-dev.txt
    ```
 
 5. **Set up environment variables**:
@@ -286,13 +292,27 @@ Core dependencies (defined in `pyproject.toml`):
 
 ## Testing
 
-Tests will be organized in the `tests/` directory (to be implemented).
+Automated tests live in the `tests/` directory and are powered by `pytest`/`pytest-asyncio`.
+Key highlights:
+
+- Shared fixtures configure an isolated SQLite database, temporary storage root, and stubbed FFmpeg helpers.
+- Repository and service coverage includes CRUD flows, job lifecycle/recovery logic, and the asyncio-backed job queue.
+- End-to-end FastAPI integration tests exercise upload workflows, storage statistics, job submission, status polling, and the export pipeline with a stubbed composer.
+- Lightweight media fixtures (`tests/fixtures/sample_video.mp4`) keep the repository size small while providing realistic inputs.
+
+Run the suite with:
 
 ```bash
 make test
 # or
-poetry run pytest tests/ -v
+pytest -v
 ```
+
+## Linting & Formatting
+
+- `make lint` runs Ruff checks alongside Black and Isort in `--check` mode.
+- `make format` applies the same tools to the `app/` and `tests/` packages.
+- Configuration lives in `ruff.toml` and `.isort.cfg`, aligned with Black's default line length (88).
 
 ## Logging
 
