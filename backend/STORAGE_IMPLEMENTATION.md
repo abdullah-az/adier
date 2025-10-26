@@ -105,7 +105,7 @@ Each reports:
 Environment variables in `.env`:
 
 ```bash
-STORAGE_PATH=./storage          # Root storage directory
+STORAGE_ROOT=./storage          # Root storage directory
 UPLOAD_MAX_SIZE=104857600       # 100MB upload limit
 FFMPEG_THREADS=2                # FFmpeg parallelism
 VIDEO_OUTPUT_FORMAT=mp4         # Default output format

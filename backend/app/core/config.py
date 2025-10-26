@@ -1,7 +1,7 @@
 from functools import lru_cache
 from typing import Optional
 
-from pydantic import Field
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     
     # CORS
     cors_origins: str = Field(
-        default="http://localhost:3000,http://localhost:5173",
+        default="http://localhost:3000,http://localhost:5173,http://localhost:8080",
         alias="CORS_ORIGINS"
     )
     
@@ -33,7 +33,11 @@ class Settings(BaseSettings):
     openai_model: str = Field(default="gpt-4", alias="OPENAI_MODEL")
     
     # Storage
-    storage_path: str = Field(default="./storage", alias="STORAGE_PATH")
+    storage_path: str = Field(
+        default="./storage",
+        alias="STORAGE_PATH",
+        validation_alias=AliasChoices("STORAGE_ROOT", "STORAGE_PATH"),
+    )
     upload_max_size: int = Field(default=100 * 1024 * 1024, alias="UPLOAD_MAX_SIZE")  # 100MB
     
     # Video Processing
@@ -41,7 +45,10 @@ class Settings(BaseSettings):
     video_output_format: str = Field(default="mp4", alias="VIDEO_OUTPUT_FORMAT")
     
     # Database
-    database_url: Optional[str] = Field(default=None, alias="DATABASE_URL")
+    database_url: str = Field(
+        default="sqlite:///./storage/app.db",
+        alias="DATABASE_URL",
+    )
     
     # Workers/Concurrency
     worker_concurrency: int = Field(default=4, alias="WORKER_CONCURRENCY")

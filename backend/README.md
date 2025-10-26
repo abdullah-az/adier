@@ -84,8 +84,8 @@ All configuration is managed through environment variables. See `.env.example` f
 - `HOST`: Server host (default: 0.0.0.0)
 - `PORT`: Server port (default: 8000)
 - `CORS_ORIGINS`: Comma-separated list of allowed origins
-- `DATABASE_URL`: Database connection string
-- `STORAGE_PATH`: Path for file storage (default: ./storage)
+- `DATABASE_URL`: Database connection string (default: sqlite:///./storage/app.db)
+- `STORAGE_ROOT`: Path for file storage (default: ./storage)
 - `UPLOAD_MAX_SIZE`: Maximum upload size in bytes (default: 104857600 = 100MB)
 - `FFMPEG_THREADS`: Number of FFmpeg threads (default: 2)
 - `VIDEO_OUTPUT_FORMAT`: Video output format (default: mp4)
@@ -154,7 +154,7 @@ Returns project metadata including name, version, and debug status.
 
 ## Storage & Video Uploads
 
-Large video files are stored on disk under the directory configured by `STORAGE_PATH` (defaults to `./storage`). The following structure is created automatically:
+Large video files are stored on disk under the directory configured by `STORAGE_ROOT` (defaults to `./storage`). The following structure is created automatically:
 
 ```
 storage/
@@ -263,7 +263,7 @@ make help      # Show available commands
 make install   # Install dependencies
 make dev       # Run development server
 make lint      # Run linting checks
-make format    # Format code
+make fmt       # Format code
 make test      # Run tests
 make clean     # Clean up generated files
 ```
@@ -283,6 +283,9 @@ Core dependencies (defined in `pyproject.toml`):
 - **httpx**: Async HTTP client
 - **openai**: OpenAI API client
 - **python-dotenv**: Environment variable management
+- **alembic**: Database migrations
+- **websockets**: WebSocket support for real-time features
+- **sse-starlette**: Server-Sent Events utilities for streaming updates
 
 ## Testing
 
