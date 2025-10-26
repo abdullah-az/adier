@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/auth_page.dart';
 import '../../features/home/home_page.dart';
+import '../../features/preview/preview_player_page.dart';
 import '../../features/profile/profile_page.dart';
 import '../constants/app_constants.dart';
 import 'app_shell.dart';
@@ -30,6 +31,15 @@ final appRouter = GoRouter(
           path: AppConstants.profileRoute,
           name: AppConstants.profileRouteName,
           builder: (context, state) => const ProfilePage(),
+        ),
+        GoRoute(
+          path: AppConstants.previewRoute,
+          name: AppConstants.previewRouteName,
+          builder: (context, state) {
+            final projectId = state.uri.queryParameters['project'] ?? 'demo';
+            final jobId = state.uri.queryParameters['job'] ?? '';
+            return PreviewPlayerPage(projectId: projectId, jobId: jobId);
+          },
         ),
       ],
     ),

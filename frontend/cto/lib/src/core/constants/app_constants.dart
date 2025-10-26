@@ -15,10 +15,12 @@ class AppConstants {
   static const String homeRoute = '/';
   static const String authRoute = '/auth';
   static const String profileRoute = '/profile';
+  static const String previewRoute = '/preview';
 
   static const String homeRouteName = 'home';
   static const String authRouteName = 'auth';
   static const String profileRouteName = 'profile';
+  static const String previewRouteName = 'preview';
   
   // Supported Locales
   static const String englishCode = 'en';

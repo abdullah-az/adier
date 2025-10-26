@@ -52,6 +52,10 @@
   "@arabic": {
     "description": "Arabic language option"
   },
+  "preview": "Preview",
+  "@preview": {
+    "description": "Preview page title"
+  },
   "hello": "Hello, {name}!",
   "@hello": {
     "description": "A greeting message",
