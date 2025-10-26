@@ -136,6 +136,13 @@ class VideoPipelineService:
                 request.default_watermark,
             )
 
+        timeline_path, timeline_metadata = await self._conform_timeline_format(
+            project_id,
+            timeline_path,
+            timeline_metadata,
+            request,
+        )
+
         await self._progress(progress, 70.0, "Registering timeline asset")
         source_asset_ids = sorted({clip.clip.asset_id for clip in processed_clips})
         timeline_asset = await self._register_asset(
@@ -443,6 +450,45 @@ class VideoPipelineService:
         timeline_path.unlink(missing_ok=True)
         return watermarked_path, await get_video_metadata(watermarked_path)
 
+    async def _conform_timeline_format(
+        self,
+        project_id: str,
+        timeline_path: Path,
+        metadata: dict[str, Any],
+        request: TimelineCompositionRequest,
+    ) -> tuple[Path, dict[str, Any]]:
+        target_width, target_height = request.resolution_dimensions()
+        current_width = int(metadata.get("width") or 0)
+        current_height = int(metadata.get("height") or 0)
+
+        if current_width and current_height:
+            width_match = abs(current_width - target_width) <= 2
+            height_match = abs(current_height - target_height) <= 2
+            ratio_match = False
+            try:
+                ratio_match = abs((current_width / current_height) - (target_width / target_height)) <= 0.01
+            except ZeroDivisionError:
+                ratio_match = False
+
+            if width_match and height_match:
+                return timeline_path, metadata
+            if ratio_match and max(current_width, current_height) == max(target_width, target_height):
+                return timeline_path, metadata
+
+        conformed_path = self._output_path(project_id, "processed", "timeline_master", ".mp4")
+        video_bitrate, audio_bitrate = self._recommended_bitrates(target_width, target_height)
+        conformed_path = await self._ffmpeg(
+            transcode_video,
+            timeline_path,
+            conformed_path,
+            width=target_width,
+            height=target_height,
+            video_bitrate=video_bitrate,
+            audio_bitrate=audio_bitrate,
+        )
+        timeline_path.unlink(missing_ok=True)
+        return conformed_path, await get_video_metadata(conformed_path)
+
     async def _generate_proxy(
         self,
         project_id: str,
@@ -566,6 +612,14 @@ class VideoPipelineService:
                     )
                 )
         return thumbnails
+
+    def _recommended_bitrates(self, width: int, height: int) -> tuple[str, str]:
+        longest = max(width, height)
+        if longest >= 1920 or min(width, height) >= 1920:
+            return "12M", "256k"
+        if longest >= 1280:
+            return "8M", "192k"
+        return "5M", "160k"
 
     async def _register_asset(
         self,
