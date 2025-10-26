@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { GraduationCap, Brain, BookOpen, LayoutDashboard, Settings } from 'lucide-react';
+import { GraduationCap, Brain, BookOpen, LayoutDashboard, Settings, Play } from 'lucide-react';
 import LanguageToggle from './LanguageToggle';
 
 const Navbar = () => {
@@ -78,6 +78,18 @@ const Navbar = () => {
             >
               <Settings className="h-4 w-4 ml-1" />
               المسؤول
+            </Link>
+
+            <Link
+              to="/preview"
+              className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${
+                isActive('/preview')
+                  ? 'text-indigo-600 border-b-2 border-indigo-600'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <Play className="h-4 w-4 ml-1" />
+              معاينة
             </Link>
 
             <LanguageToggle />
