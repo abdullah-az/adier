@@ -31,6 +31,27 @@ class Settings(BaseSettings):
     # OpenAI
     openai_api_key: Optional[str] = Field(default=None, alias="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-4", alias="OPENAI_MODEL")
+    openai_vision_model: str = Field(default="gpt-4o-mini", alias="OPENAI_VISION_MODEL")
+    openai_text_model: str = Field(default="gpt-4o-mini", alias="OPENAI_TEXT_MODEL")
+    openai_transcription_model: str = Field(default="gpt-4o-mini-transcribe", alias="OPENAI_TRANSCRIPTION_MODEL")
+    
+    # Google Gemini
+    gemini_api_key: Optional[str] = Field(default=None, alias="GEMINI_API_KEY")
+    gemini_vision_model: str = Field(default="gemini-1.5-flash", alias="GEMINI_VISION_MODEL")
+    gemini_text_model: str = Field(default="gemini-1.5-pro", alias="GEMINI_TEXT_MODEL")
+    
+    # Anthropic Claude
+    anthropic_api_key: Optional[str] = Field(default=None, alias="ANTHROPIC_API_KEY")
+    claude_model: str = Field(default="claude-3-5-sonnet-20241022", alias="CLAUDE_MODEL")
+    
+    # Groq Whisper
+    groq_api_key: Optional[str] = Field(default=None, alias="GROQ_API_KEY")
+    groq_whisper_model: str = Field(default="whisper-large-v3", alias="GROQ_WHISPER_MODEL")
+    
+    # AI orchestration
+    ai_provider_priority: str = Field(default="openai,gemini,claude,groq,local", alias="AI_PROVIDER_PRIORITY")
+    ai_cost_currency: str = Field(default="USD", alias="AI_COST_CURRENCY")
+    ai_rate_limit_per_minute: int = Field(default=60, alias="AI_RATE_LIMIT_PER_MINUTE")
     
     # Storage
     storage_path: str = Field(default="./storage", alias="STORAGE_PATH")
