@@ -98,5 +98,105 @@
     "terms": "Terms of Service",
     "contact": "Contact",
     "rights": "All rights reserved"
+  },
+  "export": {
+    "title": "Export timeline",
+    "subtitle": "Deliver ready-to-publish cuts for every platform.",
+    "sections": {
+      "preset": "Platform presets",
+      "resolution": "Resolution",
+      "aspectRatio": "Aspect ratio",
+      "activeJobs": "Active exports",
+      "completed": "Completed exports",
+      "failed": "Failed exports",
+      "generated": "Generated exports"
+    },
+    "presets": {
+      "youtube_shorts": {
+        "name": "YouTube Shorts",
+        "description": "Vertical clips optimised for Shorts up to 60 seconds."
+      },
+      "tiktok": {
+        "name": "TikTok",
+        "description": "Engaging vertical videos tuned for TikTok's algorithm."
+      },
+      "instagram_reels": {
+        "name": "Instagram Reels",
+        "description": "Reels-ready exports with platform-safe specs."
+      }
+    },
+    "preset": {
+      "maxDuration": "Max {{value}}"
+    },
+    "summary": {
+      "heading": "Preset summary",
+      "preset": "Preset",
+      "recommendation": "Recommended settings",
+      "timelineDuration": "Timeline duration"
+    },
+    "resolutions": {
+      "720p": "HD (720p)",
+      "1080p": "Full HD (1080p)",
+      "4k": "Ultra HD (4K)"
+    },
+    "actions": {
+      "start": "Start export",
+      "openDrawer": "Export"
+    },
+    "queueCount": "{{count}} export(s) in queue",
+    "emptyActive": "No exports running yet. Start one to see progress here.",
+    "emptyCompleted": "No exports completed yet.",
+    "emptyFailed": "No failed exports. Nice work!",
+    "generated": {
+      "defaultLabel": "Platform export"
+    },
+    "metadata": {
+      "duration": "Duration",
+      "size": "File size",
+      "resolution": "Resolution",
+      "aspect": "Aspect ratio"
+    },
+    "buttons": {
+      "download": "Download",
+      "share": "Share",
+      "open": "Open",
+      "dismiss": "Dismiss",
+      "cancel": "Cancel",
+      "retry": "Retry"
+    },
+    "job": {
+      "status": {
+        "queued": "Queued",
+        "processing": "Processing",
+        "completed": "Completed",
+        "failed": "Failed",
+        "cancelled": "Cancelled"
+      },
+      "stage": {
+        "queued": "Queued",
+        "preparing": "Preparing media",
+        "rendering": "Rendering timeline",
+        "encoding": "Encoding preset",
+        "uploading": "Uploading",
+        "finalising": "Finalising",
+        "completed": "Completed",
+        "failed": "Failed",
+        "cancelled": "Cancelled"
+      },
+      "failedLabel": "Export failed",
+      "completedAt": "Completed at {{time}}",
+      "error": {
+        "default": "The export pipeline encountered an error."
+      }
+    },
+    "notifications": {
+      "completedTitle": "{{preset}} export ready",
+      "completedDescription": "Your video is ready to download and share.",
+      "failedTitle": "{{preset}} export failed",
+      "failedDescription": "{{reason}}"
+    },
+    "share": {
+      "copyFallback": "Check out this export"
+    }
   }
 }
