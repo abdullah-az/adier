@@ -4,7 +4,9 @@ from fastapi import Depends, Request
 
 from app.core.config import Settings, get_settings
 from app.repositories.job_repository import JobRepository
+from app.repositories.provider_repository import ProviderConfigRepository
 from app.repositories.video_repository import VideoAssetRepository
+from app.services.ai import AIOrchestrator
 from app.services.job_service import JobService
 from app.services.storage_service import StorageService
 from app.utils.storage import StorageManager
@@ -57,3 +59,17 @@ def get_job_service(request: Request) -> JobService:
     if job_service is None:
         raise RuntimeError("Job service is not initialised")
     return job_service
+
+
+def get_ai_orchestrator(request: Request) -> AIOrchestrator:
+    orchestrator = getattr(request.app.state, "ai_orchestrator", None)
+    if orchestrator is None:
+        raise RuntimeError("AI orchestrator is not initialised")
+    return orchestrator
+
+
+def get_provider_repository(request: Request) -> ProviderConfigRepository:
+    repository = getattr(request.app.state, "provider_repository", None)
+    if repository is None:
+        raise RuntimeError("Provider repository is not initialised")
+    return repository

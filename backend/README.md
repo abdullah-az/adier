@@ -10,6 +10,7 @@ FastAPI backend foundation with clean architecture for hosting video processing,
 - **Logging**: Structured logging with Loguru
 - **CORS Support**: Configured for Flutter/Web clients
 - **Health Check**: Basic health and project info endpoints
+- **Multi-provider AI orchestration**: OpenAI, Google Gemini, Anthropic Claude, Groq, and local fallbacks with automatic failover
 
 ## Project Structure
 
@@ -72,11 +73,26 @@ backend/
 
 All configuration is managed through environment variables. See `.env.example` for available options:
 
-### Required Variables
+### AI Provider Configuration
 
-- `OPENAI_API_KEY`: Your OpenAI API key for AI features
+Provide credentials for the AI providers you wish to enable. Each provider is optional; the orchestrator will automatically fall back to the next configured provider and finally to a local deterministic model when no external service is available.
 
-### Optional Variables
+- `OPENAI_API_KEY` – Enables OpenAI GPT models for vision, text analysis, and Whisper transcription. Optional model overrides:
+  - `OPENAI_VISION_MODEL` (default `gpt-4o-mini`)
+  - `OPENAI_TEXT_MODEL` (default `gpt-4o-mini`)
+  - `OPENAI_TRANSCRIPTION_MODEL` (default `gpt-4o-mini-transcribe`)
+- `GEMINI_API_KEY` – Enables Google Gemini multimodal analysis and text generation.
+  - `GEMINI_VISION_MODEL` (default `gemini-1.5-flash`)
+  - `GEMINI_TEXT_MODEL` (default `gemini-1.5-pro`)
+- `ANTHROPIC_API_KEY` – Enables Anthropic Claude for vision/text analysis.
+  - `CLAUDE_MODEL` (default `claude-3-5-sonnet-20241022`)
+- `GROQ_API_KEY` – Enables Groq-hosted Whisper transcription.
+  - `GROQ_WHISPER_MODEL` (default `whisper-large-v3`)
+- `AI_PROVIDER_PRIORITY` – Comma-separated provider precedence list (default `openai,gemini,claude,groq,local`).
+- `AI_COST_CURRENCY` – Currency label used in cost tracking (default `USD`).
+- `AI_RATE_LIMIT_PER_MINUTE` – Soft rate limit used for reporting and capacity planning (default `60`).
+
+### Other Optional Variables
 
 - `APP_NAME`: Application name (default: "Quiz System Backend")
 - `APP_VERSION`: Application version (default: "0.1.0")
@@ -151,6 +167,17 @@ Returns project metadata including name, version, and debug status.
   "debug": false
 }
 ```
+
+### AI Provider Management
+
+Manage the multi-provider AI configuration, inspect usage, and override settings per project.
+
+- `GET /providers` — list all registered providers, their capabilities, and current availability.
+- `GET /providers/usage` — retrieve aggregate cost and request metrics per provider.
+- `GET /providers/priority` — view the global provider fallback order.
+- `PUT /providers/priority` — update the global provider order.
+- `GET /providers/projects/{project_id}` — view provider overrides for a specific project.
+- `PUT /providers/projects/{project_id}` — override provider priority or task-specific chains for a project.
 
 ## Storage & Video Uploads
 
