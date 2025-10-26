@@ -144,15 +144,38 @@ To add new translations:
 ### Testing
 
 ```bash
-# Run all tests
+# Run fast unit and widget tests (includes goldens)
 flutter test
 
-# Run tests with coverage
-flutter test --coverage
+# Update golden references when layouts change
+flutter test --update-goldens
 
-# Run specific test file
-flutter test test/widget_test.dart
+# Execute integration test suite
+flutter test integration_test
 ```
+
+### Localization Validation
+
+```bash
+# Ensure ARB files stay in sync across locales
+dart run tool/check_localizations.dart
+```
+
+### QA Checklist
+
+- [ ] All unit, widget (including golden), and integration tests pass (`flutter test` / `flutter test integration_test`).
+- [ ] Localization script reports no missing keys (`dart run tool/check_localizations.dart`).
+- [ ] Upload workflow renders via `ListView.builder` and allows progressing uploads.
+- [ ] Timeline editor supports drag-and-drop reordering and export confirmation.
+- [ ] Subtitle editor accepts valid time ranges and blocks invalid submissions.
+- [ ] Export dialog presents format, resolution, and subtitle options.
+
+### Performance Notes
+
+- Heavy lists (home quick actions, uploads, timeline, subtitles, export checklist) use `ListView.builder`/`ListView.separated` to avoid unnecessary widget churn.
+- `UserRepository` now caches list and detail requests to reduce duplicate `Dio` calls; pass `forceRefresh: true` to bust the cache when needed.
+- Timeline math utilities centralize duration calculations to prevent recomputing offsets during drag operations.
+- Profiled the editor flow with Flutter DevTools (simulated 60 fps timeline; no jank observed under sample data).
 
 ### Linting and Formatting
 

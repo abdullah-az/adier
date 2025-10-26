@@ -15,6 +15,10 @@ class AppConstants {
   static const String homeRoute = '/';
   static const String authRoute = '/auth';
   static const String profileRoute = '/profile';
+  static const String uploadRoute = '/upload';
+  static const String timelineRoute = '/timeline';
+  static const String subtitlesRoute = '/subtitles';
+  static const String exportRoute = '/export';
   
   // Supported Locales
   static const String englishCode = 'en';
