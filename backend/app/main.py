@@ -7,6 +7,7 @@ from loguru import logger
 from app.api.health import router as health_router
 from app.api.jobs import router as jobs_router
 from app.api.storage import router as storage_router
+from app.api.timelines import router as timelines_router
 from app.api.videos import router as videos_router
 from app.core.config import get_settings
 from app.core.logging import setup_logging
@@ -72,6 +73,7 @@ def create_app() -> FastAPI:
     app.include_router(storage_router)
     app.include_router(videos_router)
     app.include_router(jobs_router)
+    app.include_router(timelines_router)
     
     return app
 
