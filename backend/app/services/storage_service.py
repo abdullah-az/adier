@@ -129,7 +129,7 @@ class StorageService:
         )
         try:
             await extract_thumbnail(video_path, thumbnail_path, timestamp=1.0)
-            asset.thumbnail_path = str(thumbnail_path.relative_to(self.storage_manager.storage_root))
+            asset.thumbnail_path = thumbnail_path.relative_to(self.storage_manager.storage_root).as_posix()
         except Exception as e:
             logger.warning(
                 "Thumbnail generation skipped; creating placeholder",
@@ -139,7 +139,7 @@ class StorageService:
             placeholder_path = thumbnail_path.with_suffix(thumbnail_path.suffix + ".placeholder")
             placeholder_path.parent.mkdir(parents=True, exist_ok=True)
             placeholder_path.write_text("Thumbnail generation pending\n", encoding="utf-8")
-            asset.thumbnail_path = str(placeholder_path.relative_to(self.storage_manager.storage_root))
+            asset.thumbnail_path = placeholder_path.relative_to(self.storage_manager.storage_root).as_posix()
             asset.metadata.setdefault("thumbnail", {})["placeholder"] = True
 
         asset.status = "ready"

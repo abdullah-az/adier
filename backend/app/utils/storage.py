@@ -150,7 +150,7 @@ class StorageManager:
         await upload.close()
 
         checksum = digest.hexdigest()
-        relative_path = str(destination.relative_to(self.storage_root))
+        relative_path = destination.relative_to(self.storage_root).as_posix()
 
         logger.info(
             "Completed streaming upload",
