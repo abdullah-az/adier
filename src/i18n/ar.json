@@ -38,6 +38,153 @@
       "assistance": "مساعدة ذكية"
     }
   },
+  "preview": {
+    "loading": {
+      "message": "جاري تحميل المعاينة..."
+    },
+    "error": {
+      "title": "فشل تحميل المعاينة",
+      "retry": "إعادة المحاولة"
+    },
+    "notReady": {
+      "title": "المعاينة غير جاهزة",
+      "description": "جاري إنشاء المعاينة. يرجى الانتظار..."
+    },
+    "header": {
+      "title": "معاينة الخط الزمني",
+      "projectLabel": "المشروع: {{projectId}}"
+    },
+    "quality": {
+      "label": "الجودة",
+      "proxy": "بروكسي (سريع)",
+      "timeline": "الخط الزمني (عالي الجودة)"
+    },
+    "actions": {
+      "share": "مشاركة",
+      "download": "تنزيل"
+    },
+    "sidebar": {
+      "timelineInfo": {
+        "title": "معلومات الخط الزمني",
+        "clips": "المقاطع",
+        "duration": "المدة",
+        "resolution": "الدقة",
+        "audio": "الصوت",
+        "audioYes": "نعم",
+        "audioNo": "لا"
+      },
+      "clips": {
+        "title": "المقاطع",
+        "clipTitle": "المقطع {{index}}",
+        "endLabel": "النهاية",
+        "hasSubtitles": "يتضمن ترجمات"
+      }
+    },
+    "export": {
+      "panelTitle": "التصدير",
+      "panelSubtitle": "قم بجدولة عمليات التصدير المتعددة لكل منصة.",
+      "refresh": "تحديث",
+      "loading": "جاري التحقق من التصدير...",
+      "newExport": "تصدير جديد",
+      "newExportCompact": "جديد",
+      "empty": {
+        "title": "لا توجد عمليات تصدير بعد",
+        "description": "قم بجدولة تصدير لإنشاء نسخ جاهزة للنشر من مشروعك.",
+        "action": "جدولة تصدير"
+      },
+      "drawer": {
+        "title": "تصدير",
+        "heading": "اختر إعداد التصدير",
+        "subtitle": "حدد إعدادات المنصة والجودة لجدولة عمليات التصدير.",
+        "close": "إغلاق لوحة التصدير",
+        "presetLabel": "إعدادات المنصة",
+        "supportedResolutions": "الدقات",
+        "resolutionLabel": "الدقة",
+        "resolutionHint": "الدقة الأعلى تزيد زمن التصدير وحجم الملف.",
+        "fileNameLabel": "اسم الملف",
+        "fileNamePlaceholder": "عنوان-قصير",
+        "fileNameHint": "تجنب المسافات أو الرموز الخاصة. سنضيف الامتداد تلقائياً.",
+        "includeCaptionsLabel": "حرق الترجمات",
+        "includeCaptionsHint": "دمج الترجمات داخل الفيديو المصدر.",
+        "notificationsLabel": "أبلغني عند الانتهاء",
+        "notificationsHint": "أرسل إشعاراً عند اكتمال هذا التصدير.",
+        "queueInfo": "تعمل عمليات التصدير في الخلفية ويمكنك متابعة عملك.",
+        "cancel": "إلغاء",
+        "queueAction": "جدولة التصدير"
+      },
+      "presets": {
+        "youtubeShortsVertical": {
+          "name": "يوتيوب شورتس 9:16",
+          "description": "فيديو عمودي محسّن لشورتس مع هوامش آمنة للنص."
+        },
+        "tiktokVertical": {
+          "name": "تيك توك 9:16",
+          "description": "تصدير عمودي عالي التأثير مهيأ لمنصة تيك توك."
+        },
+        "instagramVertical": {
+          "name": "ريلز إنستغرام 9:16",
+          "description": "تصدير ريلز بطول كامل وجاهز للنشر على إنستغرام."
+        },
+        "instagramSquare": {
+          "name": "ريلز إنستغرام 1:1",
+          "description": "تنسيق مربّع مثالي للعرض في الخلاصة."
+        },
+        "instagramLandscape": {
+          "name": "ريلز إنستغرام 16:9",
+          "description": "تصدير أفقي يدعم دقة حتى ‎4K‎."
+        }
+      },
+      "status": {
+        "queued": "قيد الانتظار",
+        "running": "قيد المعالجة",
+        "completed": "مكتمل",
+        "failed": "فشل",
+        "canceled": "ملغى"
+      },
+      "statusMessages": {
+        "canceled": "أُلغي بواسطة المستخدم"
+      },
+      "progressLabel": "التقدم",
+      "metadata": {
+        "title": "تفاصيل الإخراج",
+        "format": "الصيغة",
+        "duration": "المدة",
+        "size": "حجم الملف"
+      },
+      "actions": {
+        "cancel": "إلغاء",
+        "retry": "إعادة المحاولة",
+        "download": "تنزيل",
+        "share": "مشاركة",
+        "open": "فتح"
+      },
+      "notifications": {
+        "dismiss": "إغلاق الإشعار",
+        "queueErrorTitle": "تعذر جدولة التصدير",
+        "queueErrorBody": "يرجى مراجعة الإعدادات والمحاولة مرة أخرى.",
+        "queuedTitle": "تم جدولة تصدير {{preset}}",
+        "queuedBody": "سنبلغك عندما يجهز إخراج {{resolution}}.",
+        "completedTitle": "تصدير {{preset}} جاهز",
+        "completedBody": "اكتمل التصدير بنجاح وهو جاهز للتنزيل.",
+        "failedTitle": "فشل تصدير {{preset}}",
+        "failedBody": "راجع سجلات التصدير لمزيد من التفاصيل.",
+        "canceledTitle": "تصدير {{preset}} ملغى",
+        "canceledBody": "تم إلغاء عملية التصدير قبل اكتمالها.",
+        "retryTitle": "إعادة جدولة تصدير {{preset}}",
+        "retryBody": "سنعيد محاولة تصدير هذا الإصدار.",
+        "retryErrorTitle": "تعذر إعادة التصدير",
+        "retryErrorBody": "يرجى المحاولة مرة أخرى خلال لحظات.",
+        "cancelErrorTitle": "تعذر إلغاء التصدير",
+        "cancelErrorBody": "ربما اكتملت العملية بالفعل.",
+        "downloadErrorTitle": "التنزيل غير متاح",
+        "shareErrorTitle": "تعذر مشاركة التصدير",
+        "shareSuccessTitle": "تم فتح نافذة المشاركة",
+        "copySuccessTitle": "تم نسخ الرابط إلى الحافظة",
+        "openFallbackTitle": "تم فتح التصدير في علامة تبويب جديدة",
+        "openErrorTitle": "تعذر فتح التصدير"
+      }
+    }
+  },
   "practice": {
     "subjects": {
       "title": "المواد",
