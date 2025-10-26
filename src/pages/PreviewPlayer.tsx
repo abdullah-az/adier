@@ -1,14 +1,35 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AlertCircle, Download, Settings, Share2 } from 'lucide-react';
 import { VideoPlayer } from '../components/VideoPlayer';
 import { TimelineScrubber } from '../components/TimelineScrubber';
 import { PreviewStatusBar } from '../components/PreviewStatusBar';
+import { SubtitleEditor } from '../components/SubtitleEditor';
+import { MusicLibrary } from '../components/MusicLibrary';
 import { useEventSource } from '../hooks/useEventSource';
 import { TimelinePreview, JobStatus, SubtitleCue } from '../types/preview';
+import type { TimelineSubtitleSegment, TimelineMusicSettings, MusicTrack } from '../types/timeline';
+import {
+  API_BASE_URL,
+  fetchTimelineSubtitles,
+  updateTimelineSubtitles,
+  fetchMusicTracks,
+  fetchMusicSettings,
+  updateMusicSettings,
+} from '../lib/api/timeline';
 import { loadSubtitles } from '../utils/subtitles';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const DEFAULT_MUSIC_SETTINGS: TimelineMusicSettings = {
+  trackId: null,
+  volume: 0.35,
+  fadeIn: 1,
+  fadeOut: 1,
+  offset: 0,
+  placement: 'full_timeline',
+  clipId: null,
+  loop: true,
+  isEnabled: true,
+};
 
 export function PreviewPlayer() {
   const [searchParams] = useSearchParams();
@@ -21,6 +42,22 @@ export function PreviewPlayer() {
   const [quality, setQuality] = useState<'proxy' | 'timeline'>('proxy');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [subtitleSegments, setSubtitleSegments] = useState<TimelineSubtitleSegment[]>([]);
+  const [isSavingSubtitles, setIsSavingSubtitles] = useState(false);
+  const [subtitleError, setSubtitleError] = useState<string | null>(null);
+  const subtitleSaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const subtitleInitialisedRef = useRef(false);
+  const subtitleLatestRef = useRef<TimelineSubtitleSegment[]>([]);
+
+  const [musicTracks, setMusicTracks] = useState<MusicTrack[]>([]);
+  const [musicSettings, setMusicSettings] = useState<TimelineMusicSettings>(DEFAULT_MUSIC_SETTINGS);
+  const [isSavingMusic, setIsSavingMusic] = useState(false);
+  const [musicError, setMusicError] = useState<string | null>(null);
+  const musicSaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const musicInitialisedRef = useRef(false);
+  const musicLatestRef = useRef<TimelineMusicSettings>(DEFAULT_MUSIC_SETTINGS);
+  const [isTimelineDataLoading, setIsTimelineDataLoading] = useState(false);
 
   const fetchJobStatus = useCallback(async () => {
     if (!jobId) return;
@@ -98,15 +135,221 @@ export function PreviewPlayer() {
     }
   }, [jobId, fetchJobStatus]);
 
+  useEffect(() => {
+    if (!projectId) return;
+    let ignore = false;
+
+    const loadTimelineData = async () => {
+      setIsTimelineDataLoading(true);
+      try {
+        const [subtitlesResult, tracksResult, musicResult] = await Promise.allSettled([
+          fetchTimelineSubtitles(projectId),
+          fetchMusicTracks(projectId),
+          fetchMusicSettings(projectId),
+        ]);
+
+        if (ignore) return;
+
+        if (subtitlesResult.status === 'fulfilled') {
+          const segments = subtitlesResult.value.segments || [];
+          if (segments.length > 0) {
+            setSubtitleSegments(segments);
+            subtitleLatestRef.current = segments;
+            subtitleInitialisedRef.current = true;
+            setSubtitleError(null);
+          }
+        } else if (!subtitleInitialisedRef.current) {
+          setSubtitleError('Failed to load subtitles');
+        }
+
+        if (tracksResult.status === 'fulfilled') {
+          setMusicTracks(tracksResult.value);
+        }
+
+        if (musicResult.status === 'fulfilled') {
+          const mergedSettings = {
+            ...DEFAULT_MUSIC_SETTINGS,
+            ...musicResult.value.settings,
+          };
+          setMusicSettings(mergedSettings);
+          musicLatestRef.current = mergedSettings;
+          musicInitialisedRef.current = true;
+          setMusicError(null);
+        } else if (!musicInitialisedRef.current) {
+          setMusicSettings(DEFAULT_MUSIC_SETTINGS);
+          musicLatestRef.current = DEFAULT_MUSIC_SETTINGS;
+          musicInitialisedRef.current = true;
+          setMusicError('Failed to load music settings');
+        }
+      } catch (err) {
+        if (!ignore) {
+          setSubtitleError(prev => prev ?? 'Failed to load subtitles');
+          setMusicError(prev => prev ?? 'Failed to load music settings');
+        }
+      } finally {
+        if (!ignore) {
+          setIsTimelineDataLoading(false);
+        }
+      }
+    };
+
+    loadTimelineData();
+
+    return () => {
+      ignore = true;
+    };
+  }, [projectId]);
+
+  useEffect(() => {
+    if (subtitleInitialisedRef.current) return;
+    if (!preview?.subtitles || preview.subtitles.length === 0) return;
+
+    const fallback = preview.subtitles.map((cue, index) => ({
+      id: `cue-${index}`,
+      start: cue.start,
+      end: cue.end,
+      text: cue.text,
+      language: 'auto',
+      isVisible: true,
+    }));
+    setSubtitleSegments(fallback);
+    subtitleLatestRef.current = fallback;
+    subtitleInitialisedRef.current = true;
+  }, [preview?.subtitles]);
+
+  const scheduleSubtitleSave = useCallback(
+    (segments: TimelineSubtitleSegment[]) => {
+      if (!projectId) return;
+      setSubtitleError(null);
+      setIsSavingSubtitles(true);
+      if (subtitleSaveTimeoutRef.current) {
+        window.clearTimeout(subtitleSaveTimeoutRef.current);
+      }
+      subtitleSaveTimeoutRef.current = window.setTimeout(async () => {
+        try {
+          const response = await updateTimelineSubtitles(projectId, segments);
+          if (subtitleLatestRef.current !== segments) {
+            return;
+          }
+          setSubtitleSegments(response.segments);
+          subtitleLatestRef.current = response.segments;
+          setSubtitleError(null);
+        } catch (err) {
+          if (subtitleLatestRef.current === segments) {
+            setSubtitleError(err instanceof Error ? err.message : 'Failed to save subtitles');
+          }
+        } finally {
+          subtitleSaveTimeoutRef.current = null;
+          if (subtitleLatestRef.current === segments) {
+            setIsSavingSubtitles(false);
+          }
+        }
+      }, 600);
+    },
+    [projectId],
+  );
+
+  const handleSubtitleSegmentsChange = useCallback(
+    (segments: TimelineSubtitleSegment[]) => {
+      setSubtitleSegments(segments);
+      subtitleLatestRef.current = segments;
+      if (!subtitleInitialisedRef.current) {
+        subtitleInitialisedRef.current = true;
+      }
+      scheduleSubtitleSave(segments);
+    },
+    [scheduleSubtitleSave],
+  );
+
+  const scheduleMusicSave = useCallback(
+    (settings: TimelineMusicSettings) => {
+      if (!projectId) return;
+      setMusicError(null);
+      setIsSavingMusic(true);
+      if (musicSaveTimeoutRef.current) {
+        window.clearTimeout(musicSaveTimeoutRef.current);
+      }
+      musicSaveTimeoutRef.current = window.setTimeout(async () => {
+        try {
+          const response = await updateMusicSettings(projectId, settings);
+          if (musicLatestRef.current !== settings) {
+            return;
+          }
+          const mergedSettings = {
+            ...DEFAULT_MUSIC_SETTINGS,
+            ...response.settings,
+          };
+          setMusicSettings(mergedSettings);
+          musicLatestRef.current = mergedSettings;
+          setMusicError(null);
+        } catch (err) {
+          if (musicLatestRef.current === settings) {
+            setMusicError(err instanceof Error ? err.message : 'Failed to save music settings');
+          }
+        } finally {
+          musicSaveTimeoutRef.current = null;
+          if (musicLatestRef.current === settings) {
+            setIsSavingMusic(false);
+          }
+        }
+      }, 600);
+    },
+    [projectId],
+  );
+
+  const handleMusicSettingsChange = useCallback(
+    (settings: TimelineMusicSettings) => {
+      setMusicSettings(settings);
+      musicLatestRef.current = settings;
+      if (!musicInitialisedRef.current) {
+        musicInitialisedRef.current = true;
+      }
+      scheduleMusicSave(settings);
+    },
+    [scheduleMusicSave],
+  );
+
   const handleSeek = (time: number) => {
     setCurrentTime(time);
   };
+
+  useEffect(() => {
+    subtitleLatestRef.current = subtitleSegments;
+  }, [subtitleSegments]);
+
+  useEffect(() => {
+    musicLatestRef.current = musicSettings;
+  }, [musicSettings]);
+
+  useEffect(() => {
+    return () => {
+      if (subtitleSaveTimeoutRef.current) {
+        window.clearTimeout(subtitleSaveTimeoutRef.current);
+      }
+      if (musicSaveTimeoutRef.current) {
+        window.clearTimeout(musicSaveTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const videoUrl = preview
     ? quality === 'proxy' && preview.proxy
       ? preview.proxy.url
       : preview.timeline.url
     : '';
+
+  const subtitleCues: SubtitleCue[] = useMemo(() => {
+    if (subtitleSegments.length > 0) {
+      return subtitleSegments
+        .filter(segment => segment.isVisible)
+        .map(segment => ({
+          start: segment.start,
+          end: segment.end,
+          text: segment.text,
+        }));
+    }
+    return preview?.subtitles ?? [];
+  }, [subtitleSegments, preview?.subtitles]);
 
   if (isLoading) {
     return (

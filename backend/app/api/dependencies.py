@@ -4,9 +4,11 @@ from fastapi import Depends, Request
 
 from app.core.config import Settings, get_settings
 from app.repositories.job_repository import JobRepository
+from app.repositories.timeline_repository import TimelineSettingsRepository
 from app.repositories.video_repository import VideoAssetRepository
 from app.services.job_service import JobService
 from app.services.storage_service import StorageService
+from app.services.timeline_service import TimelineSettingsService
 from app.utils.storage import StorageManager
 
 
@@ -29,6 +31,11 @@ def _job_repository_factory(storage_path: str) -> JobRepository:
     return JobRepository(storage_root=storage_path)
 
 
+@lru_cache
+def _timeline_repository_factory(storage_path: str) -> TimelineSettingsRepository:
+    return TimelineSettingsRepository(storage_root=storage_path)
+
+
 def get_storage_manager(settings: Settings = Depends(get_settings)) -> StorageManager:
     """Get shared StorageManager instance."""
     return _storage_manager_factory(settings.storage_path)
@@ -42,6 +49,19 @@ def get_video_repository(settings: Settings = Depends(get_settings)) -> VideoAss
 def get_job_repository(settings: Settings = Depends(get_settings)) -> JobRepository:
     """Get shared JobRepository instance."""
     return _job_repository_factory(settings.storage_path)
+
+
+def get_timeline_repository(settings: Settings = Depends(get_settings)) -> TimelineSettingsRepository:
+    """Get shared TimelineSettingsRepository instance."""
+    return _timeline_repository_factory(settings.storage_path)
+
+
+def get_timeline_service(
+    storage_manager: StorageManager = Depends(get_storage_manager),
+    repository: TimelineSettingsRepository = Depends(get_timeline_repository),
+) -> TimelineSettingsService:
+    """Construct TimelineSettingsService."""
+    return TimelineSettingsService(repository=repository, storage_manager=storage_manager)
 
 
 def get_storage_service(
