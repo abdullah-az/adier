@@ -1,8 +1,11 @@
 from functools import lru_cache
+from typing import Generator
 
 from fastapi import Depends, Request
+from sqlalchemy.orm import Session
 
 from app.core.config import Settings, get_settings
+from app.db.session import get_session as db_session_factory
 from app.repositories.job_repository import JobRepository
 from app.repositories.video_repository import VideoAssetRepository
 from app.services.job_service import JobService
@@ -57,3 +60,9 @@ def get_job_service(request: Request) -> JobService:
     if job_service is None:
         raise RuntimeError("Job service is not initialised")
     return job_service
+
+
+def get_db_session() -> Generator[Session, None, None]:
+    """Yield a SQLAlchemy session for API dependencies."""
+
+    yield from db_session_factory()
