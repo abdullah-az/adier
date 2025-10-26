@@ -4,6 +4,8 @@ from fastapi import Depends, Request
 
 from app.core.config import Settings, get_settings
 from app.repositories.job_repository import JobRepository
+from app.repositories.scene_repository import SceneDetectionRepository
+from app.repositories.subtitle_repository import SubtitleRepository
 from app.repositories.video_repository import VideoAssetRepository
 from app.services.job_service import JobService
 from app.services.storage_service import StorageService
@@ -25,6 +27,16 @@ def _video_repository_factory(storage_path: str) -> VideoAssetRepository:
 
 
 @lru_cache
+def _subtitle_repository_factory(storage_path: str) -> SubtitleRepository:
+    return SubtitleRepository(storage_root=storage_path)
+
+
+@lru_cache
+def _scene_repository_factory(storage_path: str) -> SceneDetectionRepository:
+    return SceneDetectionRepository(storage_root=storage_path)
+
+
+@lru_cache
 def _job_repository_factory(storage_path: str) -> JobRepository:
     return JobRepository(storage_root=storage_path)
 
@@ -37,6 +49,16 @@ def get_storage_manager(settings: Settings = Depends(get_settings)) -> StorageMa
 def get_video_repository(settings: Settings = Depends(get_settings)) -> VideoAssetRepository:
     """Get shared VideoAssetRepository instance."""
     return _video_repository_factory(settings.storage_path)
+
+
+def get_subtitle_repository(settings: Settings = Depends(get_settings)) -> SubtitleRepository:
+    """Get shared SubtitleRepository instance."""
+    return _subtitle_repository_factory(settings.storage_path)
+
+
+def get_scene_repository(settings: Settings = Depends(get_settings)) -> SceneDetectionRepository:
+    """Get shared SceneDetectionRepository instance."""
+    return _scene_repository_factory(settings.storage_path)
 
 
 def get_job_repository(settings: Settings = Depends(get_settings)) -> JobRepository:

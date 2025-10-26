@@ -134,6 +134,70 @@ async def get_video_metadata(video_path: Path) -> dict:
         raise FFmpegError(f"Metadata extraction failed: {e}") from e
 
 
+async def probe_media_duration(media_path: Path) -> float:
+    """Probe a media file and return its duration in seconds."""
+    try:
+        probe = await asyncio.to_thread(ffmpeg.probe, str(media_path))
+        duration_value = probe.get("format", {}).get("duration")
+        if duration_value is None:
+            return 0.0
+        return float(duration_value)
+    except Exception as exc:  # pragma: no cover - defensive fallback for missing ffprobe
+        logger.warning(
+            "Failed to probe media duration",
+            path=str(media_path),
+            error=str(exc),
+        )
+        return 0.0
+
+
+async def extract_audio_track(
+    input_path: Path,
+    output_path: Path,
+    *,
+    start: float = 0.0,
+    duration: Optional[float] = None,
+    sample_rate: int = 16000,
+    channels: int = 1,
+    codec: str = "pcm_s16le",
+    fmt: str = "wav",
+) -> Path:
+    """Extract the audio track from a media file into a separate file."""
+    logger.info(
+        "Extracting audio track",
+        source=str(input_path),
+        destination=str(output_path),
+        start=start,
+        duration=duration,
+    )
+    _ensure_parent(output_path)
+    input_kwargs: dict[str, float] = {}
+    if start and start > 0:
+        input_kwargs["ss"] = max(start, 0.0)
+    if duration and duration > 0:
+        input_kwargs["t"] = max(duration, 0.0)
+
+    stream = ffmpeg.input(str(input_path), **input_kwargs)
+    audio = stream.audio
+    if audio is None:
+        raise FFmpegError("Input media does not contain an audio stream")
+
+    output_kwargs = {
+        "ar": sample_rate,
+        "ac": channels,
+        "format": fmt,
+        "acodec": codec,
+    }
+
+    result = ffmpeg.output(audio, str(output_path), **output_kwargs)
+    await asyncio.to_thread(_run_ffmpeg, result)
+
+    if not output_path.exists():
+        raise FFmpegError("Audio extraction failed; output file missing")
+
+    return output_path
+
+
 def _parse_fps(fps_str: str) -> float:
     """Parse FPS from fraction string like '30000/1001'."""
     try:

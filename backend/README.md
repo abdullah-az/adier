@@ -10,6 +10,7 @@ FastAPI backend foundation with clean architecture for hosting video processing,
 - **Logging**: Structured logging with Loguru
 - **CORS Support**: Configured for Flutter/Web clients
 - **Health Check**: Basic health and project info endpoints
+- **OpenAI AI Analysis**: Whisper transcription and GPT-powered scene detection with caching and retries
 
 ## Project Structure
 
@@ -93,6 +94,14 @@ All configuration is managed through environment variables. See `.env.example` f
 - `MAX_QUEUE_SIZE`: Maximum pending jobs before enqueueing blocks (default: 100)
 - `JOB_MAX_ATTEMPTS`: Default attempts before a job is marked failed (default: 3)
 - `JOB_RETRY_DELAY_SECONDS`: Delay in seconds before retrying a failed job (default: 5)
+- `OPENAI_ORGANIZATION`: Optional OpenAI organisation ID for enterprise accounts
+- `OPENAI_REQUEST_TIMEOUT`: Timeout in seconds for OpenAI requests (default: 60)
+- `OPENAI_MAX_RETRIES`: Maximum automatic retries for OpenAI requests (default: 3)
+- `OPENAI_TRANSCRIPTION_MODEL`: Whisper-compatible model for transcription (default: gpt-4o-mini-transcribe)
+- `OPENAI_TRANSCRIPTION_CHUNK_SECONDS`: Maximum duration per transcription chunk (default: 900)
+- `OPENAI_TRANSCRIPTION_SAMPLE_RATE`: Sample rate for extracted audio sent to Whisper (default: 16000)
+- `OPENAI_SCENE_MODEL`: GPT model used for scene analysis (default: gpt-4o-mini)
+- `OPENAI_SCENE_MAX_SCENES`: Default number of highlights returned by the scene detector (default: 5)
 - `LOG_LEVEL`: Logging level (default: INFO)
 - `LOG_FILE`: Log file path (default: ./logs/app.log)
 
@@ -153,6 +162,47 @@ Returns project metadata including name, version, and debug status.
   "name": "Quiz System Backend",
   "version": "0.1.0",
   "debug": false
+}
+```
+
+### AI Suggestions
+
+```bash
+GET /projects/{project_id}/videos/{asset_id}/ai/transcript
+GET /projects/{project_id}/videos/{asset_id}/ai/scenes
+```
+
+- The transcript endpoint returns the latest Whisper transcript alongside timing metadata.
+- The scenes endpoint returns the most recent AI highlight recommendations with confidence scores, tags, and recommended durations.
+
+**Scene response example:**
+```json
+{
+  "asset_id": "video-123",
+  "project_id": "demo",
+  "request_id": "a1b2c3",
+  "generated_at": "2024-10-24T12:34:56.000000",
+  "parameters": {
+    "tone": "inspirational",
+    "criteria": "moments with clear calls to action"
+  },
+  "usage": {
+    "total_tokens": 945,
+    "requests": 1
+  },
+  "scenes": [
+    {
+      "id": "scene-1",
+      "title": "Opening hook",
+      "description": "Presenter lays out the challenge and teases the solution.",
+      "start": 5.2,
+      "end": 24.8,
+      "duration": 19.6,
+      "confidence": 0.87,
+      "priority": 1,
+      "tags": ["hook", "challenge"]
+    }
+  ]
 }
 ```
 
@@ -217,6 +267,38 @@ The global endpoint reports totals across all projects, while the project-specif
 - The storage directory is ignored by git (`backend/.gitignore`).
 - Ensure sufficient disk space before processing large batches of videos.
 - Periodically review `storage/metadata/video_assets.json` and the `storage/.../project_*` directories for unused assets.
+
+## AI Analysis Pipeline
+
+The backend integrates with OpenAI Whisper and GPT models to automate transcription and surface highlight recommendations for editors.
+
+### Transcription Workflow
+
+1. Audio is extracted from uploaded videos using FFmpeg and normalised to mono 16k PCM.
+2. Long form content is chunked into configurable windows (`OPENAI_TRANSCRIPTION_CHUNK_SECONDS`) to respect OpenAI size limits.
+3. Each chunk is transcribed via the Whisper API with automatic retries and timeouts.
+4. Segments are normalised into `SubtitleSegment` records and persisted alongside aggregate usage metadata.
+5. Stored transcripts are reused automatically on subsequent requests unless `force=true` is supplied.
+
+### Scene Detection Workflow
+
+1. GPT scene analysis runs only once a transcript is available.
+2. Prompt templates inject tone and highlight criteria while constraining the model to emit JSON.
+3. The model response is parsed into structured `SceneDetection` entries with timestamps, tags, and confidence values.
+4. Results are cached per parameter set so repeat requests are instantaneous.
+
+### Caching, Retries & Usage Logging
+
+- Every OpenAI call honours `OPENAI_MAX_RETRIES` with exponential back-off for rate limits and transient failures.
+- Requests time out based on `OPENAI_REQUEST_TIMEOUT` to prevent hung jobs.
+- Token usage is logged and stored with each transcript/scene analysis run for downstream analytics.
+
+### API & Job Integration
+
+- Submit `transcription` or `scene_detection` jobs via `POST /projects/{project_id}/jobs` with the relevant payload.
+- Retrieve AI suggestions through the REST API:
+  - `GET /projects/{project_id}/videos/{asset_id}/ai/transcript`
+  - `GET /projects/{project_id}/videos/{asset_id}/ai/scenes`
 
 ## Background Job Processing
 
