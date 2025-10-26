@@ -34,7 +34,7 @@ lib/
     │   ├── auth/             # Authentication
     │   └── profile/          # User profile
     ├── data/                  # Data layer
-    │   ├── models/           # Data models (Freezed)
+    │   ├── models/           # Data models (Freezed/JSON serializable ready)
     │   ├── repositories/     # Data repositories
     │   └── providers/        # Riverpod providers
     └── widgets/               # Shared widgets
@@ -203,7 +203,7 @@ flutter build macos
 
 2. **Domain Layer** (`lib/src/data/models/`)
    - Business logic
-   - Data models (using Freezed for immutability)
+   - Data models (ready for Freezed/JSON serializable workflows)
    - Entity definitions
 
 3. **Data Layer** (`lib/src/data/repositories/`)

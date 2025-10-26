@@ -24,16 +24,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
+  String get auth => 'Authentication';
+
+  @override
   String get language => 'Language';
 
   @override
   String get darkMode => 'Dark Mode';
 
   @override
+  String get lightMode => 'Light Mode';
+
+  @override
   String get english => 'English';
 
   @override
   String get arabic => 'Arabic';
+
+  @override
+  String get authPlaceholder =>
+      'Sign-in and registration flows will live here.';
+
+  @override
+  String get profilePlaceholder =>
+      'User profile information will be displayed here.';
 
   @override
   String hello(String name) {

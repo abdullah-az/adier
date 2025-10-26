@@ -24,16 +24,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settings => 'الإعدادات';
 
   @override
+  String get auth => 'المصادقة';
+
+  @override
   String get language => 'اللغة';
 
   @override
   String get darkMode => 'الوضع الداكن';
 
   @override
+  String get lightMode => 'الوضع الفاتح';
+
+  @override
   String get english => 'الإنجليزية';
 
   @override
   String get arabic => 'العربية';
+
+  @override
+  String get authPlaceholder => 'سيتم إضافة تسجيل الدخول وإنشاء الحساب هنا.';
+
+  @override
+  String get profilePlaceholder => 'سيتم عرض معلومات الملف الشخصي هنا.';
 
   @override
   String hello(String name) {

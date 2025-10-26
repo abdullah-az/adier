@@ -94,8 +94,8 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('ar'),
     Locale('en'),
+    Locale('ar'),
   ];
 
   /// The title of the application
@@ -128,6 +128,12 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings;
 
+  /// Authentication page title
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication'**
+  String get auth;
+
   /// Language setting label
   ///
   /// In en, this message translates to:
@@ -140,6 +146,12 @@ abstract class AppLocalizations {
   /// **'Dark Mode'**
   String get darkMode;
 
+  /// Light mode label
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get lightMode;
+
   /// English language option
   ///
   /// In en, this message translates to:
@@ -151,6 +163,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Arabic'**
   String get arabic;
+
+  /// Placeholder description for authentication feature
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in and registration flows will live here.'**
+  String get authPlaceholder;
+
+  /// Placeholder description for profile feature
+  ///
+  /// In en, this message translates to:
+  /// **'User profile information will be displayed here.'**
+  String get profilePlaceholder;
 
   /// A greeting message
   ///
