@@ -60,14 +60,36 @@ class JobEventManager:
 class JobService:
     """High level service orchestrating job lifecycle and persistence."""
 
-    def __init__(self, repository: JobRepository) -> None:
+    def __init__(
+        self,
+        repository: JobRepository,
+        *,
+        default_max_attempts: int = 1,
+        default_retry_delay: float = 0.0,
+    ) -> None:
         self.repository = repository
+        self.default_max_attempts = max(1, default_max_attempts)
+        self.default_retry_delay = max(0.0, float(default_retry_delay))
         self._handlers: dict[str, JobHandler] = {}
         self._events = JobEventManager()
         self._queue: Optional["JobQueue"] = None
 
     def attach_queue(self, queue: "JobQueue") -> None:
         self._queue = queue
+
+    def _normalize_max_attempts(self, value: Optional[int]) -> int:
+        if value is None:
+            return self.default_max_attempts
+        return max(1, value)
+
+    def _normalize_retry_delay(self, value: Optional[float]) -> float:
+        if value is None:
+            return self.default_retry_delay
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError):  # pragma: no cover - defensive guard
+            return self.default_retry_delay
+        return max(0.0, numeric)
 
     def register_handler(self, job_type: str, handler: JobHandler) -> None:
         self._handlers[job_type] = handler
@@ -80,7 +102,17 @@ class JobService:
     def get_handler(self, job_type: str) -> Optional[JobHandler]:
         return self._handlers.get(job_type)
 
-    async def create_job(self, project_id: str, job_type: str, payload: Optional[JobPayload] = None) -> Job:
+    async def create_job(
+        self,
+        project_id: str,
+        job_type: str,
+        payload: Optional[JobPayload] = None,
+        *,
+        max_attempts: Optional[int] = None,
+        retry_delay_seconds: Optional[float] = None,
+    ) -> Job:
+        normalized_max_attempts = self._normalize_max_attempts(max_attempts)
+        normalized_retry_delay = self._normalize_retry_delay(retry_delay_seconds)
         job = Job(
             id=str(uuid4()),
             project_id=project_id,
@@ -88,11 +120,23 @@ class JobService:
             payload=payload or {},
             status=JobStatus.QUEUED,
             progress=0.0,
+            attempts=0,
+            max_attempts=normalized_max_attempts,
+            retry_delay_seconds=normalized_retry_delay,
         )
-        job.add_log("Job queued")
+        job.add_log(
+            "Job queued",
+            max_attempts=job.max_attempts,
+            retry_delay_seconds=job.retry_delay_seconds,
+        )
         await self.repository.add(job)
         await self._events.publish(job)
-        logger.bind(job_id=job.id, job_type=job.job_type, project_id=project_id).info("Job enqueued")
+        logger.bind(
+            job_id=job.id,
+            job_type=job.job_type,
+            project_id=project_id,
+            max_attempts=job.max_attempts,
+        ).info("Job enqueued")
         if self._queue is not None:
             await self._queue.enqueue(job.id)
         else:  # pragma: no cover - should not happen during normal startup
@@ -137,15 +181,28 @@ class JobService:
     async def mark_running(self, job: Job) -> Job:
         job.status = JobStatus.RUNNING
         job.error_message = None
-        job.add_log("Job started")
+        job.progress = 0.0
+        job.result = {}
+        job.attempts += 1
+        job.add_log(
+            "Job started",
+            attempt=job.attempts,
+            max_attempts=job.max_attempts,
+        )
         await self.repository.update(job)
         await self._events.publish(job)
-        logger.bind(job_id=job.id, job_type=job.job_type).info("Job started")
+        logger.bind(
+            job_id=job.id,
+            job_type=job.job_type,
+            attempt=job.attempts,
+            max_attempts=job.max_attempts,
+        ).info("Job started")
         return job
 
     async def mark_completed(self, job: Job, result: Optional[JobResult] = None) -> Job:
         job.status = JobStatus.COMPLETED
         job.progress = 100.0
+        job.error_message = None
         if result is not None:
             job.result = result
         job.add_log("Job completed successfully")
@@ -157,14 +214,64 @@ class JobService:
     async def mark_failed(self, job: Job, error_message: str, exc: Optional[BaseException] = None) -> Job:
         job.status = JobStatus.FAILED
         job.error_message = error_message
-        job.add_log("Job failed", level="ERROR", error=error_message)
+        job.add_log(
+            "Job failed",
+            level="ERROR",
+            error=error_message,
+            attempt=job.attempts,
+            max_attempts=job.max_attempts,
+        )
         await self.repository.update(job)
         await self._events.publish(job)
+        log = logger.bind(job_id=job.id, job_type=job.job_type, error=error_message, attempt=job.attempts)
         if exc is not None:
-            logger.bind(job_id=job.id, job_type=job.job_type, error=error_message).exception("Job failed")
+            log.exception("Job failed")
         else:
-            logger.bind(job_id=job.id, job_type=job.job_type, error=error_message).error("Job failed")
+            log.error("Job failed")
         return job
+
+    async def handle_job_failure(
+        self,
+        job: Job,
+        error_message: str,
+        *,
+        exc: Optional[BaseException] = None,
+    ) -> Job:
+        if job.attempts < job.max_attempts:
+            job.status = JobStatus.QUEUED
+            job.error_message = error_message
+            job.progress = 0.0
+            job.add_log(
+                "Job failed; retry scheduled",
+                level="ERROR",
+                error=error_message,
+                attempt=job.attempts,
+                max_attempts=job.max_attempts,
+                retry_delay_seconds=job.retry_delay_seconds,
+            )
+            await self.repository.update(job)
+            await self._events.publish(job)
+            log = logger.bind(
+                job_id=job.id,
+                job_type=job.job_type,
+                error=error_message,
+                attempt=job.attempts,
+                max_attempts=job.max_attempts,
+                retry_delay=job.retry_delay_seconds,
+            )
+            if exc is not None:
+                log.opt(exception=exc).warning("Job failed; queued for retry")
+            else:
+                log.warning("Job failed; queued for retry")
+            if self._queue is not None:
+                delay = job.retry_delay_seconds
+                if delay > 0:
+                    await self._queue.schedule_retry(job.id, delay)
+                else:
+                    await self._queue.enqueue(job.id)
+            return job
+
+        return await self.mark_failed(job, error_message, exc=exc)
 
     async def recover_incomplete_jobs(self) -> list[Job]:
         jobs = await self.repository.all_jobs()
@@ -174,7 +281,14 @@ class JobService:
                 recovered.append(job)
             elif job.status == JobStatus.RUNNING:
                 job.status = JobStatus.QUEUED
-                job.add_log("Recovered unfinished job", level="WARNING")
+                job.progress = 0.0
+                job.result = {}
+                job.add_log(
+                    "Recovered unfinished job",
+                    level="WARNING",
+                    attempt=job.attempts,
+                    max_attempts=job.max_attempts,
+                )
                 await self.repository.update(job)
                 await self._events.publish(job)
                 recovered.append(job)

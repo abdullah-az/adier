@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import json
 from typing import AsyncIterator, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, WebSocket, WebSocketDisconnect, status
 from fastapi.responses import StreamingResponse
+from loguru import logger
 
 from app.api.dependencies import get_job_service
 from app.models.job import JobStatus
@@ -25,7 +27,13 @@ async def submit_job(
     request: JobCreateRequest,
     job_service: JobService = Depends(get_job_service),
 ) -> JobResponse:
-    job = await job_service.create_job(project_id, request.job_type, payload=request.payload)
+    job = await job_service.create_job(
+        project_id,
+        request.job_type,
+        payload=request.payload,
+        max_attempts=request.max_attempts,
+        retry_delay_seconds=request.retry_delay_seconds,
+    )
     return JobResponse.from_model(job)
 
 
@@ -74,8 +82,9 @@ async def stream_job_events(
     async def event_generator() -> AsyncIterator[str]:
         try:
             yield _format_sse(job_service.serialize(job))
-            async for update in job_service.watch_job(job_id):
-                yield _format_sse(update)
+            async with contextlib.aclosing(job_service.watch_job(job_id)) as updates:
+                async for update in updates:
+                    yield _format_sse(update)
         except asyncio.CancelledError:  # pragma: no cover - connection closed
             raise
 
@@ -84,3 +93,36 @@ async def stream_job_events(
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
+
+
+@router.websocket("/jobs/{job_id}/ws")
+async def stream_job_events_websocket(
+    websocket: WebSocket,
+    project_id: str,
+    job_id: str,
+    job_service: JobService = Depends(get_job_service),
+) -> None:
+    job = await job_service.get_job(job_id)
+    if job is None or job.project_id != project_id:
+        await websocket.close(code=1008)
+        return
+
+    await websocket.accept()
+
+    updates = job_service.watch_job(job_id)
+
+    try:
+        await websocket.send_json(job_service.serialize(job))
+        async with contextlib.aclosing(updates):
+            async for update in updates:
+                await websocket.send_json(update)
+    except WebSocketDisconnect:
+        logger.debug("WebSocket disconnected", job_id=job_id, project_id=project_id)
+    except Exception as exc:  # pragma: no cover - defensive
+        logger.exception(
+            "Error streaming job updates over WebSocket",
+            job_id=job_id,
+            project_id=project_id,
+            error=str(exc),
+        )
+        await websocket.close(code=1011)

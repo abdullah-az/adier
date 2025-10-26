@@ -53,6 +53,8 @@ class Settings(BaseSettings):
     # Workers/Concurrency
     worker_concurrency: int = Field(default=4, alias="WORKER_CONCURRENCY")
     max_queue_size: int = Field(default=100, alias="MAX_QUEUE_SIZE")
+    job_max_attempts: int = Field(default=3, alias="JOB_MAX_ATTEMPTS")
+    job_retry_delay_seconds: float = Field(default=5.0, alias="JOB_RETRY_DELAY_SECONDS")
     
     # Logging
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")

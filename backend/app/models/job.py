@@ -36,6 +36,9 @@ class Job(BaseModel):
     job_type: str
     status: JobStatus = Field(default=JobStatus.QUEUED)
     progress: float = Field(default=0.0, ge=0.0, le=100.0)
+    attempts: int = Field(default=0, ge=0)
+    max_attempts: int = Field(default=1, ge=1)
+    retry_delay_seconds: float = Field(default=0.0, ge=0.0)
     payload: dict[str, Any] = Field(default_factory=dict)
     result: dict[str, Any] = Field(default_factory=dict)
     error_message: Optional[str] = None
