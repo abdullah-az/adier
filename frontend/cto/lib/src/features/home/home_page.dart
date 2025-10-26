@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+
 import '../../../l10n/app_localizations.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/localization/locale_provider.dart';
@@ -14,57 +16,52 @@ class HomePage extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
+    final breakpoints = ResponsiveBreakpoints.of(context);
+    final isLargeScreen = breakpoints.largerThan(TABLET);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.appTitle),
-        actions: [
-          IconButton(
-            icon: Icon(
-              themeMode == ThemeMode.light ? Icons.dark_mode : Icons.light_mode,
-            ),
-            onPressed: () {
-              ref.read(themeModeProvider.notifier).toggleThemeMode();
-            },
-            tooltip: l10n.darkMode,
-          ),
-          IconButton(
-            icon: const Icon(Icons.language),
-            onPressed: () {
-              ref.read(localeProvider.notifier).toggleLocale();
-            },
-            tooltip: l10n.language,
-          ),
-        ],
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
+    final iconSize = isLargeScreen ? 120.0 : 96.0;
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Icon(
                 Icons.flutter_dash,
-                size: 100,
+                size: iconSize,
                 color: Theme.of(context).colorScheme.primary,
               ),
               const SizedBox(height: 24),
               Text(
                 l10n.welcome,
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               Text(
                 l10n.hello('User'),
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 32),
               Card(
+                margin: EdgeInsets.zero,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Text(
+                        l10n.settings,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 12),
                       ListTile(
+                        contentPadding: EdgeInsets.zero,
                         leading: const Icon(Icons.language),
                         title: Text(l10n.language),
                         subtitle: Text(
@@ -73,7 +70,9 @@ class HomePage extends ConsumerWidget {
                               : l10n.arabic,
                         ),
                       ),
+                      const Divider(),
                       ListTile(
+                        contentPadding: EdgeInsets.zero,
                         leading: Icon(
                           themeMode == ThemeMode.light
                               ? Icons.light_mode
@@ -81,7 +80,9 @@ class HomePage extends ConsumerWidget {
                         ),
                         title: Text(l10n.darkMode),
                         subtitle: Text(
-                          themeMode == ThemeMode.light ? 'Light' : 'Dark',
+                          themeMode == ThemeMode.light
+                              ? l10n.lightMode
+                              : l10n.darkMode,
                         ),
                       ),
                     ],
@@ -89,21 +90,18 @@ class HomePage extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                alignment: WrapAlignment.center,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {
-                      context.push(AppConstants.authRoute);
-                    },
+                    onPressed: () => context.push(AppConstants.authRoute),
                     icon: const Icon(Icons.login),
-                    label: const Text('Auth'),
+                    label: Text(l10n.auth),
                   ),
-                  const SizedBox(width: 16),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      context.push(AppConstants.profileRoute);
-                    },
+                    onPressed: () => context.push(AppConstants.profileRoute),
                     icon: const Icon(Icons.person),
                     label: Text(l10n.profile),
                   ),

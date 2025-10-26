@@ -20,6 +20,10 @@
   "@settings": {
     "description": "Settings page title"
   },
+  "auth": "Authentication",
+  "@auth": {
+    "description": "Authentication page title"
+  },
   "language": "Language",
   "@language": {
     "description": "Language setting label"
@@ -27,6 +31,18 @@
   "darkMode": "Dark Mode",
   "@darkMode": {
     "description": "Dark mode toggle label"
+  },
+  "lightMode": "Light Mode",
+  "@lightMode": {
+    "description": "Light mode label"
+  },
+  "authPlaceholder": "Sign-in and registration flows will live here.",
+  "@authPlaceholder": {
+    "description": "Placeholder description for authentication feature"
+  },
+  "profilePlaceholder": "User profile information will be displayed here.",
+  "@profilePlaceholder": {
+    "description": "Placeholder description for profile feature"
   },
   "english": "English",
   "@english": {
