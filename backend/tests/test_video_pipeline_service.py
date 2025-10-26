@@ -120,7 +120,7 @@ async def test_compose_timeline_generates_derivatives(pipeline_components):
         project_id=project_id,
         filename=source_path.name,
         original_filename="source.mp4",
-        relative_path=str(source_path.relative_to(storage_manager.storage_root)),
+        relative_path=source_path.relative_to(storage_manager.storage_root).as_posix(),
         checksum=checksum,
         size_bytes=len(source_bytes),
         mime_type="video/mp4",

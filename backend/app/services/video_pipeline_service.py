@@ -704,7 +704,7 @@ class VideoPipelineService:
         return self.storage_manager.project_category_path(project_id, category) / filename
 
     def _relative_path(self, path: Path) -> str:
-        return str(path.resolve().relative_to(self.storage_manager.storage_root))
+        return path.resolve().relative_to(self.storage_manager.storage_root).as_posix()
 
     def _compute_checksum(self, path: Path) -> str:
         digest = hashlib.sha256()
