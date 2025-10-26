@@ -72,6 +72,32 @@ backend/
 
 All configuration is managed through environment variables. See `.env.example` for available options:
 
+### Database & Migrations
+
+The backend uses SQLite with SQLAlchemy and Alembic for schema management. To initialise or upgrade the database schema run:
+
+```bash
+poetry run alembic upgrade head
+```
+
+When you change the ORM models, generate a new migration with:
+
+```bash
+poetry run alembic revision -m "describe your change"
+```
+
+You can inspect the current schema history via:
+
+```bash
+poetry run alembic history
+```
+
+To roll back the latest migration:
+
+```bash
+poetry run alembic downgrade -1
+```
+
 ### Required Variables
 
 - `OPENAI_API_KEY`: Your OpenAI API key for AI features
