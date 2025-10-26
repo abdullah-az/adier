@@ -31,6 +31,23 @@ class Settings(BaseSettings):
     # OpenAI
     openai_api_key: Optional[str] = Field(default=None, alias="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-4", alias="OPENAI_MODEL")
+    openai_organization: Optional[str] = Field(default=None, alias="OPENAI_ORGANIZATION")
+    openai_request_timeout: float = Field(default=60.0, alias="OPENAI_REQUEST_TIMEOUT")
+    openai_max_retries: int = Field(default=3, alias="OPENAI_MAX_RETRIES")
+    openai_transcription_model: str = Field(
+        default="gpt-4o-mini-transcribe",
+        alias="OPENAI_TRANSCRIPTION_MODEL",
+    )
+    openai_transcription_chunk_seconds: int = Field(
+        default=900,
+        alias="OPENAI_TRANSCRIPTION_CHUNK_SECONDS",
+    )
+    openai_transcription_sample_rate: int = Field(
+        default=16000,
+        alias="OPENAI_TRANSCRIPTION_SAMPLE_RATE",
+    )
+    openai_scene_model: str = Field(default="gpt-4o-mini", alias="OPENAI_SCENE_MODEL")
+    openai_scene_max_scenes: int = Field(default=5, alias="OPENAI_SCENE_MAX_SCENES")
     
     # Storage
     storage_path: str = Field(

@@ -4,11 +4,13 @@ from app.utils.ffmpeg import (
     burn_subtitles,
     concat_videos,
     crossfade_videos,
+    extract_audio_track,
     extract_thumbnail,
     generate_keyframe_thumbnails,
     get_video_metadata,
     mix_audio_tracks,
     overlay_watermark,
+    probe_media_duration,
     transcode_video,
     trim_video,
 )
@@ -26,7 +28,9 @@ __all__ = [
     "overlay_watermark",
     "transcode_video",
     "mix_audio_tracks",
+    "extract_audio_track",
     "extract_thumbnail",
     "generate_keyframe_thumbnails",
+    "probe_media_duration",
     "get_video_metadata",
 ]
