@@ -7,6 +7,7 @@ import AIAssistant from './pages/AIAssistant';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import { PreviewPlayer } from './pages/PreviewPlayer';
+import ProjectDetail from './pages/ProjectDetail';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/preview" element={<PreviewPlayer />} />
+            <Route path="/project" element={<ProjectDetail />} />
           </Routes>
         </main>
         <Footer />
