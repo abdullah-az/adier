@@ -45,5 +45,225 @@
         "example": "John"
       }
     }
+  },
+  "lightTheme": "Light",
+  "@lightTheme": {
+    "description": "Label for light theme"
+  },
+  "darkTheme": "Dark",
+  "@darkTheme": {
+    "description": "Label for dark theme"
+  },
+  "quickActions": "Quick actions",
+  "@quickActions": {
+    "description": "Section title for quick actions"
+  },
+  "auth": "Auth",
+  "@auth": {
+    "description": "Navigation label for authentication"
+  },
+  "upload": "Upload",
+  "@upload": {
+    "description": "Navigation label for upload page"
+  },
+  "timeline": "Timeline",
+  "@timeline": {
+    "description": "Navigation label for timeline editor"
+  },
+  "subtitles": "Subtitles",
+  "@subtitles": {
+    "description": "Navigation label for subtitle editor"
+  },
+  "export": "Export",
+  "@export": {
+    "description": "Navigation label for export page"
+  },
+  "addMedia": "Add media",
+  "@addMedia": {
+    "description": "Tooltip for adding media uploads"
+  },
+  "uploadDescription": "Select or record media files to begin processing.",
+  "@uploadDescription": {
+    "description": "Description text for upload page"
+  },
+  "uploadEmpty": "No uploads yet. Add media to begin.",
+  "@uploadEmpty": {
+    "description": "Empty state message for uploads"
+  },
+  "uploadDuration": "Duration: {seconds} s",
+  "@uploadDuration": {
+    "description": "Label showing upload duration",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": 12
+      }
+    }
+  },
+  "advanceUpload": "Advance upload",
+  "@advanceUpload": {
+    "description": "Tooltip for advancing upload progress"
+  },
+  "goToTimeline": "Continue to timeline",
+  "@goToTimeline": {
+    "description": "Button label to navigate to timeline"
+  },
+  "timelineEditor": "Timeline editor",
+  "@timelineEditor": {
+    "description": "Title for timeline editor page"
+  },
+  "addSegment": "Add segment",
+  "@addSegment": {
+    "description": "Tooltip to add a timeline segment"
+  },
+  "timelineSummary": "{count} segments · Total {duration}",
+  "@timelineSummary": {
+    "description": "Summary of timeline content",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": 3
+      },
+      "duration": {
+        "type": "String",
+        "example": "00:30.00"
+      }
+    }
+  },
+  "timelineHint": "Drag and drop segments to adjust the story.",
+  "@timelineHint": {
+    "description": "Helper text for timeline interactions"
+  },
+  "segmentDuration": "Duration {duration} ({percent}% of total)",
+  "@segmentDuration": {
+    "description": "Displays segment duration percentage",
+    "placeholders": {
+      "duration": {
+        "type": "String",
+        "example": "00:05.00"
+      },
+      "percent": {
+        "type": "String",
+        "example": "25"
+      }
+    }
+  },
+  "segmentStart": "Starts at {start} ({percent}% position)",
+  "@segmentStart": {
+    "description": "Displays segment start position",
+    "placeholders": {
+      "start": {
+        "type": "String",
+        "example": "00:00.00"
+      },
+      "percent": {
+        "type": "String",
+        "example": "0"
+      }
+    }
+  },
+  "openSubtitles": "Open subtitle editor",
+  "@openSubtitles": {
+    "description": "Button label to open subtitle editor"
+  },
+  "exportSuccess": "Export queued successfully",
+  "@exportSuccess": {
+    "description": "Message shown when export starts"
+  },
+  "exportProjectTitle": "Export project",
+  "@exportProjectTitle": {
+    "description": "Dialog title for export"
+  },
+  "exportFormat": "Format",
+  "@exportFormat": {
+    "description": "Label for export format selection"
+  },
+  "exportResolution": "Resolution",
+  "@exportResolution": {
+    "description": "Label for export resolution selection"
+  },
+  "exportIncludeSubtitles": "Include subtitles",
+  "@exportIncludeSubtitles": {
+    "description": "Label for including subtitles"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button label"
+  },
+  "exportProjectAction": "Start export",
+  "@exportProjectAction": {
+    "description": "Button label to start export"
+  },
+  "exportStepReview": "Review timeline order",
+  "@exportStepReview": {
+    "description": "Export preparation step"
+  },
+  "exportStepQuality": "Choose export quality",
+  "@exportStepQuality": {
+    "description": "Export preparation step"
+  },
+  "exportStepSubtitles": "Confirm subtitle track",
+  "@exportStepSubtitles": {
+    "description": "Export preparation step"
+  },
+  "exportSummary": "Ready to export {segmentCount} segments · {duration}",
+  "@exportSummary": {
+    "description": "Summary before export",
+    "placeholders": {
+      "segmentCount": {
+        "type": "int",
+        "example": 3
+      },
+      "duration": {
+        "type": "String",
+        "example": "00:30.00"
+      }
+    }
+  },
+  "subtitleEditor": "Subtitle editor",
+  "@subtitleEditor": {
+    "description": "Title for subtitle editor"
+  },
+  "subtitleEditorDescription": "Manage caption timings and text.",
+  "@subtitleEditorDescription": {
+    "description": "Description for subtitle editor"
+  },
+  "subtitleStartLabel": "Start (s)",
+  "@subtitleStartLabel": {
+    "description": "Label for subtitle start field"
+  },
+  "subtitleEndLabel": "End (s)",
+  "@subtitleEndLabel": {
+    "description": "Label for subtitle end field"
+  },
+  "subtitleTimeHelper": "Seconds with decimals allowed",
+  "@subtitleTimeHelper": {
+    "description": "Helper text for subtitle time fields"
+  },
+  "subtitleTextLabel": "Subtitle text",
+  "@subtitleTextLabel": {
+    "description": "Label for subtitle text field"
+  },
+  "addSubtitle": "Add subtitle",
+  "@addSubtitle": {
+    "description": "Button label to add subtitle"
+  },
+  "subtitleValidationError": "Enter valid start/end times and text.",
+  "@subtitleValidationError": {
+    "description": "Validation error for subtitle form"
+  },
+  "subtitleTimeRange": "From {start} to {end}",
+  "@subtitleTimeRange": {
+    "description": "Displays subtitle time range",
+    "placeholders": {
+      "start": {
+        "type": "String",
+        "example": "00:00.00"
+      },
+      "end": {
+        "type": "String",
+        "example": "00:02.00"
+      }
+    }
   }
 }

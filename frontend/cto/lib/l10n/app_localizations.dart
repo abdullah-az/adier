@@ -157,6 +157,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hello, {name}!'**
   String hello(String name);
+
+  /// Label for light theme
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get lightTheme;
+
+  /// Label for dark theme
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get darkTheme;
+
+  /// Section title for quick actions
+  ///
+  /// In en, this message translates to:
+  /// **'Quick actions'**
+  String get quickActions;
+
+  /// Navigation label for authentication
+  ///
+  /// In en, this message translates to:
+  /// **'Auth'**
+  String get auth;
+
+  /// Navigation label for upload page
+  ///
+  /// In en, this message translates to:
+  /// **'Upload'**
+  String get upload;
+
+  /// Navigation label for timeline editor
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get timeline;
+
+  /// Navigation label for subtitle editor
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitles'**
+  String get subtitles;
+
+  /// Navigation label for export page
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get export;
+
+  /// Tooltip for adding media uploads
+  ///
+  /// In en, this message translates to:
+  /// **'Add media'**
+  String get addMedia;
+
+  /// Description text for upload page
+  ///
+  /// In en, this message translates to:
+  /// **'Select or record media files to begin processing.'**
+  String get uploadDescription;
+
+  /// Empty state message for uploads
+  ///
+  /// In en, this message translates to:
+  /// **'No uploads yet. Add media to begin.'**
+  String get uploadEmpty;
+
+  /// Label showing upload duration
+  ///
+  /// In en, this message translates to:
+  /// **'Duration: {seconds} s'**
+  String uploadDuration(int seconds);
+
+  /// Tooltip for advancing upload progress
+  ///
+  /// In en, this message translates to:
+  /// **'Advance upload'**
+  String get advanceUpload;
+
+  /// Button label to navigate to timeline
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to timeline'**
+  String get goToTimeline;
+
+  /// Title for timeline editor page
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline editor'**
+  String get timelineEditor;
+
+  /// Tooltip to add a timeline segment
+  ///
+  /// In en, this message translates to:
+  /// **'Add segment'**
+  String get addSegment;
+
+  /// Summary of timeline content
+  ///
+  /// In en, this message translates to:
+  /// **'{count} segments · Total {duration}'**
+  String timelineSummary(int count, String duration);
+
+  /// Helper text for timeline interactions
+  ///
+  /// In en, this message translates to:
+  /// **'Drag and drop segments to adjust the story.'**
+  String get timelineHint;
+
+  /// Displays segment duration percentage
+  ///
+  /// In en, this message translates to:
+  /// **'Duration {duration} ({percent}% of total)'**
+  String segmentDuration(String duration, String percent);
+
+  /// Displays segment start position
+  ///
+  /// In en, this message translates to:
+  /// **'Starts at {start} ({percent}% position)'**
+  String segmentStart(String start, String percent);
+
+  /// Button label to open subtitle editor
+  ///
+  /// In en, this message translates to:
+  /// **'Open subtitle editor'**
+  String get openSubtitles;
+
+  /// Message shown when export starts
+  ///
+  /// In en, this message translates to:
+  /// **'Export queued successfully'**
+  String get exportSuccess;
+
+  /// Dialog title for export
+  ///
+  /// In en, this message translates to:
+  /// **'Export project'**
+  String get exportProjectTitle;
+
+  /// Label for export format selection
+  ///
+  /// In en, this message translates to:
+  /// **'Format'**
+  String get exportFormat;
+
+  /// Label for export resolution selection
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution'**
+  String get exportResolution;
+
+  /// Label for including subtitles
+  ///
+  /// In en, this message translates to:
+  /// **'Include subtitles'**
+  String get exportIncludeSubtitles;
+
+  /// Cancel button label
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Button label to start export
+  ///
+  /// In en, this message translates to:
+  /// **'Start export'**
+  String get exportProjectAction;
+
+  /// Export preparation step
+  ///
+  /// In en, this message translates to:
+  /// **'Review timeline order'**
+  String get exportStepReview;
+
+  /// Export preparation step
+  ///
+  /// In en, this message translates to:
+  /// **'Choose export quality'**
+  String get exportStepQuality;
+
+  /// Export preparation step
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm subtitle track'**
+  String get exportStepSubtitles;
+
+  /// Summary before export
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to export {segmentCount} segments · {duration}'**
+  String exportSummary(int segmentCount, String duration);
+
+  /// Title for subtitle editor
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitle editor'**
+  String get subtitleEditor;
+
+  /// Description for subtitle editor
+  ///
+  /// In en, this message translates to:
+  /// **'Manage caption timings and text.'**
+  String get subtitleEditorDescription;
+
+  /// Label for subtitle start field
+  ///
+  /// In en, this message translates to:
+  /// **'Start (s)'**
+  String get subtitleStartLabel;
+
+  /// Label for subtitle end field
+  ///
+  /// In en, this message translates to:
+  /// **'End (s)'**
+  String get subtitleEndLabel;
+
+  /// Helper text for subtitle time fields
+  ///
+  /// In en, this message translates to:
+  /// **'Seconds with decimals allowed'**
+  String get subtitleTimeHelper;
+
+  /// Label for subtitle text field
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitle text'**
+  String get subtitleTextLabel;
+
+  /// Button label to add subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Add subtitle'**
+  String get addSubtitle;
+
+  /// Validation error for subtitle form
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid start/end times and text.'**
+  String get subtitleValidationError;
+
+  /// Displays subtitle time range
+  ///
+  /// In en, this message translates to:
+  /// **'From {start} to {end}'**
+  String subtitleTimeRange(String start, String end);
 }
 
 class _AppLocalizationsDelegate
