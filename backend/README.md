@@ -1,6 +1,6 @@
-# Quiz System Backend
+# cto Backend
 
-FastAPI backend foundation with clean architecture for hosting video processing, AI integrations, and storage services.
+FastAPI backend foundation for the cto platform with clean architecture supporting media workflows, AI integrations, and storage services.
 
 ## Features
 
@@ -78,7 +78,7 @@ All configuration is managed through environment variables. See `.env.example` f
 
 ### Optional Variables
 
-- `APP_NAME`: Application name (default: "Quiz System Backend")
+- `APP_NAME`: Application name (default: "cto Backend")
 - `APP_VERSION`: Application version (default: "0.1.0")
 - `DEBUG`: Debug mode (default: false)
 - `HOST`: Server host (default: 0.0.0.0)
@@ -146,7 +146,7 @@ Returns project metadata including name, version, and debug status.
 **Response:**
 ```json
 {
-  "name": "Quiz System Backend",
+  "name": "cto Backend",
   "version": "0.1.0",
   "debug": false
 }

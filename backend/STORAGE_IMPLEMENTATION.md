@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the implementation of storage handling for video upload and management in the Quiz System Backend.
+This document outlines the implementation of storage handling for video upload and management in the cto backend.
 
 ## Architecture
 

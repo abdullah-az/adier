@@ -1,4 +1,4 @@
-# CTO Flutter Application
+# cto Flutter Application
 
 A multi-platform Flutter application built with clean architecture, localization support, and modern state management.
 
@@ -252,7 +252,7 @@ Navigation is handled by **go_router**:
 Update the API endpoint in `lib/src/core/constants/app_constants.dart`:
 
 ```dart
-static const String apiBaseUrl = 'https://your-api.com/api';
+static const String apiBaseUrl = 'http://localhost:8000';
 ```
 
 ### App Name and Version
