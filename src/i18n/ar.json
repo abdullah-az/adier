@@ -98,5 +98,105 @@
     "terms": "شروط الاستخدام",
     "contact": "اتصل بنا",
     "rights": "جميع الحقوق محفوظة"
+  },
+  "export": {
+    "title": "تصدير المخطط الزمني",
+    "subtitle": "أنشئ نسخاً جاهزة للنشر على كل منصة.",
+    "sections": {
+      "preset": "الإعدادات الجاهزة للمنصات",
+      "resolution": "الدقة",
+      "aspectRatio": "نسبة الأبعاد",
+      "activeJobs": "عمليات التصدير الجارية",
+      "completed": "عمليات التصدير المكتملة",
+      "failed": "عمليات التصدير الفاشلة",
+      "generated": "عمليات التصدير المنتجة"
+    },
+    "presets": {
+      "youtube_shorts": {
+        "name": "يوتيوب شورتس",
+        "description": "مقاطع عمودية محسّنة لمدة تصل إلى 60 ثانية."
+      },
+      "tiktok": {
+        "name": "تيك توك",
+        "description": "فيديوهات عمودية جذابة متوافقة مع خوارزمية تيك توك."
+      },
+      "instagram_reels": {
+        "name": "ريلز إنستغرام",
+        "description": "إصدارات جاهزة للنشر بمعايير إنستغرام."
+      }
+    },
+    "preset": {
+      "maxDuration": "الحد الأقصى {{value}}"
+    },
+    "summary": {
+      "heading": "ملخص الإعداد",
+      "preset": "الإعداد",
+      "recommendation": "الإعدادات الموصى بها",
+      "timelineDuration": "مدة المخطط الزمني"
+    },
+    "resolutions": {
+      "720p": "دقة HD ‏(720p)",
+      "1080p": "دقة Full HD ‏(1080p)",
+      "4k": "دقة Ultra HD ‏(4K)"
+    },
+    "actions": {
+      "start": "بدء التصدير",
+      "openDrawer": "تصدير"
+    },
+    "queueCount": "{{count}} عملية تصدير في الطابور",
+    "emptyActive": "لا توجد عمليات تصدير قيد التنفيذ حالياً. ابدأ واحدة لعرض التقدم هنا.",
+    "emptyCompleted": "لم تكتمل أي عمليات تصدير بعد.",
+    "emptyFailed": "لا توجد عمليات تصدير فاشلة. عمل رائع!",
+    "generated": {
+      "defaultLabel": "تصدير المنصة"
+    },
+    "metadata": {
+      "duration": "المدة",
+      "size": "حجم الملف",
+      "resolution": "الدقة",
+      "aspect": "نسبة الأبعاد"
+    },
+    "buttons": {
+      "download": "تنزيل",
+      "share": "مشاركة",
+      "open": "فتح",
+      "dismiss": "إخفاء",
+      "cancel": "إلغاء",
+      "retry": "إعادة المحاولة"
+    },
+    "job": {
+      "status": {
+        "queued": "في قائمة الانتظار",
+        "processing": "قيد المعالجة",
+        "completed": "مكتمل",
+        "failed": "فشل",
+        "cancelled": "ملغى"
+      },
+      "stage": {
+        "queued": "قيد الانتظار",
+        "preparing": "جارٍ تجهيز الوسائط",
+        "rendering": "جارٍ تصيير المخطط",
+        "encoding": "جارٍ ترميز الإعداد",
+        "uploading": "جارٍ الرفع",
+        "finalising": "جارٍ الإنهاء",
+        "completed": "اكتمل",
+        "failed": "فشل",
+        "cancelled": "تم الإلغاء"
+      },
+      "failedLabel": "فشل التصدير",
+      "completedAt": "اكتمل عند {{time}}",
+      "error": {
+        "default": "حدث خطأ في مسار التصدير."
+      }
+    },
+    "notifications": {
+      "completedTitle": "تصدير {{preset}} جاهز",
+      "completedDescription": "يمكنك الآن تنزيل الفيديو ومشاركته.",
+      "failedTitle": "فشل تصدير {{preset}}",
+      "failedDescription": "{{reason}}"
+    },
+    "share": {
+      "copyFallback": "شاهد هذا التصدير"
+    }
   }
 }

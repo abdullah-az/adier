@@ -52,6 +52,13 @@ export interface PreviewMedia {
     width?: number;
     height?: number;
     has_audio?: boolean;
+    size_bytes?: number;
+    sizeBytes?: number;
+    format?: string;
+    aspect_ratio?: string;
+    aspectRatio?: string;
+    label?: string;
+    [key: string]: unknown;
   };
 }
 
@@ -61,6 +68,7 @@ export interface TimelinePreview {
   clips: TimelineClip[];
   duration: number;
   subtitles: SubtitleCue[];
+  exports?: PreviewMedia[];
 }
 
 export interface JobStatus {
