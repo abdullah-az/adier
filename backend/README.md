@@ -308,13 +308,32 @@ Core dependencies (defined in `pyproject.toml`):
 
 ## Testing
 
-Tests will be organized in the `tests/` directory (to be implemented).
+A comprehensive `pytest` suite covers repositories, services, FastAPI endpoints, and the
+background job queue. External integrations such as FFmpeg and OpenAI are stubbed so the suite
+runs quickly without network or system dependencies.
+
+### Running tests
 
 ```bash
 make test
 # or
 poetry run pytest tests/ -v
 ```
+
+### Linting & Formatting
+
+Linting and formatting are enforced with Ruff, Black, and isort:
+
+```bash
+make lint   # run Ruff checks plus Black/isort in --check mode
+make fmt    # auto-format imports and code
+```
+
+### Test fixtures
+
+- Temporary SQLite databases and isolated storage trees are created automatically for each test.
+- Sample audio/video payloads are generated on the fly for upload and pipeline scenarios.
+- Job queue helpers provide deterministic execution without long-lived background workers.
 
 ## Logging
 

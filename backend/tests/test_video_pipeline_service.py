@@ -10,7 +10,7 @@ from app.core.config import Settings
 from app.models.pipeline import BackgroundMusicSpec, TimelineClip, TimelineCompositionRequest
 from app.models.video_asset import VideoAsset
 from app.repositories.video_repository import VideoAssetRepository
-from app.services.video_pipeline_service import VideoPipelineService
+from app.services.video_pipeline_service import PipelineError, VideoPipelineService
 from app.utils.storage import StorageManager
 
 
@@ -175,3 +175,12 @@ async def test_compose_timeline_generates_derivatives(pipeline_components):
 
     assert logs, "Expected pipeline to emit log callbacks"
     assert progress_updates, "Expected pipeline to emit progress callbacks"
+
+
+@pytest.mark.asyncio
+async def test_compose_timeline_without_clips_raises(pipeline_components):
+    _, _, service = pipeline_components
+    request = TimelineCompositionRequest(clips=[])
+
+    with pytest.raises(PipelineError):
+        await service.compose_timeline("demo", request)

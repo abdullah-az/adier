@@ -17,10 +17,13 @@ dev:
     poetry run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 lint:
-    poetry run ruff check app/
+    poetry run ruff check app/ tests/
+    poetry run black --check app/ tests/
+    poetry run isort --check-only app/ tests/
 
 fmt:
-    poetry run ruff format app/
+    poetry run isort app/ tests/
+    poetry run black app/ tests/
 
 format: fmt
 
