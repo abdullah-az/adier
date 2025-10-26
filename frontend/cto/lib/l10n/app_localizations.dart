@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// The title of the application
   ///
   /// In en, this message translates to:
-  /// **'CTO App'**
+  /// **'cto'**
   String get appTitle;
 
   /// Welcome message

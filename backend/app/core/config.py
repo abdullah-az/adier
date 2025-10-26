@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     )
 
     # Application
-    app_name: str = Field(default="Quiz System Backend", alias="APP_NAME")
+    app_name: str = Field(default="cto Backend", alias="APP_NAME")
     app_version: str = Field(default="0.1.0", alias="APP_VERSION")
     debug: bool = Field(default=False, alias="DEBUG")
     
@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     
     # CORS
     cors_origins: str = Field(
-        default="http://localhost:3000,http://localhost:5173",
+        default="http://localhost:5200,http://127.0.0.1:5200",
         alias="CORS_ORIGINS"
     )
     

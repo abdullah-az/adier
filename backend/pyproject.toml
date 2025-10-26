@@ -1,7 +1,7 @@
 [project]
-name = "quiz-system-backend"
+name = "cto-backend"
 version = "0.1.0"
-description = "FastAPI backend for Quiz System"
+description = "FastAPI backend for cto"
 authors = [
     {name = "engine-labs-app[bot]",email = "140088366+engine-labs-app[bot]@users.noreply.github.com"}
 ]

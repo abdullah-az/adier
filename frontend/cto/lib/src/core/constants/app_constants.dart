@@ -1,8 +1,8 @@
 class AppConstants {
-  static const String appName = 'CTO App';
+  static const String appName = 'cto';
   
   // API Configuration
-  static const String apiBaseUrl = 'http://localhost:8000/api';
+  static const String apiBaseUrl = 'http://localhost:8000';
   static const int apiTimeout = 30000;
   
   // Storage Keys

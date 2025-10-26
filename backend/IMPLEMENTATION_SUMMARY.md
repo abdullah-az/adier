@@ -21,7 +21,7 @@ curl http://localhost:8000/health
 **Project Info Endpoint Test:**
 ```bash
 curl http://localhost:8000/info
-# Response: {"name":"Quiz System Backend","version":"0.1.0","debug":false}
+# Response: {"name":"cto Backend","version":"0.1.0","debug":false}
 ```
 
 **API Documentation:**
