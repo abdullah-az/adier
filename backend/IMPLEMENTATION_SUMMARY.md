@@ -43,7 +43,7 @@ curl http://localhost:8000/info
 - Server: `host`, `port`
 - CORS: `cors_origins` (auto-splits into list)
 - OpenAI: `openai_api_key`, `openai_model`
-- Storage: `storage_path`, `upload_max_size`
+- Storage: `storage_path` (reads from `STORAGE_ROOT`), `upload_max_size`
 - Video Processing: `ffmpeg_threads`, `video_output_format`
 - Database: `database_url`
 - Workers: `worker_concurrency`, `max_queue_size`
@@ -81,6 +81,9 @@ curl http://localhost:8000/info
 - `httpx` (>=0.28.1) - HTTP client
 - `openai` (>=2.6.1) - OpenAI integration
 - `python-dotenv` (>=1.1.1) - Environment management
+- `alembic` (>=1.17.0) - Database migrations
+- `websockets` (>=15.0.1) - WebSocket support
+- `sse-starlette` (>=3.0.2) - Server-Sent Events utilities
 
 **Lockfile:** `backend/poetry.lock` (131 KB, committed to git)
 

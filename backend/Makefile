@@ -1,11 +1,11 @@
-.PHONY: help install dev lint format test clean
+.PHONY: help install dev lint fmt format test clean
 
 help:
 	@echo "Available commands:"
 	@echo "  make install  - Install dependencies using Poetry"
 	@echo "  make dev      - Run the development server"
 	@echo "  make lint     - Run linting checks"
-	@echo "  make format   - Format code"
+	@echo "  make fmt      - Format code"
 	@echo "  make test     - Run tests"
 	@echo "  make clean    - Clean up generated files"
 
@@ -18,8 +18,10 @@ dev:
 lint:
 	poetry run ruff check app/
 
-format:
+fmt:
 	poetry run ruff format app/
+
+format: fmt
 
 test:
 	poetry run pytest tests/ -v
