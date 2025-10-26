@@ -89,6 +89,10 @@ All configuration is managed through environment variables. See `.env.example` f
 - `UPLOAD_MAX_SIZE`: Maximum upload size in bytes (default: 104857600 = 100MB)
 - `FFMPEG_THREADS`: Number of FFmpeg threads (default: 2)
 - `VIDEO_OUTPUT_FORMAT`: Video output format (default: mp4)
+- `WORKER_CONCURRENCY`: Number of background workers processing jobs (default: 4)
+- `MAX_QUEUE_SIZE`: Maximum pending jobs before enqueueing blocks (default: 100)
+- `JOB_MAX_ATTEMPTS`: Default attempts before a job is marked failed (default: 3)
+- `JOB_RETRY_DELAY_SECONDS`: Delay in seconds before retrying a failed job (default: 5)
 - `LOG_LEVEL`: Logging level (default: INFO)
 - `LOG_FILE`: Log file path (default: ./logs/app.log)
 
@@ -221,6 +225,8 @@ Long-running video and AI operations run asynchronously via a lightweight job qu
 - Jobs are persisted to `storage/metadata/jobs.json` for durability across restarts.
 - Workers are bootstrapped during FastAPI startup using the concurrency and queue size specified by `WORKER_CONCURRENCY` and `MAX_QUEUE_SIZE`.
 - Default handlers are provided for `ingest`, `scene_detection`, `transcription`, and `export` flows inside `app/workers/handlers.py`.
+- Automatic retries honour `JOB_MAX_ATTEMPTS` and `JOB_RETRY_DELAY_SECONDS`, capturing error details and re-queueing work until the attempt budget is exhausted.
+- Structured lifecycle logs and progress metrics are published with every state change for rich observability.
 
 ### Enqueueing Jobs
 
@@ -230,29 +236,41 @@ POST /projects/{project_id}/jobs
   "job_type": "ingest",
   "payload": {
     "asset_id": "..."
-  }
+  },
+  "max_attempts": 5,
+  "retry_delay_seconds": 10
 }
 ```
 
-The response contains the job identifier, status, and initial metadata. Newly created jobs enter the `queued` state and are automatically picked up by the background workers.
+The response contains the job identifier, status, and initial metadata. Newly created jobs enter the `queued` state and are automatically picked up by the background workers. The optional `max_attempts` and `retry_delay_seconds` fields let clients override the global defaults per job.
 
 ### Monitoring Jobs
 
 - `GET /projects/{project_id}/jobs` — list jobs for a project, optionally filtered via `?status=queued&status=running`.
 - `GET /projects/{project_id}/jobs/{job_id}` — retrieve the latest status, progress percentage, logs, and results.
 
-Real-time progress updates are available via Server-Sent Events:
+#### Real-time Streaming
+
+- **Server-Sent Events** — `GET /projects/{project_id}/jobs/{job_id}/events`
+- **WebSocket** — `GET /projects/{project_id}/jobs/{job_id}/ws`
+
+Each event contains the full job payload (status, progress, logs, and results). These endpoints are ideal for dashboards that need to reflect live changes without polling.
+
+### Running Workers
+
+The FastAPI application starts background workers automatically, but you can also run a dedicated worker process for horizontal scaling:
 
 ```
-GET /projects/{project_id}/jobs/{job_id}/events
-Accept: text/event-stream
+make worker
+# or
+poetry run python -m app.workers.runner
 ```
 
-Each event contains the full job payload (status, progress, logs, and results). This endpoint is ideal for dashboards that need to reflect live changes without polling.
+Both the API and standalone worker share the same queue storage, so jobs continue processing no matter which process is running.
 
 ### Graceful Shutdown
 
-When the application shuts down, the worker queue is drained before the process exits to ensure in-flight jobs finish cleanly. Pending jobs remain persisted and are re-queued automatically on the next startup.
+During shutdown the worker queue drains outstanding tasks, cancels scheduled retries, and persists any remaining queued jobs so they can resume automatically on the next startup.
 
 ## Development Commands
 
@@ -262,6 +280,7 @@ The Makefile provides convenient commands for development:
 make help      # Show available commands
 make install   # Install dependencies
 make dev       # Run development server
+make worker    # Run standalone background workers
 make lint      # Run linting checks
 make fmt       # Format code
 make test      # Run tests

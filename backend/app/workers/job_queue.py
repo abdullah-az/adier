@@ -24,6 +24,7 @@ class JobQueue:
         queue_size = maxsize if maxsize > 0 else 0
         self._queue: asyncio.Queue[Optional[str]] = asyncio.Queue(maxsize=queue_size)
         self._workers: list[asyncio.Task[None]] = []
+        self._retry_tasks: set[asyncio.Task[None]] = set()
         self._started = False
         job_service.attach_queue(self)
 
@@ -47,6 +48,13 @@ class JobQueue:
             return
 
         self._started = False
+
+        for task in list(self._retry_tasks):
+            task.cancel()
+        if self._retry_tasks:
+            await asyncio.gather(*self._retry_tasks, return_exceptions=True)
+        self._retry_tasks.clear()
+
         await self._queue.join()
 
         for _ in self._workers:
@@ -59,6 +67,31 @@ class JobQueue:
     async def enqueue(self, job_id: str) -> None:
         await self._queue.put(job_id)
         logger.bind(job_id=job_id, pending=self._queue.qsize()).debug("Job queued for processing")
+
+    async def schedule_retry(self, job_id: str, delay: float) -> None:
+        if not self._started:
+            logger.bind(job_id=job_id, delay=delay).debug(
+                "Queue stopped; retry will be recovered on next startup"
+            )
+            return
+
+        if delay <= 0:
+            await self.enqueue(job_id)
+            return
+
+        async def _delayed_enqueue() -> None:
+            try:
+                await asyncio.sleep(delay)
+                await self.enqueue(job_id)
+            except asyncio.CancelledError:  # pragma: no cover - cancellation during shutdown
+                logger.bind(job_id=job_id).debug("Cancelled scheduled retry")
+            except Exception as exc:  # pragma: no cover - defensive logging
+                logger.bind(job_id=job_id, error=str(exc)).exception("Failed to enqueue retried job")
+
+        task = asyncio.create_task(_delayed_enqueue(), name=f"job-retry-{job_id}")
+        self._retry_tasks.add(task)
+        task.add_done_callback(self._retry_tasks.discard)
+        logger.bind(job_id=job_id, delay=delay).debug("Scheduled job retry")
 
     async def _worker_loop(self, worker_id: int) -> None:
         logger.bind(worker_id=worker_id).debug("Worker started")
@@ -101,7 +134,7 @@ class JobQueue:
             raise
         except Exception as exc:
             error_message = str(exc)
-            await self.job_service.mark_failed(context.job, error_message, exc=exc)
+            await self.job_service.handle_job_failure(context.job, error_message, exc=exc)
             return
 
         if context.job.status == JobStatus.FAILED:
