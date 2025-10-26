@@ -13,5 +13,6 @@
   "profilePlaceholder": "سيتم عرض معلومات الملف الشخصي هنا.",
   "english": "الإنجليزية",
   "arabic": "العربية",
+  "preview": "معاينة",
   "hello": "مرحبا، {name}!"
 }

@@ -64,6 +64,9 @@ dependencies:
   
   # Responsive design
   responsive_framework: ^1.5.1
+  
+  # WebSocket for real-time updates
+  web_socket_channel: ^3.0.1
 
 dev_dependencies:
   flutter_test:

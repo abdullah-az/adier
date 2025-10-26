@@ -105,6 +105,11 @@ class HomePage extends ConsumerWidget {
                     icon: const Icon(Icons.person),
                     label: Text(l10n.profile),
                   ),
+                  ElevatedButton.icon(
+                    onPressed: () => context.push('${AppConstants.previewRoute}?project=demo&job=550e8400-e29b-41d4-a716-446655440000'),
+                    icon: const Icon(Icons.play_circle),
+                    label: Text(l10n.preview),
+                  ),
                 ],
               ),
             ],
