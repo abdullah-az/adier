@@ -38,6 +38,153 @@
       "assistance": "AI Assistance"
     }
   },
+  "preview": {
+    "loading": {
+      "message": "Loading preview..."
+    },
+    "error": {
+      "title": "Failed to Load Preview",
+      "retry": "Retry"
+    },
+    "notReady": {
+      "title": "Preview Not Ready",
+      "description": "The preview is being generated. Please wait..."
+    },
+    "header": {
+      "title": "Timeline Preview",
+      "projectLabel": "Project: {{projectId}}"
+    },
+    "quality": {
+      "label": "Quality",
+      "proxy": "Proxy (Fast)",
+      "timeline": "Timeline (High Quality)"
+    },
+    "actions": {
+      "share": "Share",
+      "download": "Download"
+    },
+    "sidebar": {
+      "timelineInfo": {
+        "title": "Timeline Info",
+        "clips": "Clips",
+        "duration": "Duration",
+        "resolution": "Resolution",
+        "audio": "Audio",
+        "audioYes": "Yes",
+        "audioNo": "No"
+      },
+      "clips": {
+        "title": "Clips",
+        "clipTitle": "Clip {{index}}",
+        "endLabel": "end",
+        "hasSubtitles": "Has subtitles"
+      }
+    },
+    "export": {
+      "panelTitle": "Exports",
+      "panelSubtitle": "Queue multiple exports tailored for each platform.",
+      "refresh": "Refresh",
+      "loading": "Checking exports...",
+      "newExport": "New export",
+      "newExportCompact": "New",
+      "empty": {
+        "title": "No exports yet",
+        "description": "Queue an export to generate platform-ready versions of your project.",
+        "action": "Queue an export"
+      },
+      "drawer": {
+        "title": "Export",
+        "heading": "Choose export preset",
+        "subtitle": "Select platform presets and quality options to queue your exports.",
+        "close": "Close export drawer",
+        "presetLabel": "Platform presets",
+        "supportedResolutions": "Resolutions",
+        "resolutionLabel": "Resolution",
+        "resolutionHint": "Higher resolutions increase export time and file size.",
+        "fileNameLabel": "File name",
+        "fileNamePlaceholder": "short-title",
+        "fileNameHint": "Avoid spaces or special characters. We'll append the file extension automatically.",
+        "includeCaptionsLabel": "Burn in subtitles",
+        "includeCaptionsHint": "Embed subtitles directly in the exported video.",
+        "notificationsLabel": "Notify me when complete",
+        "notificationsHint": "Send a notification once this export finishes.",
+        "queueInfo": "Exports run in the background so you can keep working.",
+        "cancel": "Cancel",
+        "queueAction": "Queue export"
+      },
+      "presets": {
+        "youtubeShortsVertical": {
+          "name": "YouTube Shorts 9:16",
+          "description": "Vertical video optimized for Shorts with safe-title padding."
+        },
+        "tiktokVertical": {
+          "name": "TikTok 9:16",
+          "description": "High-impact vertical export tuned for TikTok delivery."
+        },
+        "instagramVertical": {
+          "name": "Instagram Reels 9:16",
+          "description": "Full-height Reels export ready for Instagram distribution."
+        },
+        "instagramSquare": {
+          "name": "Instagram Reels 1:1",
+          "description": "Square format reel ideal for feed placements."
+        },
+        "instagramLandscape": {
+          "name": "Instagram Reels 16:9",
+          "description": "Landscape reel with wide formatting and up to 4K support."
+        }
+      },
+      "status": {
+        "queued": "Queued",
+        "running": "Rendering",
+        "completed": "Completed",
+        "failed": "Failed",
+        "canceled": "Canceled"
+      },
+      "statusMessages": {
+        "canceled": "Canceled by user"
+      },
+      "progressLabel": "Progress",
+      "metadata": {
+        "title": "Render details",
+        "format": "Format",
+        "duration": "Duration",
+        "size": "File size"
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "retry": "Retry",
+        "download": "Download",
+        "share": "Share",
+        "open": "Open"
+      },
+      "notifications": {
+        "dismiss": "Dismiss notification",
+        "queueErrorTitle": "Unable to queue export",
+        "queueErrorBody": "Please review your selections and try again.",
+        "queuedTitle": "{{preset}} export queued",
+        "queuedBody": "We'll notify you when the {{resolution}} render is ready.",
+        "completedTitle": "{{preset}} export ready",
+        "completedBody": "Your export finished successfully and is ready to download.",
+        "failedTitle": "{{preset}} export failed",
+        "failedBody": "Review the export logs for more information.",
+        "canceledTitle": "{{preset}} export canceled",
+        "canceledBody": "The export request was canceled before completion.",
+        "retryTitle": "{{preset}} export re-queued",
+        "retryBody": "We'll try rendering this export again.",
+        "retryErrorTitle": "Unable to retry export",
+        "retryErrorBody": "Please try again in a moment.",
+        "cancelErrorTitle": "Unable to cancel export",
+        "cancelErrorBody": "The job may have already completed.",
+        "downloadErrorTitle": "Download unavailable",
+        "shareErrorTitle": "Unable to share export",
+        "shareSuccessTitle": "Share sheet opened",
+        "copySuccessTitle": "Link copied to clipboard",
+        "openFallbackTitle": "Opened export in a new tab",
+        "openErrorTitle": "Unable to open export"
+      }
+    }
+  },
   "practice": {
     "subjects": {
       "title": "Subjects",
