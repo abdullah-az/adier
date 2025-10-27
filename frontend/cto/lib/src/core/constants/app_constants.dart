@@ -15,10 +15,14 @@ class AppConstants {
   static const String homeRoute = '/';
   static const String authRoute = '/auth';
   static const String profileRoute = '/profile';
+  static const String editorRoute = '/editor/:videoId';
 
   static const String homeRouteName = 'home';
   static const String authRouteName = 'auth';
   static const String profileRouteName = 'profile';
+  static const String editorRouteName = 'subtitleEditor';
+
+  static const String defaultVideoId = 'demo';
   
   // Supported Locales
   static const String englishCode = 'en';

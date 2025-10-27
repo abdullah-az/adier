@@ -25,6 +25,8 @@ class AppShell extends ConsumerWidget {
         return l10n.auth;
       case AppConstants.profileRouteName:
         return l10n.profile;
+      case AppConstants.editorRouteName:
+        return l10n.subtitleEditorTitle;
       default:
         return l10n.appTitle;
     }

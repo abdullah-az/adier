@@ -181,6 +181,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hello, {name}!'**
   String hello(String name);
+
+  /// Title for the subtitle and music editor page
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitle & Music Editor'**
+  String get subtitleEditorTitle;
+
+  /// Label for the subtitle segments section
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitle Segments'**
+  String get subtitleSegments;
+
+  /// Button label to add a new subtitle segment
+  ///
+  /// In en, this message translates to:
+  /// **'Add Segment'**
+  String get addSegment;
+
+  /// Label for a save changes action
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// Indicates that the app is saving data
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get saving;
+
+  /// Placeholder shown when there are no subtitle segments
+  ///
+  /// In en, this message translates to:
+  /// **'No subtitle segments yet. Add one to get started.'**
+  String get noSegmentsPlaceholder;
+
+  /// Label for the subtitle text input
+  ///
+  /// In en, this message translates to:
+  /// **'Segment Text'**
+  String get segmentText;
+
+  /// Label for the segment start time
+  ///
+  /// In en, this message translates to:
+  /// **'Start Time'**
+  String get startTime;
+
+  /// Label for the segment end time
+  ///
+  /// In en, this message translates to:
+  /// **'End Time'**
+  String get endTime;
+
+  /// Action to split a subtitle segment
+  ///
+  /// In en, this message translates to:
+  /// **'Split Segment'**
+  String get splitSegment;
+
+  /// Action to merge the current segment with the next one
+  ///
+  /// In en, this message translates to:
+  /// **'Merge with Next'**
+  String get mergeWithNext;
+
+  /// Toast message displayed when subtitles are saved
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitles updated successfully.'**
+  String get subtitleUpdateSuccess;
+
+  /// Error message when subtitle saving fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update subtitles. Please try again.'**
+  String get subtitleUpdateFailure;
+
+  /// Label for the live preview section
+  ///
+  /// In en, this message translates to:
+  /// **'Live Preview'**
+  String get livePreview;
+
+  /// Placeholder when no subtitle is active at current time
+  ///
+  /// In en, this message translates to:
+  /// **'No subtitle at this position.'**
+  String get previewEmptySubtitle;
+
+  /// Label for the preview timeline slider
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline Position'**
+  String get timelinePosition;
+
+  /// Label for the music selection section
+  ///
+  /// In en, this message translates to:
+  /// **'Background Music'**
+  String get musicLibrary;
+
+  /// Action to assign the selected track
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Track'**
+  String get musicAssign;
+
+  /// Placeholder when no music tracks are available
+  ///
+  /// In en, this message translates to:
+  /// **'No tracks available at the moment.'**
+  String get noMusicTracksPlaceholder;
+
+  /// Action to preview a music track
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get musicPreview;
+
+  /// Label for duration information
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get durationLabel;
+
+  /// Label for the volume control
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get volume;
+
+  /// Label for fade-in control
+  ///
+  /// In en, this message translates to:
+  /// **'Fade In'**
+  String get fadeIn;
+
+  /// Label for fade-out control
+  ///
+  /// In en, this message translates to:
+  /// **'Fade Out'**
+  String get fadeOut;
+
+  /// Label for music placement options
+  ///
+  /// In en, this message translates to:
+  /// **'Placement'**
+  String get placement;
+
+  /// Placement option applying to the full timeline
+  ///
+  /// In en, this message translates to:
+  /// **'Full Timeline'**
+  String get placementFullTimeline;
+
+  /// Placement option applying to a clip range
+  ///
+  /// In en, this message translates to:
+  /// **'Clip Specific'**
+  String get placementClip;
+
+  /// Label for the clip range controls
+  ///
+  /// In en, this message translates to:
+  /// **'Clip Range'**
+  String get clipRange;
+
+  /// Success message when music settings are saved
+  ///
+  /// In en, this message translates to:
+  /// **'Music selection saved.'**
+  String get musicUpdateSuccess;
+
+  /// Error message when music save fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save music selection. Please try again.'**
+  String get musicUpdateFailure;
+
+  /// Label for retry actions
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
 }
 
 class _AppLocalizationsDelegate

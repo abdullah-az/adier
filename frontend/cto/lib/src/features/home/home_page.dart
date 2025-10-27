@@ -105,6 +105,16 @@ class HomePage extends ConsumerWidget {
                     icon: const Icon(Icons.person),
                     label: Text(l10n.profile),
                   ),
+                  ElevatedButton.icon(
+                    onPressed: () => context.pushNamed(
+                      AppConstants.editorRouteName,
+                      pathParameters: {
+                        'videoId': AppConstants.defaultVideoId,
+                      },
+                    ),
+                    icon: const Icon(Icons.subtitles),
+                    label: Text(l10n.subtitleEditorTitle),
+                  ),
                 ],
               ),
             ],

@@ -61,5 +61,129 @@
         "example": "John"
       }
     }
+  },
+  "subtitleEditorTitle": "Subtitle & Music Editor",
+  "@subtitleEditorTitle": {
+    "description": "Title for the subtitle and music editor page"
+  },
+  "subtitleSegments": "Subtitle Segments",
+  "@subtitleSegments": {
+    "description": "Label for the subtitle segments section"
+  },
+  "addSegment": "Add Segment",
+  "@addSegment": {
+    "description": "Button label to add a new subtitle segment"
+  },
+  "saveChanges": "Save Changes",
+  "@saveChanges": {
+    "description": "Label for a save changes action"
+  },
+  "saving": "Saving...",
+  "@saving": {
+    "description": "Indicates that the app is saving data"
+  },
+  "noSegmentsPlaceholder": "No subtitle segments yet. Add one to get started.",
+  "@noSegmentsPlaceholder": {
+    "description": "Placeholder shown when there are no subtitle segments"
+  },
+  "segmentText": "Segment Text",
+  "@segmentText": {
+    "description": "Label for the subtitle text input"
+  },
+  "startTime": "Start Time",
+  "@startTime": {
+    "description": "Label for the segment start time"
+  },
+  "endTime": "End Time",
+  "@endTime": {
+    "description": "Label for the segment end time"
+  },
+  "splitSegment": "Split Segment",
+  "@splitSegment": {
+    "description": "Action to split a subtitle segment"
+  },
+  "mergeWithNext": "Merge with Next",
+  "@mergeWithNext": {
+    "description": "Action to merge the current segment with the next one"
+  },
+  "subtitleUpdateSuccess": "Subtitles updated successfully.",
+  "@subtitleUpdateSuccess": {
+    "description": "Toast message displayed when subtitles are saved"
+  },
+  "subtitleUpdateFailure": "Failed to update subtitles. Please try again.",
+  "@subtitleUpdateFailure": {
+    "description": "Error message when subtitle saving fails"
+  },
+  "livePreview": "Live Preview",
+  "@livePreview": {
+    "description": "Label for the live preview section"
+  },
+  "previewEmptySubtitle": "No subtitle at this position.",
+  "@previewEmptySubtitle": {
+    "description": "Placeholder when no subtitle is active at current time"
+  },
+  "timelinePosition": "Timeline Position",
+  "@timelinePosition": {
+    "description": "Label for the preview timeline slider"
+  },
+  "musicLibrary": "Background Music",
+  "@musicLibrary": {
+    "description": "Label for the music selection section"
+  },
+  "musicAssign": "Assign Track",
+  "@musicAssign": {
+    "description": "Action to assign the selected track"
+  },
+  "noMusicTracksPlaceholder": "No tracks available at the moment.",
+  "@noMusicTracksPlaceholder": {
+    "description": "Placeholder when no music tracks are available"
+  },
+  "musicPreview": "Preview",
+  "@musicPreview": {
+    "description": "Action to preview a music track"
+  },
+  "durationLabel": "Duration",
+  "@durationLabel": {
+    "description": "Label for duration information"
+  },
+  "volume": "Volume",
+  "@volume": {
+    "description": "Label for the volume control"
+  },
+  "fadeIn": "Fade In",
+  "@fadeIn": {
+    "description": "Label for fade-in control"
+  },
+  "fadeOut": "Fade Out",
+  "@fadeOut": {
+    "description": "Label for fade-out control"
+  },
+  "placement": "Placement",
+  "@placement": {
+    "description": "Label for music placement options"
+  },
+  "placementFullTimeline": "Full Timeline",
+  "@placementFullTimeline": {
+    "description": "Placement option applying to the full timeline"
+  },
+  "placementClip": "Clip Specific",
+  "@placementClip": {
+    "description": "Placement option applying to a clip range"
+  },
+  "clipRange": "Clip Range",
+  "@clipRange": {
+    "description": "Label for the clip range controls"
+  },
+  "musicUpdateSuccess": "Music selection saved.",
+  "@musicUpdateSuccess": {
+    "description": "Success message when music settings are saved"
+  },
+  "musicUpdateFailure": "Failed to save music selection. Please try again.",
+  "@musicUpdateFailure": {
+    "description": "Error message when music save fails"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Label for retry actions"
   }
 }
