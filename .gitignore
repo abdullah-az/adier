@@ -6,6 +6,7 @@ backend/__pycache__/
 backend/**/__pycache__/
 backend/*.py[cod]
 backend/**/*.py[cod]
+backend/.venv/
 backend/venv/
 backend/logs/
 backend/storage/
