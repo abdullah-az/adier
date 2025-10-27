@@ -31,6 +31,40 @@ class Settings(BaseSettings):
     # OpenAI
     openai_api_key: Optional[str] = Field(default=None, alias="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-4", alias="OPENAI_MODEL")
+    openai_transcription_model: str = Field(
+        default="gpt-4o-mini-transcribe",
+        alias="OPENAI_TRANSCRIPTION_MODEL",
+    )
+
+    # Gemini
+    gemini_api_key: Optional[str] = Field(default=None, alias="GEMINI_API_KEY")
+    gemini_model: str = Field(default="gemini-1.5-pro", alias="GEMINI_MODEL")
+
+    # Claude
+    claude_api_key: Optional[str] = Field(default=None, alias="ANTHROPIC_API_KEY")
+    claude_model: str = Field(default="claude-3-5-sonnet-20241022", alias="CLAUDE_MODEL")
+
+    # Groq
+    groq_api_key: Optional[str] = Field(default=None, alias="GROQ_API_KEY")
+    groq_transcription_model: str = Field(
+        default="whisper-large-v3",
+        alias="GROQ_TRANSCRIPTION_MODEL",
+    )
+
+    # Local fallback / Whisper.cpp
+    ai_allow_local_fallback: bool = Field(default=True, alias="AI_ALLOW_LOCAL_FALLBACK")
+    whispercpp_binary_path: Optional[str] = Field(default=None, alias="WHISPERCPP_BINARY")
+    whispercpp_model_path: Optional[str] = Field(default=None, alias="WHISPERCPP_MODEL")
+
+    # Provider orchestration
+    ai_provider_priority: str = Field(
+        default="openai,gemini,claude,groq,local",
+        alias="AI_PROVIDER_PRIORITY",
+    )
+    ai_provider_rate_limits: Optional[str] = Field(
+        default=None,
+        alias="AI_PROVIDER_RATE_LIMITS",
+    )
     
     # Storage
     storage_path: str = Field(

@@ -7,14 +7,15 @@ from loguru import logger
 from app.core.config import Settings
 from app.repositories.job_repository import JobRepository
 from app.repositories.video_repository import VideoAssetRepository
+from app.services.ai.manager import AIManager, create_ai_manager
 from app.services.job_service import JobService
 from app.services.video_pipeline_service import VideoPipelineService
 from app.utils.storage import StorageManager
 from app.workers.handlers import (
     create_export_handler,
+    create_scene_detection_handler,
+    create_transcription_handler,
     ingest_handler,
-    scene_detection_handler,
-    transcription_handler,
 )
 from app.workers.job_queue import JobQueue
 
@@ -26,6 +27,7 @@ class WorkerRuntime:
     storage_manager: StorageManager
     video_repository: VideoAssetRepository
     pipeline_service: VideoPipelineService
+    ai_manager: AIManager
 
     async def start(self) -> None:
         await self.job_queue.start()
@@ -54,10 +56,17 @@ def create_worker_runtime(settings: Settings) -> WorkerRuntime:
         video_repository=video_repository,
         settings=settings,
     )
+    ai_manager = create_ai_manager(settings)
 
     job_service.register_handler("ingest", ingest_handler)
-    job_service.register_handler("scene_detection", scene_detection_handler)
-    job_service.register_handler("transcription", transcription_handler)
+    job_service.register_handler(
+        "scene_detection",
+        create_scene_detection_handler(ai_manager, storage_manager, video_repository),
+    )
+    job_service.register_handler(
+        "transcription",
+        create_transcription_handler(ai_manager, storage_manager, video_repository),
+    )
     job_service.register_handler("export", create_export_handler(pipeline_service))
 
     logger.debug(
@@ -74,4 +83,5 @@ def create_worker_runtime(settings: Settings) -> WorkerRuntime:
         storage_manager=storage_manager,
         video_repository=video_repository,
         pipeline_service=pipeline_service,
+        ai_manager=ai_manager,
     )

@@ -10,6 +10,7 @@ FastAPI backend foundation with clean architecture for hosting video processing,
 - **Logging**: Structured logging with Loguru
 - **CORS Support**: Configured for Flutter/Web clients
 - **Health Check**: Basic health and project info endpoints
+- **AI Orchestration**: Multi-provider AI stack with automatic fallback, rate limiting, and cost tracking
 
 ## Project Structure
 
@@ -95,6 +96,29 @@ All configuration is managed through environment variables. See `.env.example` f
 - `JOB_RETRY_DELAY_SECONDS`: Delay in seconds before retrying a failed job (default: 5)
 - `LOG_LEVEL`: Logging level (default: INFO)
 - `LOG_FILE`: Log file path (default: ./logs/app.log)
+
+### AI Provider Configuration
+
+Set the following environment variables to enable individual providers and tune orchestration behaviour:
+
+| Variable | Description |
+| --- | --- |
+| `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_TRANSCRIPTION_MODEL` | Credentials and default models for OpenAI multimodal and Whisper APIs. |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | Google Gemini API key and model used for text/vision analysis. |
+| `ANTHROPIC_API_KEY`, `CLAUDE_MODEL` | Anthropic Claude key and target model identifier. |
+| `GROQ_API_KEY`, `GROQ_TRANSCRIPTION_MODEL` | Groq key and model used for accelerated Whisper transcription. |
+| `AI_PROVIDER_PRIORITY` | Comma-separated priority order used when selecting providers. |
+| `AI_PROVIDER_RATE_LIMITS` | Optional comma-separated `key:value` list (e.g. `openai:60,gemini:30`) to enforce per-minute limits. |
+| `AI_ALLOW_LOCAL_FALLBACK` | Enable the local Whisper.cpp fallback provider when cloud APIs are unavailable. |
+| `WHISPERCPP_BINARY`, `WHISPERCPP_MODEL` | Optional paths to the local whisper.cpp binary and model file used by the fallback provider. |
+
+When no cloud provider succeeds, the runtime automatically falls back to the local Whisper provider (if enabled) to keep scene detection and transcription results available.
+
+Client applications can inspect and override provider selection through the new AI endpoints:
+
+- `GET /ai/providers` — list configured providers, capabilities, and usage metrics
+- `GET /ai/projects/{project_id}/providers/preferences` — fetch project-level provider overrides
+- `PUT /ai/projects/{project_id}/providers/preferences` — update overrides per capability
 
 ## Running the Application
 
@@ -305,6 +329,12 @@ Core dependencies (defined in `pyproject.toml`):
 - **alembic**: Database migrations
 - **websockets**: WebSocket support for real-time features
 - **sse-starlette**: Server-Sent Events utilities for streaming updates
+
+Optional provider SDKs can be installed to enable additional AI providers:
+
+- **google-generativeai**: Google Gemini API client
+- **anthropic**: Anthropic Claude client
+- **groq**: Groq Whisper accelerated client
 
 ## Testing
 

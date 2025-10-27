@@ -6,6 +6,7 @@ from loguru import logger
 
 from app.api.health import router as health_router
 from app.api.jobs import router as jobs_router
+from app.api.providers import router as ai_router
 from app.api.storage import router as storage_router
 from app.api.videos import router as videos_router
 from app.core.config import get_settings
@@ -19,7 +20,6 @@ async def lifespan(app: FastAPI):
     settings = get_settings()
     logger.info(f"Starting {settings.app_name} v{settings.app_version}")
     logger.info(f"Debug mode: {settings.debug}")
-    logger.info(f"OpenAI API configured: {bool(settings.openai_api_key)}")
 
     runtime: WorkerRuntime | None = None
     try:
@@ -31,6 +31,7 @@ async def lifespan(app: FastAPI):
         app.state.pipeline_service = runtime.pipeline_service
         app.state.storage_manager = runtime.storage_manager
         app.state.video_repository = runtime.video_repository
+        app.state.ai_manager = runtime.ai_manager
 
         logger.info(
             "Initialised background job queue",
@@ -38,6 +39,10 @@ async def lifespan(app: FastAPI):
             max_queue_size=settings.max_queue_size,
             max_attempts=settings.job_max_attempts,
             retry_delay_seconds=settings.job_retry_delay_seconds,
+        )
+        logger.info(
+            "AI providers configured",
+            providers=list(runtime.ai_manager.list_registered_providers()),
         )
 
         await runtime.start()
@@ -71,6 +76,7 @@ def create_app() -> FastAPI:
     app.include_router(health_router)
     app.include_router(storage_router)
     app.include_router(videos_router)
+    app.include_router(ai_router)
     app.include_router(jobs_router)
     
     return app

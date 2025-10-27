@@ -5,6 +5,7 @@ from fastapi import Depends, Request
 from app.core.config import Settings, get_settings
 from app.repositories.job_repository import JobRepository
 from app.repositories.video_repository import VideoAssetRepository
+from app.services.ai.manager import AIManager
 from app.services.job_service import JobService
 from app.services.storage_service import StorageService
 from app.utils.storage import StorageManager
@@ -57,3 +58,10 @@ def get_job_service(request: Request) -> JobService:
     if job_service is None:
         raise RuntimeError("Job service is not initialised")
     return job_service
+
+
+def get_ai_manager(request: Request) -> AIManager:
+    ai_manager = getattr(request.app.state, "ai_manager", None)
+    if ai_manager is None:
+        raise RuntimeError("AI manager is not initialised")
+    return ai_manager
