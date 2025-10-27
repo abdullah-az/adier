@@ -156,6 +156,135 @@ Returns project metadata including name, version, and debug status.
 }
 ```
 
+### Project Lifecycle & Editing API
+
+The `/projects` namespace orchestrates the entire upload → AI suggestion → timeline edit → preview → export workflow.
+
+#### Listing projects with localization metadata
+
+```bash
+GET /projects?page=1&page_size=20&sort=created_at:desc&locale=en-US
+```
+
+**Response (abridged):**
+```json
+{
+  "items": [
+    {
+      "id": "launch-2024",
+      "name": "Launch Teaser Vertical",
+      "status": "editing",
+      "updated_at": "2024-10-12T09:05:12.000Z",
+      "primary_locale": "en-US",
+      "thumbnail_url": null
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "page_size": 20,
+    "total_items": 4,
+    "total_pages": 1,
+    "sort": "created_at:desc",
+    "locale": "en-US"
+  }
+}
+```
+
+#### Creating or updating a project
+
+```bash
+POST /projects
+{
+  "name": "Launch Teaser Vertical",
+  "description": "60s teaser for social channels",
+  "primary_locale": "en-US",
+  "supported_locales": ["en-US", "ar-SA"],
+  "tags": ["launch", "social"],
+  "metadata": {"client": "Acme Corp"}
+}
+```
+
+`PATCH /projects/{project_id}` accepts the same shape with any subset of fields, while `DELETE /projects/{project_id}?delete_storage=true` removes metadata and, optionally, all on-disk assets.
+
+#### Timeline authoring and validation
+
+```bash
+PUT /projects/{project_id}/timeline
+{
+  "locale": "en-US",
+  "composition": {
+    "clips": [
+      {
+        "asset_id": "asset-123",
+        "in_point": 1.0,
+        "out_point": 6.2,
+        "transition": {"type": "crossfade", "duration": 0.5}
+      },
+      {
+        "asset_id": "asset-456",
+        "in_point": 0.0,
+        "out_point": 5.0
+      }
+    ],
+    "background_music": {"track": "upbeat.mp3", "volume": 0.25},
+    "generate_thumbnails": true
+  },
+  "layout": [
+    {"clip_id": "clip-1", "asset_id": "asset-123", "start": 0.0, "duration": 5.2, "in_point": 1.0},
+    {"clip_id": "clip-2", "asset_id": "asset-456", "start": 4.7, "duration": 4.8, "in_point": 0.0}
+  ]
+}
+```
+
+The backend validates overlapping transitions, timeline gaps, and asset duration bounds before persisting the timeline state. Fetch the current arrangement at any time via `GET /projects/{project_id}/timeline`. Use the targeted helpers to tweak media:
+
+- `PATCH /projects/{project_id}/timeline/subtitles` — attach or remove global subtitles (send `null` to clear).
+- `PUT /projects/{project_id}/music/selection` — choose or reset background music (send `{ "background_music": null }` to clear).
+
+#### AI scene suggestions & creative assistance
+
+```bash
+POST /projects/{project_id}/ai/suggestions
+{
+  "locale": "en-US",
+  "limit": 6
+}
+```
+
+The response returns deterministic AI-like scene proposals with confidence scores, localized titles, and source asset metadata to accelerate editing decisions.
+
+#### Preview and export jobs
+
+After a timeline is saved, schedule long running work via the async job queue:
+
+- `POST /projects/{project_id}/timeline/preview` → returns `{ "job_id": "...", "status": "queued" }` for proxy previews.
+- `POST /projects/{project_id}/exports` → triggers full exports (optionally include preview proxies with `?include_preview_assets=true`).
+
+Jobs stream real-time updates through the existing SSE (`/projects/{project_id}/jobs/{job_id}/events`) and WebSocket (`/projects/{project_id}/jobs/{job_id}/ws`) endpoints.
+
+#### Media utilities
+
+- `GET /projects/{project_id}/music/options` — enumerate project-specific music files.
+- `GET /projects/{project_id}/thumbnails` — list generated clip and timeline thumbnails.
+- `GET /projects/{project_id}/files/{asset_id}` — download the original or generated media associated with a video asset.
+
+### Standardised Error Envelope
+
+All API errors use a consistent structure:
+
+```json
+{
+  "code": "timeline_overlap",
+  "message": "Clips overlap beyond allowed transition",
+  "details": {
+    "clip_id": "clip-2",
+    "overlap": 0.6
+  }
+}
+```
+
+FastAPI validation issues return `code: "validation_error"` with a list of offending fields, while unexpected failures surface `code: "internal_server_error"` and are logged server-side for diagnostics.
+
 ## Storage & Video Uploads
 
 Large video files are stored on disk under the directory configured by `STORAGE_ROOT` (defaults to `./storage`). The following structure is created automatically:
@@ -199,7 +328,7 @@ Form field name: file
 
 ### Listing & Deleting Assets
 
-- `GET /projects/{project_id}/videos` — list stored assets for a project.
+- `GET /projects/{project_id}/videos?page=1&page_size=25&sort=filename:asc` — list stored assets with pagination, sorting, and locale metadata in the response.
 - `DELETE /projects/{project_id}/videos/{asset_id}` — remove a single asset and its files.
 - `DELETE /projects/{project_id}/storage` — wipe all stored files and metadata for a project (used during project deletion workflows).
 

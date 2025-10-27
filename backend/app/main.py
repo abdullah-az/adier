@@ -4,8 +4,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 
+from app.api.errors import register_exception_handlers
 from app.api.health import router as health_router
 from app.api.jobs import router as jobs_router
+from app.api.projects import router as projects_router
 from app.api.storage import router as storage_router
 from app.api.videos import router as videos_router
 from app.core.config import get_settings
@@ -57,7 +59,9 @@ def create_app() -> FastAPI:
         debug=settings.debug,
         lifespan=lifespan,
     )
-    
+
+    register_exception_handlers(app)
+
     # CORS middleware
     app.add_middleware(
         CORSMiddleware,
@@ -69,6 +73,7 @@ def create_app() -> FastAPI:
     
     # Include routers
     app.include_router(health_router)
+    app.include_router(projects_router)
     app.include_router(storage_router)
     app.include_router(videos_router)
     app.include_router(jobs_router)

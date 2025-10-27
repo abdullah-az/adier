@@ -5,6 +5,8 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
+from app.schemas.common import PaginationMeta
+
 
 class VideoAssetBase(BaseModel):
     """Base schema for video assets."""
@@ -59,3 +61,8 @@ class StorageStatsResponse(BaseModel):
     root: Optional[str] = None
     project_id: Optional[str] = None
     categories: dict[str, dict[str, Any]]
+
+
+class VideoAssetCollectionResponse(BaseModel):
+    items: list[VideoAssetResponse]
+    pagination: PaginationMeta
