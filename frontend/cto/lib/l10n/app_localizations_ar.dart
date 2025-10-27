@@ -51,4 +51,74 @@ class AppLocalizationsAr extends AppLocalizations {
   String hello(String name) {
     return 'مرحبا، $name!';
   }
+
+  @override
+  String get timeline => 'الخط الزمني';
+
+  @override
+  String get timelineError => 'تعذر تحميل الخط الزمني.';
+
+  @override
+  String get timelineEmpty => 'أضف المقاطع لبناء قصتك.';
+
+  @override
+  String timelineTotalDuration(String duration) {
+    return 'المدة الإجمالية: $duration';
+  }
+
+  @override
+  String get subtitles => 'الترجمة';
+
+  @override
+  String get subtitleError => 'تعذر تحميل الترجمات.';
+
+  @override
+  String get subtitlesEmpty => 'أنشئ تسميات توضيحية من الخط الزمني.';
+
+  @override
+  String get upload => 'رفع';
+
+  @override
+  String get selectFile => 'اختر ملفاً تجريبياً';
+
+  @override
+  String get uploadInProgress => 'جاري الرفع…';
+
+  @override
+  String get uploadCompleted => 'اكتمل الرفع';
+
+  @override
+  String get uploadFailed => 'فشل الرفع';
+
+  @override
+  String get selectedFile => 'الملف المحدد';
+
+  @override
+  String get editorTitle => 'المحرر';
+
+  @override
+  String get export => 'تصدير';
+
+  @override
+  String get exportTitle => 'تصدير المشروع';
+
+  @override
+  String get exportSubtitle => 'أنشئ فيديو قابلاً للتنزيل لمشروعك.';
+
+  @override
+  String get exportFormat => 'الصيغة';
+
+  @override
+  String get exportInProgress => 'جاري التحضير للتصدير…';
+
+  @override
+  String exportSuccess(String exportId) {
+    return 'التصدير جاهز: $exportId';
+  }
+
+  @override
+  String get exportError => 'فشل التصدير';
+
+  @override
+  String get cancel => 'إلغاء';
 }

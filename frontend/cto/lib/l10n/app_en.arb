@@ -61,5 +61,105 @@
         "example": "John"
       }
     }
+  },
+  "timeline": "Timeline",
+  "@timeline": {
+    "description": "Timeline section title"
+  },
+  "timelineError": "Unable to load timeline.",
+  "@timelineError": {
+    "description": "Timeline error message"
+  },
+  "timelineEmpty": "Add clips to build your story.",
+  "@timelineEmpty": {
+    "description": "Timeline empty state"
+  },
+  "timelineTotalDuration": "Total duration: {duration}",
+  "@timelineTotalDuration": {
+    "description": "Timeline total duration label",
+    "placeholders": {
+      "duration": {
+        "type": "String",
+        "example": "02:30"
+      }
+    }
+  },
+  "subtitles": "Subtitles",
+  "@subtitles": {
+    "description": "Subtitle section title"
+  },
+  "subtitleError": "Unable to load subtitles.",
+  "@subtitleError": {
+    "description": "Subtitle error message"
+  },
+  "subtitlesEmpty": "Generate captions from the timeline.",
+  "@subtitlesEmpty": {
+    "description": "Subtitle empty state"
+  },
+  "upload": "Upload",
+  "@upload": {
+    "description": "Upload section title"
+  },
+  "selectFile": "Select sample file",
+  "@selectFile": {
+    "description": "Upload button label"
+  },
+  "uploadInProgress": "Uploading…",
+  "@uploadInProgress": {
+    "description": "Upload progress label"
+  },
+  "uploadCompleted": "Upload complete",
+  "@uploadCompleted": {
+    "description": "Upload success label"
+  },
+  "uploadFailed": "Upload failed",
+  "@uploadFailed": {
+    "description": "Upload failure label"
+  },
+  "selectedFile": "Selected file",
+  "@selectedFile": {
+    "description": "Label for selected file"
+  },
+  "editorTitle": "Editor",
+  "@editorTitle": {
+    "description": "Editor page title"
+  },
+  "export": "Export",
+  "@export": {
+    "description": "Export button label"
+  },
+  "exportTitle": "Export project",
+  "@exportTitle": {
+    "description": "Export dialog title"
+  },
+  "exportSubtitle": "Generate a downloadable video for your project.",
+  "@exportSubtitle": {
+    "description": "Export dialog subtitle"
+  },
+  "exportFormat": "Format",
+  "@exportFormat": {
+    "description": "Export format label"
+  },
+  "exportInProgress": "Preparing export…",
+  "@exportInProgress": {
+    "description": "Export in progress label"
+  },
+  "exportSuccess": "Export ready: {exportId}",
+  "@exportSuccess": {
+    "description": "Export success message",
+    "placeholders": {
+      "exportId": {
+        "type": "String",
+        "example": "job_123"
+      }
+    }
+  },
+  "exportError": "Export failed",
+  "@exportError": {
+    "description": "Export error message"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button label"
   }
 }
