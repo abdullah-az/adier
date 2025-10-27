@@ -181,6 +181,56 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hello, {name}!'**
   String hello(String name);
+
+  String get uploadCardTitle;
+  String get uploadCardSubtitle;
+  String get uploadButtonLabel;
+  String get uploadAnotherButtonLabel;
+  String get uploadCancel;
+  String get uploadRetry;
+  String get uploadDoneDismiss;
+  String uploadProgressLabel(String progress);
+  String get uploadProgressFallbackName;
+  String uploadTransferredLabel(String sent, String total);
+  String uploadSpeedLabel(String value, String unit);
+  String get uploadSpeedUnknown;
+  String get uploadInvalidFormat;
+  String get uploadNetworkError;
+  String get uploadGenericError;
+  String uploadSuccess(String projectName);
+  String get projectLibraryTitle;
+  String get projectLibrarySubtitle;
+  String get projectLibraryErrorTitle;
+  String get projectLibraryErrorSubtitle;
+  String get projectLibraryEmptyTitle;
+  String get projectLibraryEmptySubtitle;
+  String get projectStatusUploading;
+  String get projectStatusQueued;
+  String get projectStatusProcessing;
+  String get projectStatusCompleted;
+  String get projectStatusFailed;
+  String get projectStatusCancelled;
+  String projectProcessingProgress(String progress);
+  String get projectViewDetails;
+  String projectLastUpdated(String timestamp);
+  String get fileSizeUnitB;
+  String get fileSizeUnitKb;
+  String get fileSizeUnitMb;
+  String get fileSizeUnitGb;
+  String get projectDetailTitle;
+  String projectDetailTitleWithName(String name);
+  String get projectDetailProcessingMessage;
+  String get projectDetailDescriptionPlaceholder;
+  String get projectDetailInformationHeading;
+  String get projectDetailStatus;
+  String get projectDetailUpdated;
+  String get projectDetailFileSize;
+  String get projectDetailDuration;
+  String get projectDetailErrorTitle;
+  String get projectDetailErrorSubtitle;
+  String get projectDetailErrorInline;
+  String get refresh;
+  String get retry;
 }
 
 class _AppLocalizationsDelegate

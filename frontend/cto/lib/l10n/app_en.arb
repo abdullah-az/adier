@@ -61,5 +61,251 @@
         "example": "John"
       }
     }
+  },
+  "uploadCardTitle": "Upload a video",
+  "@uploadCardTitle": {
+    "description": "Upload card heading"
+  },
+  "uploadCardSubtitle": "Select a video file to create a new project.",
+  "@uploadCardSubtitle": {
+    "description": "Upload card supporting text"
+  },
+  "uploadButtonLabel": "Upload video",
+  "@uploadButtonLabel": {
+    "description": "Label for the upload button"
+  },
+  "uploadAnotherButtonLabel": "Upload another",
+  "@uploadAnotherButtonLabel": {
+    "description": "Label encouraging another upload after success"
+  },
+  "uploadCancel": "Cancel upload",
+  "@uploadCancel": {
+    "description": "Action label to cancel an ongoing upload"
+  },
+  "uploadRetry": "Try again",
+  "@uploadRetry": {
+    "description": "Action label to retry an upload"
+  },
+  "uploadDoneDismiss": "Dismiss",
+  "@uploadDoneDismiss": {
+    "description": "Button label to dismiss upload success message"
+  },
+  "uploadProgressLabel": "Uploading {progress}",
+  "@uploadProgressLabel": {
+    "description": "Label describing current upload progress",
+    "placeholders": {
+      "progress": {
+        "type": "String",
+        "example": "45%"
+      }
+    }
+  },
+  "uploadProgressFallbackName": "Unnamed video",
+  "@uploadProgressFallbackName": {
+    "description": "Fallback label when the upload file name is unknown"
+  },
+  "uploadTransferredLabel": "Transferred {sent} of {total}",
+  "@uploadTransferredLabel": {
+    "description": "Summary of transferred bytes during upload",
+    "placeholders": {
+      "sent": {
+        "type": "String",
+        "example": "12.4 MB"
+      },
+      "total": {
+        "type": "String",
+        "example": "48.0 MB"
+      }
+    }
+  },
+  "uploadSpeedLabel": "Speed: {value} {unit}/s",
+  "@uploadSpeedLabel": {
+    "description": "Upload speed label",
+    "placeholders": {
+      "value": {
+        "type": "String",
+        "example": "12.3"
+      },
+      "unit": {
+        "type": "String",
+        "example": "MB"
+      }
+    }
+  },
+  "uploadSpeedUnknown": "Calculating speed…",
+  "@uploadSpeedUnknown": {
+    "description": "Label while upload speed is being calculated"
+  },
+  "uploadInvalidFormat": "Unsupported file format. Please choose a video file (MP4, MOV, MKV, AVI, or WEBM).",
+  "@uploadInvalidFormat": {
+    "description": "Error shown when a user selects an invalid file format"
+  },
+  "uploadNetworkError": "We couldn’t reach the server. Check your connection and try again.",
+  "@uploadNetworkError": {
+    "description": "Error shown when a network issue occurs during upload"
+  },
+  "uploadGenericError": "Something went wrong during the upload. Please try again.",
+  "@uploadGenericError": {
+    "description": "Fallback error message for failed uploads"
+  },
+  "uploadSuccess": "Upload complete. We started processing \"{projectName}\".",
+  "@uploadSuccess": {
+    "description": "Success message after a file upload",
+    "placeholders": {
+      "projectName": {
+        "type": "String",
+        "example": "Product demo"
+      }
+    }
+  },
+  "projectLibraryTitle": "Project library",
+  "@projectLibraryTitle": {
+    "description": "Heading for the project library section"
+  },
+  "projectLibrarySubtitle": "Monitor upload progress and review your processed videos.",
+  "@projectLibrarySubtitle": {
+    "description": "Supporting text for the project library section"
+  },
+  "projectLibraryErrorTitle": "Unable to load projects",
+  "@projectLibraryErrorTitle": {
+    "description": "Error title when project polling fails"
+  },
+  "projectLibraryErrorSubtitle": "We couldn’t fetch the latest projects. Pull to refresh or try again.",
+  "@projectLibraryErrorSubtitle": {
+    "description": "Supporting text for the project error state"
+  },
+  "projectLibraryEmptyTitle": "No projects yet",
+  "@projectLibraryEmptyTitle": {
+    "description": "Title shown when the library is empty"
+  },
+  "projectLibraryEmptySubtitle": "Upload your first video to see it appear here.",
+  "@projectLibraryEmptySubtitle": {
+    "description": "Supporting text when the project list is empty"
+  },
+  "projectStatusUploading": "Uploading",
+  "@projectStatusUploading": {
+    "description": "Status label for uploading projects"
+  },
+  "projectStatusQueued": "Queued",
+  "@projectStatusQueued": {
+    "description": "Status label for queued projects"
+  },
+  "projectStatusProcessing": "Processing",
+  "@projectStatusProcessing": {
+    "description": "Status label for processing projects"
+  },
+  "projectStatusCompleted": "Completed",
+  "@projectStatusCompleted": {
+    "description": "Status label for completed projects"
+  },
+  "projectStatusFailed": "Failed",
+  "@projectStatusFailed": {
+    "description": "Status label for failed projects"
+  },
+  "projectStatusCancelled": "Cancelled",
+  "@projectStatusCancelled": {
+    "description": "Status label for cancelled projects"
+  },
+  "projectProcessingProgress": "Processing {progress} complete",
+  "@projectProcessingProgress": {
+    "description": "Label describing project processing progress",
+    "placeholders": {
+      "progress": {
+        "type": "String",
+        "example": "35%"
+      }
+    }
+  },
+  "projectViewDetails": "View details",
+  "@projectViewDetails": {
+    "description": "Button label to open the project detail screen"
+  },
+  "projectLastUpdated": "Last updated {timestamp}",
+  "@projectLastUpdated": {
+    "description": "Label showing when a project was last updated",
+    "placeholders": {
+      "timestamp": {
+        "type": "String",
+        "example": "Aug 2, 2024 14:32"
+      }
+    }
+  },
+  "fileSizeUnitB": "B",
+  "@fileSizeUnitB": {
+    "description": "Unit label for bytes"
+  },
+  "fileSizeUnitKb": "KB",
+  "@fileSizeUnitKb": {
+    "description": "Unit label for kilobytes"
+  },
+  "fileSizeUnitMb": "MB",
+  "@fileSizeUnitMb": {
+    "description": "Unit label for megabytes"
+  },
+  "fileSizeUnitGb": "GB",
+  "@fileSizeUnitGb": {
+    "description": "Unit label for gigabytes"
+  },
+  "projectDetailTitle": "Project details",
+  "@projectDetailTitle": {
+    "description": "Fallback title for the project detail screen"
+  },
+  "projectDetailTitleWithName": "Project: {name}",
+  "@projectDetailTitleWithName": {
+    "description": "Title for the project detail screen including the project name",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Marketing clip"
+      }
+    }
+  },
+  "projectDetailProcessingMessage": "We’re processing your video. This page will update automatically as we make progress.",
+  "@projectDetailProcessingMessage": {
+    "description": "Helper text while the project is processing"
+  },
+  "projectDetailDescriptionPlaceholder": "Project description will appear here once it’s available.",
+  "@projectDetailDescriptionPlaceholder": {
+    "description": "Placeholder shown when no project description exists"
+  },
+  "projectDetailInformationHeading": "Project information",
+  "@projectDetailInformationHeading": {
+    "description": "Heading for the metadata card on the detail page"
+  },
+  "projectDetailStatus": "Status",
+  "@projectDetailStatus": {
+    "description": "Label for the project status metadata row"
+  },
+  "projectDetailUpdated": "Last updated",
+  "@projectDetailUpdated": {
+    "description": "Label for the last updated metadata row"
+  },
+  "projectDetailFileSize": "File size",
+  "@projectDetailFileSize": {
+    "description": "Label for the file size metadata row"
+  },
+  "projectDetailDuration": "Duration",
+  "@projectDetailDuration": {
+    "description": "Label for the duration metadata row"
+  },
+  "projectDetailErrorTitle": "We couldn’t load this project",
+  "@projectDetailErrorTitle": {
+    "description": "Title for the project detail error state"
+  },
+  "projectDetailErrorSubtitle": "Check your connection or try again in a moment.",
+  "@projectDetailErrorSubtitle": {
+    "description": "Supporting text for the project detail error state"
+  },
+  "projectDetailErrorInline": "We hit a snag updating the project. Tap retry to try again.",
+  "@projectDetailErrorInline": {
+    "description": "Inline message shown when refreshing project details fails"
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Generic refresh label"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Generic retry label"
   }
 }
