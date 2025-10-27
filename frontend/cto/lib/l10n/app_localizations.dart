@@ -181,6 +181,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hello, {name}!'**
   String hello(String name);
+
+  /// Timeline section title
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get timeline;
+
+  /// Timeline error message
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load timeline.'**
+  String get timelineError;
+
+  /// Timeline empty state
+  ///
+  /// In en, this message translates to:
+  /// **'Add clips to build your story.'**
+  String get timelineEmpty;
+
+  /// Timeline total duration label
+  ///
+  /// In en, this message translates to:
+  /// **'Total duration: {duration}'**
+  String timelineTotalDuration(String duration);
+
+  /// Subtitle section title
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitles'**
+  String get subtitles;
+
+  /// Subtitle error message
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load subtitles.'**
+  String get subtitleError;
+
+  /// Subtitle empty state
+  ///
+  /// In en, this message translates to:
+  /// **'Generate captions from the timeline.'**
+  String get subtitlesEmpty;
+
+  /// Upload section title
+  ///
+  /// In en, this message translates to:
+  /// **'Upload'**
+  String get upload;
+
+  /// Upload button label
+  ///
+  /// In en, this message translates to:
+  /// **'Select sample file'**
+  String get selectFile;
+
+  /// Upload progress label
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading…'**
+  String get uploadInProgress;
+
+  /// Upload success label
+  ///
+  /// In en, this message translates to:
+  /// **'Upload complete'**
+  String get uploadCompleted;
+
+  /// Upload failure label
+  ///
+  /// In en, this message translates to:
+  /// **'Upload failed'**
+  String get uploadFailed;
+
+  /// Label for selected file
+  ///
+  /// In en, this message translates to:
+  /// **'Selected file'**
+  String get selectedFile;
+
+  /// Editor page title
+  ///
+  /// In en, this message translates to:
+  /// **'Editor'**
+  String get editorTitle;
+
+  /// Export button label
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get export;
+
+  /// Export dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Export project'**
+  String get exportTitle;
+
+  /// Export dialog subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Generate a downloadable video for your project.'**
+  String get exportSubtitle;
+
+  /// Export format label
+  ///
+  /// In en, this message translates to:
+  /// **'Format'**
+  String get exportFormat;
+
+  /// Export in progress label
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing export…'**
+  String get exportInProgress;
+
+  /// Export success message
+  ///
+  /// In en, this message translates to:
+  /// **'Export ready: {exportId}'**
+  String exportSuccess(String exportId);
+
+  /// Export error message
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed'**
+  String get exportError;
+
+  /// Cancel button label
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate

@@ -53,4 +53,75 @@ class AppLocalizationsEn extends AppLocalizations {
   String hello(String name) {
     return 'Hello, $name!';
   }
+
+  @override
+  String get timeline => 'Timeline';
+
+  @override
+  String get timelineError => 'Unable to load timeline.';
+
+  @override
+  String get timelineEmpty => 'Add clips to build your story.';
+
+  @override
+  String timelineTotalDuration(String duration) {
+    return 'Total duration: $duration';
+  }
+
+  @override
+  String get subtitles => 'Subtitles';
+
+  @override
+  String get subtitleError => 'Unable to load subtitles.';
+
+  @override
+  String get subtitlesEmpty => 'Generate captions from the timeline.';
+
+  @override
+  String get upload => 'Upload';
+
+  @override
+  String get selectFile => 'Select sample file';
+
+  @override
+  String get uploadInProgress => 'Uploading…';
+
+  @override
+  String get uploadCompleted => 'Upload complete';
+
+  @override
+  String get uploadFailed => 'Upload failed';
+
+  @override
+  String get selectedFile => 'Selected file';
+
+  @override
+  String get editorTitle => 'Editor';
+
+  @override
+  String get export => 'Export';
+
+  @override
+  String get exportTitle => 'Export project';
+
+  @override
+  String get exportSubtitle =>
+      'Generate a downloadable video for your project.';
+
+  @override
+  String get exportFormat => 'Format';
+
+  @override
+  String get exportInProgress => 'Preparing export…';
+
+  @override
+  String exportSuccess(String exportId) {
+    return 'Export ready: $exportId';
+  }
+
+  @override
+  String get exportError => 'Export failed';
+
+  @override
+  String get cancel => 'Cancel';
 }

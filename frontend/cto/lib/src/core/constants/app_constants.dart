@@ -15,11 +15,13 @@ class AppConstants {
   static const String homeRoute = '/';
   static const String authRoute = '/auth';
   static const String profileRoute = '/profile';
+  static const String editorRoute = '/editor';
 
   static const String homeRouteName = 'home';
   static const String authRouteName = 'auth';
   static const String profileRouteName = 'profile';
-  
+  static const String editorRouteName = 'editor';
+
   // Supported Locales
   static const String englishCode = 'en';
   static const String arabicCode = 'ar';
