@@ -4,9 +4,13 @@ from fastapi import Depends, Request
 
 from app.core.config import Settings, get_settings
 from app.repositories.job_repository import JobRepository
+from app.repositories.project_repository import ProjectRepository
 from app.repositories.video_repository import VideoAssetRepository
+from app.services.ai_service import AISuggestionService
 from app.services.job_service import JobService
+from app.services.project_service import ProjectService
 from app.services.storage_service import StorageService
+from app.services.video_pipeline_service import VideoPipelineService
 from app.utils.storage import StorageManager
 
 
@@ -27,6 +31,25 @@ def _video_repository_factory(storage_path: str) -> VideoAssetRepository:
 @lru_cache
 def _job_repository_factory(storage_path: str) -> JobRepository:
     return JobRepository(storage_root=storage_path)
+
+
+@lru_cache
+def _project_repository_factory(storage_path: str) -> ProjectRepository:
+    return ProjectRepository(storage_root=storage_path)
+
+
+@lru_cache
+def _project_service_factory(storage_path: str) -> ProjectService:
+    return ProjectService(
+        repository=_project_repository_factory(storage_path),
+        storage_manager=_storage_manager_factory(storage_path),
+        video_repository=_video_repository_factory(storage_path),
+    )
+
+
+@lru_cache
+def _ai_suggestion_service_factory(storage_path: str) -> AISuggestionService:
+    return AISuggestionService(_video_repository_factory(storage_path))
 
 
 def get_storage_manager(settings: Settings = Depends(get_settings)) -> StorageManager:
@@ -50,6 +73,25 @@ def get_storage_service(
 ) -> StorageService:
     """Get StorageService instance with dependencies."""
     return StorageService(storage_manager=storage_manager, video_repository=video_repository)
+
+
+def get_project_repository(settings: Settings = Depends(get_settings)) -> ProjectRepository:
+    return _project_repository_factory(settings.storage_path)
+
+
+def get_project_service(settings: Settings = Depends(get_settings)) -> ProjectService:
+    return _project_service_factory(settings.storage_path)
+
+
+def get_ai_suggestion_service(settings: Settings = Depends(get_settings)) -> AISuggestionService:
+    return _ai_suggestion_service_factory(settings.storage_path)
+
+
+def get_pipeline_service(request: Request) -> VideoPipelineService:
+    pipeline = getattr(request.app.state, "pipeline_service", None)
+    if pipeline is None:
+        raise RuntimeError("Pipeline service is not initialised")
+    return pipeline
 
 
 def get_job_service(request: Request) -> JobService:
