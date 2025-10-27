@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../data/models/project_model.dart';
 import '../../../l10n/app_localizations.dart';
 import '../constants/app_constants.dart';
 import '../localization/locale_provider.dart';
@@ -25,6 +26,13 @@ class AppShell extends ConsumerWidget {
         return l10n.auth;
       case AppConstants.profileRouteName:
         return l10n.profile;
+      case AppConstants.projectDetailRouteName:
+        final project = state.extra is ProjectModel ? state.extra as ProjectModel : null;
+        final projectIdentifier = project?.name ?? state.pathParameters['id'];
+        if (projectIdentifier != null && projectIdentifier.isNotEmpty) {
+          return l10n.projectDetailTitleWithName(projectIdentifier);
+        }
+        return l10n.projectDetailTitle;
       default:
         return l10n.appTitle;
     }
