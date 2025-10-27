@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/auth_page.dart';
+import '../../features/editor/subtitle_music_editor_page.dart';
 import '../../features/home/home_page.dart';
 import '../../features/profile/profile_page.dart';
 import '../constants/app_constants.dart';
@@ -30,6 +31,14 @@ final appRouter = GoRouter(
           path: AppConstants.profileRoute,
           name: AppConstants.profileRouteName,
           builder: (context, state) => const ProfilePage(),
+        ),
+        GoRoute(
+          path: AppConstants.editorRoute,
+          name: AppConstants.editorRouteName,
+          builder: (context, state) {
+            final videoId = state.pathParameters['videoId'] ?? AppConstants.defaultVideoId;
+            return SubtitleMusicEditorPage(videoId: videoId);
+          },
         ),
       ],
     ),
