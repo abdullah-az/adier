@@ -1,0 +1,13 @@
+{
+  "name": "cto",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "echo \"No build configured\"",
+    "format": "echo \"No formatter configured\"",
+    "lint": "echo \"No lint configured\"",
+    "start": "echo \"No start script configured\"",
+    "test": "echo \"No tests configured\"",
+    "typecheck": "echo \"No type checking configured\""
+  }
+}

@@ -1,0 +1,3 @@
+# cto
+
+Freshly initialized project.
