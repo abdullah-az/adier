@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from sqlalchemy import Enum as SQLEnum, Float, ForeignKey, Integer, String, Text
+from sqlalchemy import Enum as SQLEnum, Float, ForeignKey, Integer, JSON, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base, IDMixin, TimestampMixin
@@ -52,6 +52,7 @@ class ClipVersion(IDMixin, TimestampMixin, Base):
         nullable=False,
     )
     notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    plan_metadata: Mapped[Optional[dict[str, object]]] = mapped_column(JSON, nullable=True)
 
     clip: Mapped[Clip] = relationship(back_populates="versions")
     output_asset: Mapped[Optional["MediaAsset"]] = relationship(

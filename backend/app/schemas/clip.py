@@ -42,6 +42,7 @@ class ClipVersionBase(BaseModel):
     version_number: int = 1
     status: ClipVersionStatus = ClipVersionStatus.DRAFT
     notes: Optional[str] = None
+    plan_metadata: Optional[dict[str, object]] = None
 
 
 class ClipVersionCreate(ClipVersionBase):
@@ -54,6 +55,7 @@ class ClipVersionUpdate(BaseModel):
     version_number: Optional[int] = None
     status: Optional[ClipVersionStatus] = None
     notes: Optional[str] = None
+    plan_metadata: Optional[dict[str, object]] = None
 
 
 class ClipVersionRead(ClipVersionBase, TimestampedSchema):
