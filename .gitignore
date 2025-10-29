@@ -33,6 +33,7 @@ build/
 
 # Storage directories
 storage/
+backend/storage/
 media/
 uploads/
 exports/
