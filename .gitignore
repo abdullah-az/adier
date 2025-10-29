@@ -1,13 +1,47 @@
-.aider*
+# Python / FastAPI
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+.Python
+dist/
+build/
 .env
+.env.*
+venv/
+.venv/
+env/
+.mypy_cache/
+.pytest_cache/
+pip-wheel-metadata/
+*.sqlite
+*.sqlite3
+*.db
 
-# Backend
-backend/__pycache__/
-backend/**/__pycache__/
-backend/*.py[cod]
-backend/**/*.py[cod]
-backend/.venv/
-backend/venv/
-backend/logs/
-backend/storage/
-backend/server.log
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+pubspec.lock
+build/
+
+# Storage directories
+storage/
+media/
+uploads/
+exports/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
