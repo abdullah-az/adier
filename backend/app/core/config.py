@@ -35,8 +35,9 @@ class Settings(BaseSettings):
     log_format: Literal["json", "console"] = Field(default="console")
 
     # Storage paths
-    storage_root: Path = Field(default=ROOT_DIR / "storage")
+    storage_root: Path = Field(default=BACKEND_DIR / "storage")
     storage_temp: Path = Field(default=DATA_DIR / "tmp")
+    storage_max_bytes: Optional[int] = Field(default=None)
 
     # Database settings
     database_url: str = Field(default=f"sqlite:///{DEFAULT_SQLITE_PATH.as_posix()}")
