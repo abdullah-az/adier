@@ -3,9 +3,9 @@ from __future__ import annotations
 import os
 from functools import lru_cache
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Any, Literal, Optional
 
-from pydantic import Field, computed_field
+from pydantic import Field, computed_field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -51,6 +51,13 @@ class Settings(BaseSettings):
     anthropic_api_key: Optional[str] = Field(default=None)
     groq_api_key: Optional[str] = Field(default=None)
 
+    # AI provider orchestration
+    ai_provider_order: list[str] = Field(default_factory=lambda: ["openai", "gemini", "claude", "groq"])
+    ai_provider_timeout_seconds: float = Field(default=30.0, ge=0.0)
+    ai_provider_retries: int = Field(default=1, ge=0)
+    ai_provider_retry_base_delay: float = Field(default=0.5, ge=0.0)
+    ai_provider_retry_backoff_factor: float = Field(default=2.0, ge=1.0)
+
     # Queue settings
     queue_broker_url: str = Field(default="redis://localhost:6379/0")
     queue_result_backend: str = Field(default="redis://localhost:6379/1")
@@ -69,6 +76,23 @@ class Settings(BaseSettings):
     @property
     def backend_root(self) -> Path:
         return BACKEND_DIR
+
+    @field_validator("ai_provider_order", mode="before")
+    @classmethod
+    def _normalise_ai_provider_order(cls, value: Any) -> list[str]:
+        if value is None:
+            return ["openai", "gemini", "claude", "groq"]
+        if isinstance(value, str):
+            items = [item.strip().lower() for item in value.split(",") if item and item.strip()]
+        elif isinstance(value, (list, tuple, set)):
+            items = [str(item).strip().lower() for item in value if str(item).strip()]
+        else:
+            raise TypeError("AI provider order must be a string or iterable of strings.")
+        deduped: list[str] = []
+        for item in items:
+            if item not in deduped:
+                deduped.append(item)
+        return deduped
 
     def model_post_init(self, __context: dict[str, object]) -> None:
         # Resolve storage paths relative to the project root when needed
