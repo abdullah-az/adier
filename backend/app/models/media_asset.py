@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from sqlalchemy import BigInteger, Enum as SQLEnum, Float, ForeignKey, String
+from sqlalchemy import BigInteger, Enum as SQLEnum, Float, ForeignKey, JSON, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base, IDMixin, TimestampMixin
@@ -22,6 +22,7 @@ class MediaAsset(IDMixin, TimestampMixin, Base):
     size_bytes: Mapped[Optional[int]] = mapped_column(BigInteger, nullable=True)
     duration_seconds: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     checksum: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
+    analysis_cache: Mapped[Optional[dict[str, object]]] = mapped_column(JSON, nullable=True)
 
     project: Mapped["Project"] = relationship(back_populates="media_assets")
     source_for_clips: Mapped[List["Clip"]] = relationship(

@@ -28,5 +28,18 @@ class MediaAssetRepository(SQLAlchemyRepository[MediaAsset]):
             return instance
         return self.update(instance, payload)
 
+    def update_analysis_cache(
+        self,
+        instance: MediaAsset,
+        *,
+        cache_key: str,
+        result: dict[str, object],
+    ) -> MediaAsset:
+        payload = {"analysis_cache": {"hash": cache_key, "result": result}}
+        return self.update(instance, payload)
+
+    def clear_analysis_cache(self, instance: MediaAsset) -> MediaAsset:
+        return self.update(instance, {"analysis_cache": None})
+
 
 __all__ = ["MediaAssetRepository"]
