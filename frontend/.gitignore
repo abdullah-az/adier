@@ -1,0 +1,25 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+pubspec.lock
+build/
+
+# Visual Studio Code
+.vscode/
+
+# IntelliJ related
+.idea/
+*.iml
+
+# Flutter specific
+firebase_app_id_file.json
+.flutter-plugins
+.flutter-plugins-dependencies
+Generated.xcconfig
+Flutter.podspec
+
+# macOS
+**/Flutter/ephemeral/
+
+# Web
+lib/generated_plugin_registrant.dart

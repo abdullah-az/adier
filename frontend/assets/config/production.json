@@ -1,0 +1,5 @@
+{
+  "env": "production",
+  "apiBaseUrl": "https://api.aivideoeditor.com",
+  "analyticsEnabled": true
+}
