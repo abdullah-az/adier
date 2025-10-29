@@ -1,3 +1,5 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 enum AppRoute {
   dashboard('/dashboard'),
   workspace('/workspace'),
@@ -15,9 +17,9 @@ enum AppRoute {
 
   String get relativePath => path.substring(1);
 
-  String get title => switch (this) {
-        AppRoute.dashboard => 'Dashboard',
-        AppRoute.workspace => 'Workspace',
-        AppRoute.settings => 'Settings',
+  String label(AppLocalizations l10n) => switch (this) {
+        AppRoute.dashboard => l10n.navDashboard,
+        AppRoute.workspace => l10n.navWorkspace,
+        AppRoute.settings => l10n.navSettings,
       };
 }

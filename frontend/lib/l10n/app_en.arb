@@ -1,0 +1,59 @@
+{
+  "@@locale": "en",
+  "appTitle": "AI Video Editor",
+  "appTitleWithFlavor": "AI Video Editor • {flavor}",
+  "@appTitleWithFlavor": {
+    "description": "Title used for non-production flavors showing the flavor label.",
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      }
+    }
+  },
+  "navDashboard": "Dashboard",
+  "navWorkspace": "Workspace",
+  "navSettings": "Settings",
+  "settingsHeading": "Settings",
+  "themeModeLabel": "Theme mode",
+  "themeModeSystem": "System",
+  "themeModeLight": "Light",
+  "themeModeDark": "Dark",
+  "languageLabel": "Language",
+  "languageEnglish": "English",
+  "languageArabic": "Arabic",
+  "diagnosticsTitle": "Diagnostics",
+  "diagnosticsSubtitle": "Flavor: {flavor}\nAPI base URL: {apiBaseUrl}",
+  "@diagnosticsSubtitle": {
+    "description": "Details about the current app configuration for diagnostics.",
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      },
+      "apiBaseUrl": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardEnvironment": "You're viewing the {flavor} environment.",
+  "@dashboardEnvironment": {
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardWelcome": "Welcome to the AI Video Editor experience.",
+  "dashboardDescription": "Use the navigation to explore upcoming product areas like automated clip curation, asset management, and analytics.",
+  "dashboardCardGenerationTitle": "Clip Generation",
+  "dashboardCardGenerationMessage": "Configure AI models that segment long-form videos into shareable clips.",
+  "dashboardCardSchedulingTitle": "Scheduling",
+  "dashboardCardSchedulingMessage": "Plan publishing across platforms with smart scheduling suggestions.",
+  "dashboardCardInsightsTitle": "Insights",
+  "dashboardCardInsightsMessage": "Track performance with metrics tailored to short-form video distribution.",
+  "workspaceTitle": "Creator workspace",
+  "workspaceDescription": "Build collaborative editing flows, manage media collections, and connect AI-driven automation pipelines.",
+  "workspaceCreateButton": "Create new workspace",
+  "flavorDevelopment": "Development",
+  "flavorStaging": "Staging",
+  "flavorProduction": "Production"
+}

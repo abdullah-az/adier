@@ -1,0 +1,57 @@
+{
+  "@@locale": "ar",
+  "appTitle": "محرر الفيديو بالذكاء الاصطناعي",
+  "appTitleWithFlavor": "محرر الفيديو بالذكاء الاصطناعي • {flavor}",
+  "@appTitleWithFlavor": {
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      }
+    }
+  },
+  "navDashboard": "لوحة التحكم",
+  "navWorkspace": "مساحة العمل",
+  "navSettings": "الإعدادات",
+  "settingsHeading": "الإعدادات",
+  "themeModeLabel": "وضع السمة",
+  "themeModeSystem": "النظام",
+  "themeModeLight": "فاتح",
+  "themeModeDark": "داكن",
+  "languageLabel": "اللغة",
+  "languageEnglish": "الإنجليزية",
+  "languageArabic": "العربية",
+  "diagnosticsTitle": "التشخيص",
+  "diagnosticsSubtitle": "البيئة: {flavor}\nعنوان واجهة برمجة التطبيقات: {apiBaseUrl}",
+  "@diagnosticsSubtitle": {
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      },
+      "apiBaseUrl": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardEnvironment": "أنت تشاهد بيئة {flavor}.",
+  "@dashboardEnvironment": {
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardWelcome": "مرحبًا بك في تجربة محرر الفيديو بالذكاء الاصطناعي.",
+  "dashboardDescription": "استخدم التنقل لاستكشاف مجالات المنتج القادمة مثل اختيار المقاطع الآلي وإدارة الأصول والتحليلات.",
+  "dashboardCardGenerationTitle": "إنشاء المقاطع",
+  "dashboardCardGenerationMessage": "قم بإعداد نماذج الذكاء الاصطناعي التي تقسم مقاطع الفيديو الطويلة إلى مقاطع قابلة للمشاركة.",
+  "dashboardCardSchedulingTitle": "الجدولة",
+  "dashboardCardSchedulingMessage": "خطط للنشر عبر المنصات باستخدام اقتراحات جدولة ذكية.",
+  "dashboardCardInsightsTitle": "الرؤى",
+  "dashboardCardInsightsMessage": "تتبع الأداء باستخدام مقاييس مصممة لتوزيع الفيديو القصير.",
+  "workspaceTitle": "مساحة العمل الإبداعية",
+  "workspaceDescription": "ابنِ تدفقات تحرير تعاونية، وأدر مجموعات الوسائط، واربط خطوط الأتمتة المعتمدة على الذكاء الاصطناعي.",
+  "workspaceCreateButton": "إنشاء مساحة عمل جديدة",
+  "flavorDevelopment": "التطوير",
+  "flavorStaging": "التجريب",
+  "flavorProduction": "الإنتاج"
+}
