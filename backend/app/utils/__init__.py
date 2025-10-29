@@ -1,5 +1,5 @@
 """Shared helper utilities for the backend application."""
 
-from . import pathing
+from . import ffmpeg, pathing
 
-__all__ = ["pathing"]
+__all__ = ["ffmpeg", "pathing"]

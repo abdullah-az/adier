@@ -10,6 +10,7 @@ from .storage_service import (
     StorageService,
     StorageUsage,
 )
+from .video import FFmpegService
 
 __all__ = [
     "StorageService",
@@ -20,4 +21,5 @@ __all__ = [
     "ChecksumMismatchError",
     "SignedPath",
     "StorageUsage",
+    "FFmpegService",
 ]
