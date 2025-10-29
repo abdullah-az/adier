@@ -26,7 +26,12 @@ The backend service powers project configuration, clip management, and media pro
    uvicorn backend.app.main:app --reload
    ```
 
-A health check endpoint is exposed at `GET /health/`.
+5. Start the background worker (requires Redis running locally on port 6379):
+   ```bash
+   celery -A backend.app.workers.worker worker --loglevel=info
+   ```
+
+ A health check endpoint is exposed at `GET /health/`. Diagnostics with queue status is available at `GET /health/diagnostics`.
 
 ### Database & Migrations
 
@@ -44,3 +49,34 @@ SQLite is used by default for local development (configured in `.env`).
 ### Logging
 
 Structured logging is configured out of the box. Set `LOG_FORMAT=json` in your `.env` file to switch from the default human-readable console formatter to JSON logs suitable for log aggregation systems.
+
+### Background Workers
+
+The application uses Celery with Redis as a task queue for background processing jobs (video ingestion, transcription, rendering, etc.).
+
+**Prerequisites:**
+- Redis server running locally (default: `redis://localhost:6379`)
+- Install Redis via package manager: `brew install redis` (macOS) or `apt-get install redis-server` (Ubuntu)
+- Start Redis: `redis-server` or as a system service
+
+**Running Workers:**
+```bash
+# Start a single worker with info logging
+celery -A backend.app.workers.worker worker --loglevel=info
+
+# Start with multiple concurrent workers
+celery -A backend.app.workers.worker worker --loglevel=info --concurrency=4
+
+# Monitor task queue (flower)
+pip install flower
+celery -A backend.app.workers.worker flower
+```
+
+**Configuration:**
+Queue settings can be customized in `.env`:
+- `QUEUE_BROKER_URL` - Redis broker URL (default: `redis://localhost:6379/0`)
+- `QUEUE_RESULT_BACKEND` - Result backend URL (default: `redis://localhost:6379/1`)
+- `QUEUE_DEFAULT_NAME` - Default queue name (default: `ai-video-editor-jobs`)
+
+**Queue Health:**
+The `/health/diagnostics` endpoint reports queue connection status and Redis metrics.
