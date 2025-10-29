@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../core/config/app_config.dart';
+import '../../../core/localization/localization_extensions.dart';
 import '../../../core/responsive/responsive_layout.dart';
 import '../../../widgets/app_logo.dart';
 
@@ -38,6 +40,8 @@ class _DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final flavorLabel = config.flavor.localizedLabel(l10n);
 
     return ListView(
       padding: const EdgeInsets.all(24),
@@ -51,10 +55,10 @@ class _DashboardView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('AI Video Editor', style: theme.textTheme.headlineMedium),
+                  Text(l10n.appTitle, style: theme.textTheme.headlineMedium),
                   const SizedBox(height: 4),
                   Text(
-                    'You're viewing the ${config.flavor.label} environment.',
+                    l10n.dashboardEnvironment(flavorLabel),
                     style: theme.textTheme.bodyMedium,
                   ),
                 ],
@@ -64,30 +68,30 @@ class _DashboardView extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         Text(
-          'Welcome to the AI Video Editor experience.',
+          l10n.dashboardWelcome,
           style: theme.textTheme.titleLarge,
         ),
         const SizedBox(height: 12),
         Text(
-          'Use the navigation to explore upcoming product areas like automated clip curation, asset management, and analytics.',
+          l10n.dashboardDescription,
           style: theme.textTheme.bodyLarge,
         ),
         const SizedBox(height: 24),
         Wrap(
           spacing: 16,
           runSpacing: 16,
-          children: const <Widget>[
+          children: <Widget>[
             _InfoCard(
-              title: 'Clip Generation',
-              message: 'Configure AI models that segment long-form videos into shareable clips.',
+              title: l10n.dashboardCardGenerationTitle,
+              message: l10n.dashboardCardGenerationMessage,
             ),
             _InfoCard(
-              title: 'Scheduling',
-              message: 'Plan publishing across platforms with smart scheduling suggestions.',
+              title: l10n.dashboardCardSchedulingTitle,
+              message: l10n.dashboardCardSchedulingMessage,
             ),
             _InfoCard(
-              title: 'Insights',
-              message: 'Track performance with metrics tailored to short-form video distribution.',
+              title: l10n.dashboardCardInsightsTitle,
+              message: l10n.dashboardCardInsightsMessage,
             ),
           ],
         ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'core/config/app_config.dart';
 import 'core/di/providers.dart';
+import 'core/localization/localization_extensions.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 
@@ -13,18 +15,24 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
     final themeMode = ref.watch(themeModeProvider);
+    final locale = ref.watch(localeProvider);
     final config = ref.watch(appConfigProvider);
     ref.watch(serviceRegistryProvider);
 
-    final title = config.flavor == AppFlavor.production
-        ? 'AI Video Editor'
-        : 'AI Video Editor • ${config.flavor.label}';
-
     return MaterialApp.router(
-      title: title,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
+      locale: locale,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      onGenerateTitle: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        if (config.flavor == AppFlavor.production) {
+          return l10n.appTitle;
+        }
+        return l10n.appTitleWithFlavor(config.flavor.localizedLabel(l10n));
+      },
+      theme: AppTheme.light(locale),
+      darkTheme: AppTheme.dark(locale),
       themeMode: themeMode,
       routerConfig: router,
       builder: (context, child) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WorkspacePage extends StatelessWidget {
   const WorkspacePage({super.key});
@@ -6,6 +7,7 @@ class WorkspacePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 720),
@@ -17,13 +19,13 @@ class WorkspacePage extends StatelessWidget {
             Icon(Icons.video_library_rounded, size: 64, color: theme.colorScheme.primary),
             const SizedBox(height: 24),
             Text(
-              'Creator workspace',
+              l10n.workspaceTitle,
               style: theme.textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
             Text(
-              'Build collaborative editing flows, manage media collections, and connect AI-driven automation pipelines.',
+              l10n.workspaceDescription,
               style: theme.textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
@@ -31,7 +33,7 @@ class WorkspacePage extends StatelessWidget {
             FilledButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.add_rounded),
-              label: const Text('Create new workspace'),
+              label: Text(l10n.workspaceCreateButton),
             ),
           ],
         ),

@@ -5,11 +5,11 @@ import 'app_typography.dart';
 class AppTheme {
   const AppTheme._();
 
-  static ThemeData light() => _theme(Brightness.light);
+  static ThemeData light(Locale locale) => _theme(brightness: Brightness.light, locale: locale);
 
-  static ThemeData dark() => _theme(Brightness.dark);
+  static ThemeData dark(Locale locale) => _theme(brightness: Brightness.dark, locale: locale);
 
-  static ThemeData _theme(Brightness brightness) {
+  static ThemeData _theme({required Brightness brightness, required Locale locale}) {
     final seedColor = brightness == Brightness.light
         ? const Color(0xFF6750A4)
         : const Color(0xFFB69DF8);
@@ -19,7 +19,7 @@ class AppTheme {
       brightness: brightness,
     );
 
-    final textTheme = AppTypography.textTheme(brightness);
+    final textTheme = AppTypography.textTheme(brightness, locale);
 
     return ThemeData(
       useMaterial3: true,

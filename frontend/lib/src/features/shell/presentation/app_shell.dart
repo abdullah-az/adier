@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/routes.dart';
@@ -18,11 +19,12 @@ class AppShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = GoRouter.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final destinations = AppRoute.values
         .map(
           (route) => AdaptiveDestination(
             location: route.path,
-            label: route.title,
+            label: route.label(l10n),
             icon: _iconForRoute(route, selected: false),
             selectedIcon: _iconForRoute(route, selected: true),
           ),
