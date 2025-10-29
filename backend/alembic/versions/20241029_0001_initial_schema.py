@@ -67,6 +67,7 @@ def upgrade() -> None:
         sa.Column("size_bytes", sa.BigInteger(), nullable=True),
         sa.Column("duration_seconds", sa.Float(), nullable=True),
         sa.Column("checksum", sa.String(length=128), nullable=True),
+        sa.Column("analysis_cache", sa.JSON(), nullable=True),
         sa.ForeignKeyConstraint(["project_id"], ["projects.id"], ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),
     )
