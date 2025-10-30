@@ -4,7 +4,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from ..models.enums import MediaAssetType
+from ..models.enums import MediaAssetType, ProcessingJobStatus
 from .base import TimestampedSchema
 
 
@@ -37,9 +37,21 @@ class MediaAssetRead(MediaAssetBase, TimestampedSchema):
     pass
 
 
+class MediaAssetUploadResponse(BaseModel):
+    asset_id: str
+    project_id: str
+    filename: str
+    size_bytes: Optional[int] = None
+    checksum: Optional[str] = None
+    job_id: Optional[str] = None
+    job_status: Optional[ProcessingJobStatus] = None
+    warning: Optional[str] = None
+
+
 __all__ = [
     "MediaAssetBase",
     "MediaAssetCreate",
     "MediaAssetUpdate",
     "MediaAssetRead",
+    "MediaAssetUploadResponse",
 ]
