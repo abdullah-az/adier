@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Export Workflow Placeholder</title>
+  <desc id="desc">Placeholder illustration indicating where an export workflow screenshot should be inserted.</desc>
+  <rect width="960" height="540" fill="#f2fffb" rx="24" ry="24" />
+  <rect x="80" y="110" width="800" height="320" fill="#ffffff" stroke="#9ae6b4" stroke-width="4" rx="20" ry="20" />
+  <path d="M480 200 L520 240 L500 240 L500 340 L460 340 L460 240 L440 240 Z" fill="#48bb78" opacity="0.85" />
+  <rect x="360" y="360" width="240" height="56" fill="#48bb78" rx="12" ry="12" />
+  <text x="480" y="398" font-family="'Segoe UI', Arial, sans-serif" font-size="24" fill="#ffffff" text-anchor="middle">Export</text>
+  <text x="480" y="460" font-family="'Segoe UI', Arial, sans-serif" font-size="32" fill="#2f855a" text-anchor="middle">Export summary placeholder</text>
+  <text x="480" y="500" font-family="'Segoe UI', Arial, sans-serif" font-size="20" fill="#2f855a" text-anchor="middle">Replace with final delivery screenshot</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Upload Workflow Placeholder</title>
+  <desc id="desc">Placeholder illustration indicating where an upload workflow screenshot should be inserted.</desc>
+  <rect width="960" height="540" fill="#f2f4f8" rx="24" ry="24" />
+  <rect x="60" y="140" width="280" height="260" fill="#ffffff" stroke="#d0d7de" stroke-width="4" rx="16" ry="16" />
+  <rect x="340" y="100" width="560" height="320" fill="#ffffff" stroke="#d0d7de" stroke-width="4" rx="20" ry="20" />
+  <path d="M600 220 L640 260 L620 260 L620 340 L580 340 L580 260 L560 260 Z" fill="#82aaff" opacity="0.8" />
+  <text x="480" y="430" font-family="'Segoe UI', Arial, sans-serif" font-size="32" fill="#4a5568" text-anchor="middle">Upload screen placeholder</text>
+  <text x="480" y="470" font-family="'Segoe UI', Arial, sans-serif" font-size="20" fill="#718096" text-anchor="middle">Replace with an actual screenshot before release</text>
+</svg>
