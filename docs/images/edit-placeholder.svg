@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Editing Workflow Placeholder</title>
+  <desc id="desc">Placeholder illustration indicating where an editing workflow screenshot should be inserted.</desc>
+  <rect width="960" height="540" fill="#f3f4ff" rx="24" ry="24" />
+  <rect x="60" y="120" width="280" height="300" fill="#ffffff" stroke="#c3dafe" stroke-width="4" rx="16" ry="16" />
+  <rect x="360" y="80" width="520" height="360" fill="#ffffff" stroke="#c3dafe" stroke-width="4" rx="20" ry="20" />
+  <rect x="400" y="320" width="440" height="60" fill="#ebf4ff" stroke="#a3bffa" stroke-width="2" rx="10" ry="10" />
+  <rect x="400" y="140" width="440" height="150" fill="#ebf4ff" stroke="#a3bffa" stroke-width="2" rx="16" ry="16" />
+  <text x="480" y="430" font-family="'Segoe UI', Arial, sans-serif" font-size="32" fill="#4a5568" text-anchor="middle">Editing timeline placeholder</text>
+  <text x="480" y="470" font-family="'Segoe UI', Arial, sans-serif" font-size="20" fill="#64748b" text-anchor="middle">Swap in a real editor screenshot before launch</text>
+</svg>
