@@ -49,22 +49,53 @@ class ConsoleLogFormatter(logging.Formatter):
 def configure_logging(settings: Settings) -> None:
     """Configure application-wide logging according to settings."""
 
-    formatter_name = "json" if settings.log_format == "json" else "console"
-    logging_config = get_logging_config(settings, formatter_name)
-    logging.config.dictConfig(logging_config)
+    if settings.log_format == "json":
+        formatter = JsonLogFormatter()
+    else:
+        formatter = ConsoleLogFormatter(fmt="%(asctime)s | %(levelname)s | %(name)s | %(message)s")
+    
+    handler = logging.StreamHandler()
+    handler.setLevel(settings.log_level.upper())
+    handler.setFormatter(formatter)
+    
+    root_logger = logging.getLogger()
+    root_logger.setLevel(settings.log_level.upper())
+    root_logger.handlers.clear()
+    root_logger.addHandler(handler)
+    
+    uvicorn_logger = logging.getLogger("uvicorn")
+    uvicorn_logger.handlers.clear()
+    uvicorn_logger.addHandler(handler)
+    uvicorn_logger.setLevel(settings.log_level.upper())
+    
+    uvicorn_error = logging.getLogger("uvicorn.error")
+    uvicorn_error.handlers.clear()
+    uvicorn_error.addHandler(handler)
+    uvicorn_error.setLevel(settings.log_level.upper())
+    
+    access_handler = logging.StreamHandler()
+    access_handler.setFormatter(logging.Formatter("%(message)s"))
+    uvicorn_access = logging.getLogger("uvicorn.access")
+    uvicorn_access.handlers.clear()
+    uvicorn_access.addHandler(access_handler)
+    uvicorn_access.setLevel("INFO")
 
 
 def get_logging_config(settings: Settings, formatter_name: str) -> Dict[str, Any]:
+    import sys
+    module = sys.modules[__name__]
+    
     return {
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {
             "json": {
-                "()": "backend.app.core.logging.JsonLogFormatter",
+                "()": lambda: module.JsonLogFormatter(),
             },
             "console": {
-                "()": "backend.app.core.logging.ConsoleLogFormatter",
-                "format": "%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+                "()": lambda: module.ConsoleLogFormatter(
+                    fmt="%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+                ),
             },
             "access": {
                 "()": "logging.Formatter",
