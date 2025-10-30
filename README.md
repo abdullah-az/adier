@@ -31,6 +31,8 @@ The backend service powers project configuration, clip management, and media pro
    celery -A backend.app.workers.worker worker --loglevel=info
    ```
 
+> **Windows shortcut:** Use `setup.bat` for the one-time environment bootstrap (virtualenv, dependencies, FFmpeg, Flutter setup) and `start-all.bat` to launch the API, Celery worker, and Flutter app in separate terminals.
+
  A health check endpoint is exposed at `GET /health/`. Diagnostics with queue status is available at `GET /health/diagnostics`.
 
 ### Database & Migrations
