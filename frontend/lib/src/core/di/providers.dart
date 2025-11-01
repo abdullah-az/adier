@@ -15,6 +15,7 @@ import '../../data/repositories/clip_repository.dart';
 import '../../data/repositories/media_asset_repository.dart';
 import '../../data/repositories/preset_repository.dart';
 import '../../data/repositories/project_repository.dart';
+import '../../data/services/upload_progress_channel.dart';
 import '../localization/locale_controller.dart';
 import '../localization/locale_preferences.dart';
 import 'service_registry.dart';
@@ -66,6 +67,13 @@ final presetRepositoryProvider = Provider<PresetRepository>((ref) {
   final registry = ref.watch(serviceRegistryProvider);
   return registry.get<PresetRepository>();
 });
+
+final uploadProgressChannelProvider = Provider<UploadProgressChannel>((ref) {
+  final registry = ref.watch(serviceRegistryProvider);
+  return registry.get<UploadProgressChannel>();
+});
+
+final connectivityStatusProvider = StateProvider<bool>((ref) => true);
 
 final projectListControllerProvider = StateNotifierProvider<ProjectListController, AsyncValue<List<Project>>>((ref) {
   final repository = ref.watch(projectRepositoryProvider);
