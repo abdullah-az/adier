@@ -121,4 +121,22 @@ class _FakeVideoEditorApiClient implements VideoEditorApiClient {
   Future<List<Preset>> fetchPresets() {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Clip> updateClipTrim({
+    required String clipId,
+    required int inPointMs,
+    required int outPointMs,
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Clip> mergeClips({
+    required String projectId,
+    required List<String> clipIds,
+    String? description,
+  }) {
+    throw UnimplementedError();
+  }
 }

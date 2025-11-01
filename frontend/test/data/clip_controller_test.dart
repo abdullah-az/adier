@@ -96,4 +96,42 @@ class _FakeVideoEditorApiClient implements VideoEditorApiClient {
   Future<List<Preset>> fetchPresets() {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Clip> updateClipTrim({
+    required String clipId,
+    required int inPointMs,
+    required int outPointMs,
+  }) async {
+    final index = clips.indexWhere((c) => c.id == clipId);
+    if (index == -1) throw StateError('clip not found');
+    final current = clips[index];
+    final updated = current.copyWith(inPointMs: inPointMs, outPointMs: outPointMs);
+    clips = <Clip>[
+      ...clips.where((c) => c.id != clipId),
+      updated,
+    ];
+    return updated;
+  }
+
+  @override
+  Future<Clip> mergeClips({
+    required String projectId,
+    required List<String> clipIds,
+    String? description,
+  }) async {
+    final selected = clips.where((c) => clipIds.contains(c.id)).toList();
+    final total = selected.fold<int>(0, (sum, c) => sum + c.duration.inMilliseconds);
+    final merged = Clip(
+      id: 'merged',
+      projectId: projectId,
+      sequence: selected.map((c) => c.sequence).reduce((a, b) => a > b ? a : b) + 1,
+      duration: Duration(milliseconds: total),
+      playbackUrl: Uri.parse('https://stream.local/merged'),
+      createdAt: DateTime.now().toUtc(),
+      description: description,
+    );
+    clips = <Clip>[...clips, merged];
+    return merged;
+  }
 }
