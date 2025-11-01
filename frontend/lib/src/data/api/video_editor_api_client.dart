@@ -22,6 +22,18 @@ abstract class VideoEditorApiClient {
 
   Future<List<Clip>> fetchClips(String projectId);
 
+  Future<Clip> updateClipTrim({
+    required String clipId,
+    required int inPointMs,
+    required int outPointMs,
+  });
+
+  Future<Clip> mergeClips({
+    required String projectId,
+    required List<String> clipIds,
+    String? description,
+  });
+
   Future<List<Preset>> fetchPresets();
 }
 
@@ -98,6 +110,96 @@ class InMemoryVideoEditorApiClient implements VideoEditorApiClient {
     return List<Clip>.unmodifiable(
       _clips.where((clip) => clip.projectId == projectId),
     );
+  }
+
+  @override
+  Future<Clip> updateClipTrim({
+    required String clipId,
+    required int inPointMs,
+    required int outPointMs,
+  }) async {
+    final index = _clips.indexWhere((c) => c.id == clipId);
+    if (index == -1) {
+      throw StateError('Clip $clipId not found');
+    }
+    final current = _clips[index];
+    final boundedIn = inPointMs.clamp(0, current.duration.inMilliseconds);
+    final boundedOut = outPointMs.clamp(0, current.duration.inMilliseconds);
+    final normalizedIn = boundedIn is int ? boundedIn : boundedIn.toInt();
+    final normalizedOut = boundedOut is int ? boundedOut : boundedOut.toInt();
+    if (normalizedOut < normalizedIn) {
+      throw StateError('outPoint must be >= inPoint');
+    }
+    final updated = current.copyWith(
+      inPointMs: normalizedIn,
+      outPointMs: normalizedOut,
+    );
+    _clips[index] = updated;
+    return updated;
+  }
+
+  @override
+  Future<Clip> mergeClips({
+    required String projectId,
+    required List<String> clipIds,
+    String? description,
+  }) async {
+    if (clipIds.isEmpty) {
+      throw ArgumentError('clipIds cannot be empty');
+    }
+    final selected = _clips.where((c) => clipIds.contains(c.id)).toList(growable: false);
+    if (selected.isEmpty) {
+      throw StateError('No clips found to merge');
+    }
+    selected.sort((a, b) => a.sequence.compareTo(b.sequence));
+
+    int totalMs = 0;
+    final mergedMarkers = <int>[];
+    final transcripts = <String>[];
+    double? avgQuality;
+    int markerOffset = 0;
+
+    for (final c in selected) {
+      final inMs = c.inPointMs ?? 0;
+      final outMs = c.outPointMs ?? c.duration.inMilliseconds;
+      final effective = (outMs - inMs).clamp(0, c.duration.inMilliseconds);
+      totalMs += effective;
+      // Adjust markers by offset
+      for (final m in c.markers) {
+        if (m >= inMs && m <= outMs) {
+          mergedMarkers.add(markerOffset + (m - inMs));
+        }
+      }
+      markerOffset = totalMs;
+      if (c.transcriptSnippet != null) transcripts.add(c.transcriptSnippet!);
+      if (c.qualityScore != null) {
+        avgQuality = (avgQuality == null) ? c.qualityScore : (avgQuality! + c.qualityScore!) / 2.0;
+      }
+    }
+
+    final merged = Clip(
+      id: _generateId('clip'),
+      projectId: projectId,
+      sequence: _nextSequenceForProject(projectId),
+      duration: Duration(milliseconds: totalMs),
+      playbackUrl: Uri.parse('https://stream.local/merged/${_idCounter.toString()}'),
+      createdAt: DateTime.now().toUtc(),
+      description: description ?? 'Merged clip (${clipIds.length})',
+      inPointMs: 0,
+      outPointMs: totalMs,
+      transcriptSnippet: transcripts.isEmpty ? null : transcripts.join(' ... '),
+      qualityScore: avgQuality,
+      markers: mergedMarkers,
+    );
+
+    _clips.add(merged);
+    return merged;
+  }
+
+  int _nextSequenceForProject(String projectId) {
+    final projectClips = _clips.where((c) => c.projectId == projectId);
+    if (projectClips.isEmpty) return 0;
+    return projectClips.map((c) => c.sequence).reduce((a, b) => a > b ? a : b) + 1;
   }
 
   @override

@@ -10,6 +10,11 @@ class Clip {
     required this.playbackUrl,
     required this.createdAt,
     this.description,
+    this.inPointMs,
+    this.outPointMs,
+    this.transcriptSnippet,
+    this.qualityScore,
+    this.markers = const <int>[],
   });
 
   final String id;
@@ -20,12 +25,26 @@ class Clip {
   final DateTime createdAt;
   final String? description;
 
+  // Optional trim points (milliseconds) relative to the clip media itself
+  final int? inPointMs;
+  final int? outPointMs;
+
+  // Optional metadata for UI
+  final String? transcriptSnippet;
+  final double? qualityScore;
+  final List<int> markers;
+
   Clip copyWith({
     int? sequence,
     Duration? duration,
     Uri? playbackUrl,
     DateTime? createdAt,
     String? description,
+    int? inPointMs,
+    int? outPointMs,
+    String? transcriptSnippet,
+    double? qualityScore,
+    List<int>? markers,
   }) {
     return Clip(
       id: id,
@@ -35,6 +54,11 @@ class Clip {
       playbackUrl: playbackUrl ?? this.playbackUrl,
       createdAt: createdAt ?? this.createdAt,
       description: description ?? this.description,
+      inPointMs: inPointMs ?? this.inPointMs,
+      outPointMs: outPointMs ?? this.outPointMs,
+      transcriptSnippet: transcriptSnippet ?? this.transcriptSnippet,
+      qualityScore: qualityScore ?? this.qualityScore,
+      markers: markers ?? this.markers,
     );
   }
 
@@ -47,6 +71,12 @@ class Clip {
       playbackUrl: Uri.parse(json['playbackUrl'] as String),
       createdAt: DateTime.parse(json['createdAt'] as String),
       description: json['description'] as String?,
+      inPointMs: json['inPointMs'] as int?,
+      outPointMs: json['outPointMs'] as int?,
+      transcriptSnippet: json['transcriptSnippet'] as String?,
+      qualityScore: (json['qualityScore'] as num?)?.toDouble(),
+      markers: (json['markers'] as List<dynamic>?)?.map((e) => e as int).toList(growable: false) ??
+          const <int>[],
     );
   }
 
@@ -59,6 +89,11 @@ class Clip {
       'playbackUrl': playbackUrl.toString(),
       'createdAt': createdAt.toIso8601String(),
       if (description != null) 'description': description,
+      if (inPointMs != null) 'inPointMs': inPointMs,
+      if (outPointMs != null) 'outPointMs': outPointMs,
+      if (transcriptSnippet != null) 'transcriptSnippet': transcriptSnippet,
+      if (qualityScore != null) 'qualityScore': qualityScore,
+      if (markers.isNotEmpty) 'markers': markers,
     };
   }
 
@@ -71,6 +106,10 @@ class Clip {
         playbackUrl,
         createdAt,
         description,
+        inPointMs,
+        outPointMs,
+        transcriptSnippet,
+        qualityScore,
       );
 
   @override
@@ -85,7 +124,11 @@ class Clip {
         other.duration == duration &&
         other.playbackUrl == playbackUrl &&
         other.createdAt == createdAt &&
-        other.description == description;
+        other.description == description &&
+        other.inPointMs == inPointMs &&
+        other.outPointMs == outPointMs &&
+        other.transcriptSnippet == transcriptSnippet &&
+        other.qualityScore == qualityScore;
   }
 
   @override
