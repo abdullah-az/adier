@@ -18,11 +18,19 @@ dependencies:
   google_fonts: ^6.1.0
   intl: ^0.18.1
   shared_preferences: ^2.2.2
+  dio: ^5.4.3+1
+  json_annotation: ^4.8.1
+  web_socket_channel: ^2.4.0
+  connectivity_plus: ^5.0.2
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  json_serializable: ^6.7.1
+  build_runner: ^2.4.8
+  mockito: ^5.4.4
 
 flutter:
   uses-material-design: true
