@@ -19,4 +19,41 @@ class ClipController extends StateNotifier<AsyncValue<List<Clip>>> {
     });
     state = value;
   }
+
+  Future<void> updateClipTrim({
+    required String clipId,
+    required int inPointMs,
+    required int outPointMs,
+  }) async {
+    final previous = state;
+    try {
+      final updated = await _repository.updateClipTrim(
+        clipId: clipId,
+        inPointMs: inPointMs,
+        outPointMs: outPointMs,
+      );
+      final current = state.value ?? const <Clip>[];
+      final next = current.map((c) => c.id == clipId ? updated : c).toList(growable: false);
+      state = AsyncValue<List<Clip>>.data(next);
+    } catch (e, st) {
+      state = AsyncValue<List<Clip>>.error(e, st);
+      state = previous; // revert to previous on error
+      rethrow;
+    }
+  }
+
+  Future<Clip> mergeClips({
+    required List<String> clipIds,
+    String? description,
+  }) async {
+    final merged = await _repository.mergeClips(
+      projectId: _projectId,
+      clipIds: clipIds,
+      description: description,
+    );
+    final current = state.value ?? const <Clip>[];
+    final next = <Clip>[...current, merged];
+    state = AsyncValue<List<Clip>>.data(List<Clip>.unmodifiable(next));
+    return merged;
+  }
 }
