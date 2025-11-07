@@ -23,6 +23,42 @@ def _now() -> datetime:
     return datetime.now(timezone.utc)
 
 
+def _publish_progress_update(
+    job_id: str,
+    status: ProcessingJobStatus,
+    progress: Optional[float] = None,
+    message: Optional[str] = None,
+    metadata: Optional[dict[str, Any]] = None,
+) -> None:
+    """Publish progress update to WebSocket clients."""
+    try:
+        # Import here to avoid circular imports
+        import asyncio
+        from ..api.routes.progress import publish_job_progress
+        
+        # Get or create event loop
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+        
+        # Schedule the progress update
+        if loop.is_running():
+            # If loop is running, create a task
+            asyncio.create_task(
+                publish_job_progress(job_id, status, progress, message, metadata)
+            )
+        else:
+            # If loop is not running, run the coroutine
+            loop.run_until_complete(
+                publish_job_progress(job_id, status, progress, message, metadata)
+            )
+            
+    except Exception as exc:
+        logger.warning(f"Failed to publish progress update for job {job_id}: {exc}")
+
+
 class ProcessingJobLifecycle:
     """Helper for enqueuing and updating background processing jobs."""
 
@@ -98,20 +134,41 @@ class ProcessingJobLifecycle:
         update_payload: dict[str, Any] = {}
         if task_id is not None:
             update_payload["task_id"] = task_id
-        return cls._update_job(
+        
+        job = cls._update_job(
             job_id,
             status=ProcessingJobStatus.QUEUED,
             queue_name=queue_name,
             result_updates=update_payload,
         )
+        
+        # Publish progress update
+        _publish_progress_update(
+            job_id,
+            ProcessingJobStatus.QUEUED,
+            message=f"Job queued in {queue_name or 'default queue'}",
+            metadata={"task_id": task_id} if task_id else None,
+        )
+        
+        return job
 
     @classmethod
     def mark_started(cls, job_id: str) -> ProcessingJob:
-        return cls._update_job(
+        job = cls._update_job(
             job_id,
             status=ProcessingJobStatus.IN_PROGRESS,
             started_at=_now(),
         )
+        
+        # Publish progress update
+        _publish_progress_update(
+            job_id,
+            ProcessingJobStatus.IN_PROGRESS,
+            progress=0.0,
+            message="Job processing started",
+        )
+        
+        return job
 
     @classmethod
     def mark_progress(
@@ -139,7 +196,18 @@ class ProcessingJobLifecycle:
             result_updates.setdefault("log", [])
             result_updates["log"].append({"timestamp": _now().isoformat(), "message": message})
 
-        return cls._update_job(job_id, result_updates=result_updates)
+        job = cls._update_job(job_id, result_updates=result_updates)
+        
+        # Publish progress update
+        _publish_progress_update(
+            job_id,
+            job.status,
+            progress=progress,
+            message=message,
+            metadata=metadata,
+        )
+        
+        return job
 
     @classmethod
     def mark_completed(
@@ -147,12 +215,23 @@ class ProcessingJobLifecycle:
         job_id: str,
         result_payload: Optional[dict[str, Any]] = None,
     ) -> ProcessingJob:
-        return cls._update_job(
+        job = cls._update_job(
             job_id,
             status=ProcessingJobStatus.COMPLETED,
             completed_at=_now(),
             result_updates=result_payload,
         )
+        
+        # Publish progress update
+        _publish_progress_update(
+            job_id,
+            ProcessingJobStatus.COMPLETED,
+            progress=100.0,
+            message="Job completed successfully",
+            metadata=result_payload,
+        )
+        
+        return job
 
     @classmethod
     def mark_failed(
@@ -162,13 +241,23 @@ class ProcessingJobLifecycle:
         *,
         result_payload: Optional[dict[str, Any]] = None,
     ) -> ProcessingJob:
-        return cls._update_job(
+        job = cls._update_job(
             job_id,
             status=ProcessingJobStatus.FAILED,
             completed_at=_now(),
             error_message=error_message,
             result_updates=result_payload,
         )
+        
+        # Publish progress update
+        _publish_progress_update(
+            job_id,
+            ProcessingJobStatus.FAILED,
+            message=f"Job failed: {error_message}",
+            metadata={"error": error_message, **(result_payload or {})},
+        )
+        
+        return job
 
     @classmethod
     def _update_job(
