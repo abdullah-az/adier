@@ -1,45 +1,123 @@
-# Environment configuration
-.env
-.env.local
-.env.*.local
-!**/.env.example
-
-# Python / FastAPI artifacts
-backend/**/__pycache__/
-backend/**/*.py[cod]
-backend/**/$py.class
-backend/.venv/
+```
+# Dependencies
 backend/venv/
-backend/env/
-backend/.pytest_cache/
+backend/.venv/
+backend/__pycache__/
 backend/.mypy_cache/
-backend/.ruff_cache/
+backend/.pytest_cache/
 backend/.coverage
 backend/coverage/
 backend/htmlcov/
-backend/logs/
-backend/storage/
-backend/server.log
+frontend/cto/.dart_tool/
+frontend/cto/build/
+frontend/cto/ios/.symlinks/
+frontend/cto/ios/Pods/
+frontend/cto/ios/Flutter/.symlinks/
+frontend/cto/.flutter-plugins-dependencies
+frontend/cto/.flutter-plugins
 
-# Flutter / Dart artifacts
-frontend/**/.dart_tool/
-frontend/**/.flutter-plugins
-frontend/**/.flutter-plugins-dependencies
-frontend/**/.packages
-frontend/**/.pub-cache/
-frontend/**/build/
-frontend/**/android/.gradle/
-frontend/**/android/app/debug/
-frontend/**/android/app/profile/
-frontend/**/android/app/release/
-frontend/**/ios/Flutter/Flutter.framework
-frontend/**/ios/Flutter/Flutter.podspec
-frontend/**/ios/Pods/
-frontend/**/linux/flutter/ephemeral/
-frontend/**/macos/Flutter/ephemeral/
-frontend/**/windows/flutter/ephemeral/
+# Environment
+backend/.env
+backend/.env.local
+backend/.env.*
+frontend/cto/.env
+frontend/cto/.env.local
+frontend/cto/.env.*
 
-# Tooling and system files
+# Logs
 *.log
+backend/*.log
+frontend/cto/*.log
+
+# OS generated files
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Icon?
+*.DS_Store
+._*
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+*.temp
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/
+
+# Flutter
+.dart_tool/
+.ios/
+.macos/
+.linux/
+.windows/
+build/
+.flutter-plugins-dependencies
+.flutter-plugins
+.packages
+generated/
+*.g.dart
+*.freezed.dart
+
+# iOS
+ios/Flutter/.last_build_id
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/engine.dylib
+ios/Flutter/flutter_assets/
+ios/Flutter/.symlinks/
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/Runner.xcodeproj/project.xcworkspace/
+ios/Runner.xcodeproj/xcshareddata/xcschemes/
+
+# Android
+android/app/build/
+android/.gradle/
+android/build/
+android/local.properties
+*.iml
+.gradle/
+*.keystore
+*.jks
+
+# Web
+web/.build/
+web/build/
+
+# Linux
+linux/flutter/ephemeral/
+linux/flutter/ephemeral/.plugin_symlinks/
+linux/out/
+
+# Windows
+windows/flutter/ephemeral/
+windows/flutter/ephemeral/.plugin_symlinks/
+windows/runner/Release/
+windows/runner/Debug/
+```
