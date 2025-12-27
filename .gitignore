@@ -1,45 +1,52 @@
-# Environment configuration
+```
+# Dependencies
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log
+
+# Environment files
 .env
 .env.local
-.env.*.local
-!**/.env.example
+*.env.*
 
-# Python / FastAPI artifacts
-backend/**/__pycache__/
-backend/**/*.py[cod]
-backend/**/$py.class
-backend/.venv/
-backend/venv/
-backend/env/
-backend/.pytest_cache/
-backend/.mypy_cache/
-backend/.ruff_cache/
-backend/.coverage
-backend/coverage/
-backend/htmlcov/
-backend/logs/
-backend/storage/
-backend/server.log
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
 
-# Flutter / Dart artifacts
-frontend/**/.dart_tool/
-frontend/**/.flutter-plugins
-frontend/**/.flutter-plugins-dependencies
-frontend/**/.packages
-frontend/**/.pub-cache/
-frontend/**/build/
-frontend/**/android/.gradle/
-frontend/**/android/app/debug/
-frontend/**/android/app/profile/
-frontend/**/android/app/release/
-frontend/**/ios/Flutter/Flutter.framework
-frontend/**/ios/Flutter/Flutter.podspec
-frontend/**/ios/Pods/
-frontend/**/linux/flutter/ephemeral/
-frontend/**/macos/Flutter/ephemeral/
-frontend/**/windows/flutter/ephemeral/
-
-# Tooling and system files
-*.log
+# OS files
 .DS_Store
 Thumbs.db
+
+# Testing
+.coverage
+htmlcov/
+.coverage.*
+.pytest_cache/
+.mypy_cache/
+
+# Distribution / Packaging
+*.tar.gz
+*.whl
+*.egg
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*$pycache$*
+.Python
+```
