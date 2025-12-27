@@ -1,41 +1,24 @@
 ```
 # Dependencies
-backend/venv/
-backend/.venv/
-backend/__pycache__/
-backend/.mypy_cache/
-backend/.pytest_cache/
-backend/.coverage
-backend/coverage/
-backend/htmlcov/
-frontend/cto/.dart_tool/
-frontend/cto/build/
-frontend/cto/ios/.symlinks/
-frontend/cto/ios/Pods/
-frontend/cto/ios/Flutter/.symlinks/
-frontend/cto/.flutter-plugins-dependencies
-frontend/cto/.flutter-plugins
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# Environment
-backend/.env
-backend/.env.local
-backend/.env.*
-frontend/cto/.env
-frontend/cto/.env.local
-frontend/cto/.env.*
+# Build artifacts
+dist/
+build/
+*.egg-info/
 
 # Logs
 *.log
-backend/*.log
-frontend/cto/*.log
 
-# OS generated files
-.DS_Store
-Thumbs.db
-ehthumbs.db
-Icon?
-*.DS_Store
-._*
+# Environment files
+.env
+.env.local
+*.env.*
 
 # Editor/IDE files
 .vscode/
@@ -43,81 +26,27 @@ Icon?
 *.swp
 *.swo
 *.tmp
-*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing
+.coverage
+htmlcov/
+.coverage.*
+.pytest_cache/
+.mypy_cache/
+
+# Distribution / Packaging
+*.tar.gz
+*.whl
+*.egg
 
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
+*$pycache$*
 .Python
-env/
-venv/
-.venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.git/
-
-# Flutter
-.dart_tool/
-.ios/
-.macos/
-.linux/
-.windows/
-build/
-.flutter-plugins-dependencies
-.flutter-plugins
-.packages
-generated/
-*.g.dart
-*.freezed.dart
-
-# iOS
-ios/Flutter/.last_build_id
-ios/Flutter/App.framework
-ios/Flutter/Flutter.framework
-ios/Flutter/Flutter.podspec
-ios/Flutter/Generated.xcconfig
-ios/Flutter/app.flx
-ios/Flutter/app.zip
-ios/Flutter/engine.dylib
-ios/Flutter/flutter_assets/
-ios/Flutter/.symlinks/
-ios/Pods/
-ios/Runner.xcworkspace/
-ios/Runner.xcodeproj/project.xcworkspace/
-ios/Runner.xcodeproj/xcshareddata/xcschemes/
-
-# Android
-android/app/build/
-android/.gradle/
-android/build/
-android/local.properties
-*.iml
-.gradle/
-*.keystore
-*.jks
-
-# Web
-web/.build/
-web/build/
-
-# Linux
-linux/flutter/ephemeral/
-linux/flutter/ephemeral/.plugin_symlinks/
-linux/out/
-
-# Windows
-windows/flutter/ephemeral/
-windows/flutter/ephemeral/.plugin_symlinks/
-windows/runner/Release/
-windows/runner/Debug/
 ```
