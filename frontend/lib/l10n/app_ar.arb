@@ -53,5 +53,109 @@
   "workspaceCreateButton": "إنشاء مساحة عمل جديدة",
   "flavorDevelopment": "التطوير",
   "flavorStaging": "التجريب",
-  "flavorProduction": "الإنتاج"
+  "flavorProduction": "الإنتاج",
+  "uploadProjectSectionTitle": "إنشاء مشروع",
+  "uploadProjectSectionSubtitle": "قم بتسمية مشروعك لتنظيم عمليات الرفع والتوزيع عبر المنصات.",
+  "uploadProjectNameLabel": "اسم المشروع",
+  "uploadProjectNameHint": "مقطع الحملة الصيفية",
+  "uploadProjectCreateButton": "إنشاء مشروع",
+  "uploadProjectCreateAnotherButton": "بدء مشروع آخر",
+  "uploadProjectIdLabel": "معرّف المشروع: {projectId}",
+  "@uploadProjectIdLabel": {
+    "placeholders": {
+      "projectId": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadProjectActiveLabel": "نشط",
+  "uploadFileSectionTitle": "رفع فيديو",
+  "uploadFileSectionSubtitle": "أضف المادة المصدر بالسحب والإفلات أو بالاستعراض من جهازك.",
+  "uploadFileDropInstructions": "قم بإسقاط ملف الفيديو هنا",
+  "uploadFileTapInstructions": "اضغط لاختيار فيديو من مكتبتك",
+  "uploadFileBrowseButton": "تحديد فيديو",
+  "uploadFileUploadButton": "بدء الرفع",
+  "uploadFileOfflineRestriction": "أعد الاتصال بالإنترنت لاستئناف عمليات الرفع.",
+  "uploadFileGenericError": "تعذّر تجهيز الملف ({reason}).",
+  "@uploadFileGenericError": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadFileUnsupportedType": "يتم دعم صيغ الفيديو الشائعة مثل MP4 وMOV وWEBM فقط.",
+  "uploadFileSelectedLabel": "تم اختيار فيديو بحجم {size}",
+  "@uploadFileSelectedLabel": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadFileRemoveButton": "إزالة الملف",
+  "uploadDashboardTitle": "لوحة رفع الملفات",
+  "uploadDashboardSubtitle": "تابع حالة الاستيراد عبر المنصات مباشرة.",
+  "uploadDashboardEmptyStateTitle": "لا توجد عمليات رفع بعد",
+  "uploadDashboardEmptyStateSubtitle": "اختر مشروعًا وارفع فيديو لعرض التقدم.",
+  "uploadDashboardStatusUploading": "جارٍ الرفع",
+  "uploadDashboardStatusProcessing": "جارٍ المعالجة",
+  "uploadDashboardStatusReady": "جاهز",
+  "uploadDashboardStatusFailed": "فشل",
+  "uploadDashboardStatusPending": "قيد الانتظار",
+  "uploadDashboardRetryButton": "إعادة المحاولة",
+  "uploadOfflineBannerMessage": "أنت غير متصل. سنحتفظ بالعمليات حتى يعود الاتصال.",
+  "uploadMessageProjectCreated": "المشروع \"{projectName}\" جاهز.",
+  "@uploadMessageProjectCreated": {
+    "placeholders": {
+      "projectName": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageProjectCreationFailed": "تعذّر إنشاء المشروع: {reason}",
+  "@uploadMessageProjectCreationFailed": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageInvalidProjectName": "أدخل اسمًا للمشروع للمتابعة.",
+  "uploadMessageOffline": "سيتم إيقاف الرفع مؤقتًا أثناء عدم الاتصال.",
+  "uploadMessageUploadStarted": "جارٍ رفع {fileName}...",
+  "@uploadMessageUploadStarted": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageUploadCompleted": "اكتملت معالجة {fileName}.",
+  "@uploadMessageUploadCompleted": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageUploadFailedNoReason": "فشل رفع {fileName}. أعد المحاولة لاحقًا.",
+  "@uploadMessageUploadFailedNoReason": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageUploadFailed": "فشل رفع {fileName}. {reason}",
+  "@uploadMessageUploadFailed": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  }
 }

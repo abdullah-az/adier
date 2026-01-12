@@ -55,5 +55,109 @@
   "workspaceCreateButton": "Create new workspace",
   "flavorDevelopment": "Development",
   "flavorStaging": "Staging",
-  "flavorProduction": "Production"
+  "flavorProduction": "Production",
+  "uploadProjectSectionTitle": "Create a project",
+  "uploadProjectSectionSubtitle": "Name your project to organise uploads and cross-platform distribution.",
+  "uploadProjectNameLabel": "Project name",
+  "uploadProjectNameHint": "Summer campaign teaser",
+  "uploadProjectCreateButton": "Create project",
+  "uploadProjectCreateAnotherButton": "Start another project",
+  "uploadProjectIdLabel": "Project ID: {projectId}",
+  "@uploadProjectIdLabel": {
+    "placeholders": {
+      "projectId": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadProjectActiveLabel": "Active",
+  "uploadFileSectionTitle": "Upload a video",
+  "uploadFileSectionSubtitle": "Add source footage via drag-and-drop or browse your device.",
+  "uploadFileDropInstructions": "Drop your video file here",
+  "uploadFileTapInstructions": "Tap to choose a video from your library",
+  "uploadFileBrowseButton": "Select video",
+  "uploadFileUploadButton": "Start upload",
+  "uploadFileOfflineRestriction": "Reconnect to the internet to resume uploads.",
+  "uploadFileGenericError": "We couldn't prepare that file ({reason}).",
+  "@uploadFileGenericError": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadFileUnsupportedType": "Only common video formats like MP4, MOV, or WEBM are supported.",
+  "uploadFileSelectedLabel": "{size} video selected",
+  "@uploadFileSelectedLabel": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadFileRemoveButton": "Remove file",
+  "uploadDashboardTitle": "Upload dashboard",
+  "uploadDashboardSubtitle": "Track ingest status across platforms in real time.",
+  "uploadDashboardEmptyStateTitle": "No uploads yet",
+  "uploadDashboardEmptyStateSubtitle": "Select a project and upload a video to see progress updates.",
+  "uploadDashboardStatusUploading": "Uploading",
+  "uploadDashboardStatusProcessing": "Processing",
+  "uploadDashboardStatusReady": "Ready",
+  "uploadDashboardStatusFailed": "Failed",
+  "uploadDashboardStatusPending": "Pending",
+  "uploadDashboardRetryButton": "Retry",
+  "uploadOfflineBannerMessage": "You're offline. We'll hold uploads until the connection returns.",
+  "uploadMessageProjectCreated": "Project \"{projectName}\" is ready.",
+  "@uploadMessageProjectCreated": {
+    "placeholders": {
+      "projectName": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageProjectCreationFailed": "We couldn't create the project: {reason}",
+  "@uploadMessageProjectCreationFailed": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageInvalidProjectName": "Enter a project name to continue.",
+  "uploadMessageOffline": "Uploads are paused while you're offline.",
+  "uploadMessageUploadStarted": "Uploading {fileName}...",
+  "@uploadMessageUploadStarted": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageUploadCompleted": "{fileName} finished processing.",
+  "@uploadMessageUploadCompleted": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageUploadFailedNoReason": "{fileName} failed to upload. Try again shortly.",
+  "@uploadMessageUploadFailedNoReason": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageUploadFailed": "{fileName} failed to upload. {reason}",
+  "@uploadMessageUploadFailed": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  }
 }
